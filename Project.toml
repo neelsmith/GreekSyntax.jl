@@ -1,0 +1,4 @@
+name = "GreekSyntax"
+uuid = "5497687e-e4d1-4cb6-b14f-a6a808518ccd"
+authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
+version = "0.1.0"
