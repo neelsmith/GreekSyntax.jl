@@ -1,5 +1,6 @@
 module GreekSyntax
+using CitableText
 
-greet() = print("Hello World!")
+include("annotations.jl")
 
 end # module GreekSyntax

@@ -2,3 +2,6 @@ name = "GreekSyntax"
 uuid = "5497687e-e4d1-4cb6-b14f-a6a808518ccd"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
