@@ -1,6 +1,8 @@
 module GreekSyntax
 using CitableText
 
-include("annotations.jl")
+include("sentence.jl")
+include("verbalunit.jl")
+include("token.jl")
 
 end # module GreekSyntax
