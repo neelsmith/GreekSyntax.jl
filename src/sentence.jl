@@ -4,6 +4,13 @@ struct SentenceAnnotation
 	connector::Union{CtsUrn, Nothing}
 end
 
+
+"""Parse delimited string `s` into a `SentenceAnnotation`."""
+function sentence(s; delimiter = "|")
+	parts = split(s, delimiter)
+	SentenceAnnotation(CtsUrn(parts[1]), CtsUrn(parts[2]))
+end
+
 """Tokenize a corpus, and chunk the resulting vector of tokens by sentence.  The result is pair of vectors of equal length: the first vector is a list of CTS URNs for each sentence (cited as 
 a range at the token level), and the second is a vector of analyzed tokens. 
 $(SIGNATURES)
