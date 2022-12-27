@@ -1,6 +1,4 @@
-```@setup basic
-root = pwd() |> dirname |> dirname
-```
+
 
 # `GreekSyntax.jl`
 
