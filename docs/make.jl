@@ -13,10 +13,11 @@ Pkg.instantiate()
 using Documenter, DocStringExtensions
 using GreekSyntax
 
-makedocs(
+makedocs(   
     sitename = "GreekSyntax",
     pages = [
         "Overview" => "index.md",
+        "Read a delimited file" => "read.md"
        
     ]
     )
