@@ -1,3 +1,6 @@
+```@setup basic
+root = pwd() |> dirname |> dirname
+```
 
 # Read a delimited file
 
