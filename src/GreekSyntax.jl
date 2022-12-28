@@ -8,6 +8,7 @@ include("sentence.jl")
 include("verbalunit.jl")
 include("token.jl")
 include("delimited.jl")
+include("utils.jl")
 
 export parsedelimited
 export SentenceAnnotation
