@@ -41,15 +41,14 @@ $(SIGNATURES)
 function parsesentences(c::CitableTextCorpus, ortho::T;	
 	terminators = [".", ":", ";"]) where T <: OrthographicSystem
     tokens = tokenize(c, ortho)
-	parsesentences(tokens, ortho, terminators = terminators)
+	parsesentences(tokens, terminators = terminators)
 end
 
 """Tokenize a vector of analyzed tokens, and chunk by sentence. The result is a vector of `NamedTuple`s with a URN and a sequence number. 
 The URN is a range of tokens.
 $(SIGNATURES)
 """
-function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}, 	
-	ortho::T; terminators = [".", ":", ";"]) where T <: OrthographicSystem
+function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}; terminators = [".", ":", ";"])
 	sentenceindex =  []
 
 	currenttext = v[1][1].urn |> droppassage
@@ -72,7 +71,7 @@ function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}},
 
 			rangeu = addpassage(currenttext, string(rangeopener, "-", 	passagecomponent(tkn[1].urn)))
 			push!(sentenceindex, (urn = rangeu, sequence = sentencecount))
-			
+			rangeopener = ""
 		else
 			if isempty(rangeopener)
 				rangeopener = passagecomponent(tkn[1].urn)
