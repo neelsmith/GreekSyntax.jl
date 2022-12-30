@@ -24,12 +24,16 @@ function typelabel(tkntype)
 	end
 end
 
+function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
 
-function vuidfortoken(senttokens, groupmappingsdf)
-	# find group ref for token
-	local tpsg = senttokens[1][1].urn |> passagecomponent
-	psgmatches = filter(row -> row.passage == tpsg, groupmappingsdf)
-	psgint = psgmatches[1, :group]
-	psgint
-	string(passagecomponent(sentencerange(senttokens)), ".", psgint)	
+	# Find indices for tokens indexed to this sentence:
+	tkncorp = map(tknannotations) do t
+		CitablePassage(t.urn, t.text)
+	end |> CitableTextCorpus
+	slice = CitableCorpus.indexurn(sa.range, tkncorp)
+	origin = slice[1]
+
+	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
+	connectorids = connectorslice[1]:connectorslice[end]
+	(tknannotations[origin:slice[2]], connectorids, origin)
 end

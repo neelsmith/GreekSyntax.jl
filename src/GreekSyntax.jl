@@ -18,6 +18,6 @@ export VerbalUnitAnnotation
 export TokenAnnotation
 
 
-export htmltext
+export htmltext, htmltext_indented
 
 end # module GreekSyntax
