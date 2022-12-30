@@ -38,15 +38,24 @@ end
 The URN is a range of tokens.
 $(SIGNATURES)
 """
-function parsesentences(c::CitableTextCorpus; ortho::T,	terminators = [".", ":", ";"]) where T <: OrthographicSystem
-
+function parsesentences(c::CitableTextCorpus, ortho::T;	
+	terminators = [".", ":", ";"]) where T <: OrthographicSystem
     tokens = tokenize(c, ortho)
+	parsesentences(tokens, ortho, terminators = terminators)
+end
+
+"""Tokenize a vector of analyzed tokens, and chunk by sentence. The result is a vector of `NamedTuple`s with a URN and a sequence number. 
+The URN is a range of tokens.
+$(SIGNATURES)
+"""
+function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}, 	
+	ortho::T; terminators = [".", ":", ";"]) where T <: OrthographicSystem
 	sentenceindex =  []
 
-	currenttext = c.passages[1].urn |> droppassage
+	currenttext = v[1][1].urn |> droppassage
 	sentencecount = 0
 	rangeopener = ""
-	for tkn in tokens
+	for tkn in v
 		if droppassage(tkn[1].urn) != currenttext
 			currenttext = droppassage(tkn[1].urn)
             sentencecount = 0
@@ -72,10 +81,4 @@ function parsesentences(c::CitableTextCorpus; ortho::T,	terminators = [".", ":",
 	
 	end
 	sentenceindex
-end
-
-
-# Expand a urn to a list of leaf nodes.
-# This belongs in citablecorpus
-function nodelist(u::CtsUrn, c::CitableTextCorpus)
 end

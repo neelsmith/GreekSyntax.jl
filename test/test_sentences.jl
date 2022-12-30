@@ -1,7 +1,7 @@
 @testset "Test parsing a text corpus into sentences" begin
     srcf = joinpath(pwd(), "data", "lysias1.cex")
     c = fromcex(srcf, CitableTextCorpus, FileReader)
-    sentenceidx = GreekSyntax.parsesentences(c, ortho = literaryGreek())
+    sentenceidx = parsesentences(c, literaryGreek())
     @test length(sentenceidx) == 123
 end
 

@@ -11,11 +11,11 @@ The `test/data` directory of this repository has a test file with syntactic anno
 f = joinpath(root, "test", "data", "lysias1_selection.cex")
 ```
 
-Read it with the standard Julia function `readlines`, and use the `readelimited` function of `GreekSyntax` to parse it.  The result is a tuple with three vectors respectively containing annotations for sentences, verbal units and individual tokens.
+Read it with the standard Julia function `readlines`, and use the `readdelimited` function of `GreekSyntax` to parse it.  The result is a tuple with three vectors respectively containing annotations for sentences, verbal units and individual tokens.
 
 ```@example basic
 using GreekSyntax
-(sentences, verbalunits, tokens) = readlines(f) |> readelimited
+(sentences, verbalunits, tokens) = readlines(f) |> readdelimited
 length(sentences)
 ```
 
