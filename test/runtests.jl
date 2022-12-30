@@ -4,4 +4,4 @@ using Orthography, PolytonicGreek
 using Test
 
 include("test_sentences.jl")
-#include("test_readdelimited.jl")
+include("test_readdelimited.jl")

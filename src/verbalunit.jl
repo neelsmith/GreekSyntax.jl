@@ -18,7 +18,7 @@ end
 $(SIGNATURES)
 """
 function delimited(vulist::Vector{VerbalUnitAnnotation}; delimiter = "|")
-	hdr = "vuid${delimiter}semantic_type${delimiter}syntactic_type${delimiter}depth${delimiter}sentence\n"
+	hdr = "vuid$(delimiter)semantic_type$(delimiter)syntactic_type$(delimiter)depth$(delimiter)sentence\n"
 	hdr * join(map(vu -> delimited(vu), vulist), "\n") * "\n"
 end
 
