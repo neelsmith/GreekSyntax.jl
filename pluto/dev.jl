@@ -75,6 +75,11 @@ palette = ["#79A6A3;",
  css = begin
  css_text = """
 <style>
+  blockquote.subordination {
+ 	padding: 0em;
+ 
+ }
+ 
  .connector {
  background: yellow;  
  font-style: bold;
@@ -93,6 +98,48 @@ palette = ["#79A6A3;",
  	padding: 1px 3px;
  	
  }
+ 
+span.tooltip{
+  position: relative;
+  display: inline;
+}
+span.tooltip:hover:after{ visibility: visible; opacity: 0.8; bottom: 20px; }
+span.tooltip:hover:before{ visibility: visible; opacity: 0.8; bottom: 14px; }
+
+span.tooltip:after{
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  opacity: 0.9;
+  content: attr(tool-tips);
+  height: auto;
+  width: auto;
+  min-width: 100px;
+  padding: 5px 8px;
+  z-index: 999;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  background: rgba(0,0,0,0.85);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+span.tooltip:before {
+  position: absolute;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  left: 50%;
+  bottom: 0px;
+  opacity: 0;
+  content: "";
+  border-style: solid;
+  border-width: 6px 6px 0 6px;
+  border-color: rgba(0,0,0,0.85) transparent transparent transparent;
+}
  """
 	 HTML(css_text)
  end
@@ -112,9 +159,17 @@ displaymenu = ["continuous" => "continuous text", "indented" => "indented for su
 end
 
 # ╔═╡ 2a17467a-56ea-49d5-927a-0359a098f2e1
+# ╠═╡ show_logs = false
 if annsentseq > 0
-	rendered = htmltext(sentences[annsentseq], syntokens; sov = sov, vucolor = vucolor)
-	HTML(rendered)
+	if txtdisplay == "continuous"
+		rendered = htmltext(sentences[annsentseq], syntokens; sov = sov, vucolor = vucolor)
+		HTML(rendered)
+	else
+		rendered = htmltext_indented(sentences[annsentseq], vus, syntokens)#; sov = sov, vucolor = vucolor)
+
+		HTML(rendered)
+		
+	end
 	
 end
 
@@ -178,7 +233,7 @@ end
 # ╟─0d945905-cdbf-4253-b5bf-bbe58a3ea5a5
 # ╟─241dea49-45f2-498c-9fab-f020378969a0
 # ╟─eeaf2e50-a70b-4113-a85e-66b224aa3356
-# ╠═2a17467a-56ea-49d5-927a-0359a098f2e1
+# ╟─2a17467a-56ea-49d5-927a-0359a098f2e1
 # ╟─31fc979d-121f-456e-a963-713224e318c7
 # ╠═7d29b0b7-f561-4c12-a13c-711893c94ddf
 # ╠═905993bd-214c-41a4-9053-aeed890b4d92
