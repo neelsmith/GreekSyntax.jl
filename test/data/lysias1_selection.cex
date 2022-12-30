@@ -1,23 +1,23 @@
 // Syntactic annotations for selected passages of Lysias 1
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.29-1.9.38a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.30
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.40
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.29-1.9.38a|19|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.30
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a|20|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.40
 
 
 #!verbal_units
-vuid|semantic_type|syntactic_type|depth
+vuid|semantic_type|syntactic_type|depth|sentence
 
 // sentence 19
-1.9.29-1.9.38a.1|transitive|independent clause|1
-1.9.29-1.9.38a.2|linking|subordinate clause|2
+1.9.29-1.9.38a.1|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.29-1.9.38a
+1.9.29-1.9.38a.2|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.29-1.9.38a
 
 // sentence 20
-1.9.39-1.9.57a.1|intransitive|independent clause|1
-1.9.39-1.9.57a.2|intransitive|independent clause|1
-1.9.39-1.9.57a.3|intransitive|subordinate clause|2
-1.9.39-1.9.57a.4|intransitive|subordinate clause|3
-1.9.39-1.9.57a.5|intransitive|circumstantial participle|3
+1.9.39-1.9.57a.1|intransitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a
+1.9.39-1.9.57a.2|intransitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a
+1.9.39-1.9.57a.3|intransitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a
+1.9.39-1.9.57a.4|intransitive|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a
+1.9.39-1.9.57a.5|intransitive|circumstantial participle|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.39-1.9.57a
 
 
 #!tokens

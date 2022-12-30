@@ -5,13 +5,34 @@ struct SentenceAnnotation
 	connector::Union{CtsUrn, Nothing}
 end
 
-
+"""Compose delimited-text representation of a `SentenceAnnotation`.
+$(SIGNATURES)
+"""
 function delimited(sa::SentenceAnnotation; delimiter = "|")
 	if isnothing(sa.connector)
 		string(sa.range,delimiter,sa.sequence,delimiter, "")
 	else
 		string(sa.range,delimiter,sa.sequence,delimiter, sa.connector)
 	end
+end
+
+"""Compose delimited-text representation of a vector of `SentenceAnnotation`s.
+$(SIGNATURES)
+"""
+function delimited(sentlist::Vector{SentenceAnnotation}; delimiter = "|")
+	hdr = "sentence|sequence|connector"
+	hdr * join(map(s -> delimited(s), sentlist), "\n") * "⤱" 
+end
+
+
+"""Parse delimited string `s` into a `SentenceAnnotation`."""
+function sentence(s; delimiter = "|")
+	parts = split(s, delimiter)
+	SentenceAnnotation(
+		CtsUrn(parts[1]), 
+		parse(Int, parts[2]),
+		CtsUrn(parts[3])
+	)
 end
 
 """Tokenize a corpus, and chunk the resulting vector of tokens by sentence. The result is a vector of `NamedTuple`s with a URN and a sequence number. 
