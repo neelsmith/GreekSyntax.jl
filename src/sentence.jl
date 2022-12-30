@@ -1,46 +1,55 @@
 
 struct SentenceAnnotation
 	range::CtsUrn
+	sequence::Int
 	connector::Union{CtsUrn, Nothing}
 end
 
 
-"""Parse delimited string `s` into a `SentenceAnnotation`."""
-function sentence(s; delimiter = "|")
-	parts = split(s, delimiter)
-	SentenceAnnotation(CtsUrn(parts[1]), CtsUrn(parts[2]))
+function delimited(sa::SentenceAnnotation; delimiter = "|")
+	if isnothing(sa.connector)
+		string(sa.range,delimiter,sa.sequence,delimiter, "")
+	else
+		string(sa.range,delimiter,sa.sequence,delimiter, sa.connector)
+	end
 end
 
-"""Tokenize a corpus, and chunk the resulting vector of tokens by sentence.  The result is pair of vectors of equal length: the first vector is a list of CTS URNs for each sentence (cited as 
-a range at the token level), and the second is a vector of analyzed tokens. 
+"""Tokenize a corpus, and chunk the resulting vector of tokens by sentence. The result is a vector of `NamedTuple`s with a URN and a sequence number. 
+The URN is a range of tokens.
 $(SIGNATURES)
 """
-function tokensbysentence(c::CitableTextCorpus; ortho = literaryGreek()) 
+function parsesentences(c::CitableTextCorpus; ortho::T,	terminators = [".", ":", ";"]) where T <: OrthographicSystem
 
     tokens = tokenize(c, ortho)
-	baseurn = c.passages[1].urn |> droppassage
-	finals = [".", ":", ";"]
+	sentenceindex =  []
+
+	currenttext = c.passages[1].urn |> droppassage
+	sentencecount = 0
 	rangeopener = ""
-
-	sentenceurls = []
-	sentencecontents = []
-	currentsentence = []	
-	for n in tokens
-    	if n[1].text in finals
-        	rangeu = addpassage(baseurn, string(rangeopener, "-", 	passagecomponent(n[1].urn)))
-	        push!(sentenceurls, rangeu)
-
-			push!(currentsentence, n)
-			push!(sentencecontents, currentsentence)
-			currentsentence = []
-			
-	    else
-			if isempty(rangeopener)
-	        	rangeopener = passagecomponent(n[1].urn)
-	    	end
-			push!(currentsentence, n)
+	for tkn in tokens
+		if droppassage(tkn[1].urn) != currenttext
+			currenttext = droppassage(tkn[1].urn)
+            sentencecount = 0
+			if ! isempty(rangeopener)
+                rangeu = addpassage(currenttext, string(rangeopener, "-", 	passagecomponent(n[1].urn)))
+            end
 		end
+
+		if tkn[1].text in terminators
+			sentencecount = sentencecount + 1
+			if isempty(rangeopener)
+                @error("Syntax error: empty sentence at token $(n)")
+            end
+
+			rangeu = addpassage(currenttext, string(rangeopener, "-", 	passagecomponent(tkn[1].urn)))
+			push!(sentenceindex, (urn = rangeu, sequence = sentencecount))
+			
+		else
+			if isempty(rangeopener)
+				rangeopener = passagecomponent(tkn[1].urn)
+			end
+		end
+	
 	end
-	(sentenceurls,sentencecontents)
-    
+	sentenceindex
 end

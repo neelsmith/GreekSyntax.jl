@@ -10,7 +10,8 @@ include("token.jl")
 include("delimited.jl")
 include("utils.jl")
 
-export parsedelimited
+export parsesentences
+export delimited
 export SentenceAnnotation
 export VerbalUnitAnnotation
 export TokenAnnotation
