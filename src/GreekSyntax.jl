@@ -9,6 +9,7 @@ include("verbalunit.jl")
 include("token.jl")
 include("delimited.jl")
 include("utils.jl")
+include("htmlutils.jl")
 
 export parsesentences
 export delimited, readdelimited

@@ -24,7 +24,6 @@ function delimited(sentlist::Vector{SentenceAnnotation}; delimiter = "|")
 	hdr * join(map(s -> delimited(s), sentlist), "\n") * "⤱" 
 end
 
-
 """Parse delimited string `s` into a `SentenceAnnotation`."""
 function sentence(s; delimiter = "|")
 	parts = split(s, delimiter)
@@ -73,4 +72,10 @@ function parsesentences(c::CitableTextCorpus; ortho::T,	terminators = [".", ":",
 	
 	end
 	sentenceindex
+end
+
+
+# Expand a urn to a list of leaf nodes.
+# This belongs in citablecorpus
+function nodelist(u::CtsUrn, c::CitableTextCorpus)
 end
