@@ -1,7 +1,7 @@
 using GreekSyntax
-using CitableCorpus, CitableBase
+using CitableCorpus, CitableBase, CitableText
 using Orthography, PolytonicGreek
 using Test
 
-include("test_parsesentences.jl")
+include("test_sentences.jl")
 include("test_readdelimited.jl")
