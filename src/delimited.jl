@@ -1,5 +1,5 @@
 
-function parsedelimited(v::Vector{T}) where T <: AbstractString
+function readdelimited(v::Vector{T}) where T <: AbstractString
     nocomments = filter(ln -> ! startswith(ln, "//"), v)
 
     sentences = SentenceAnnotation[]

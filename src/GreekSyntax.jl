@@ -11,7 +11,7 @@ include("delimited.jl")
 include("utils.jl")
 
 export parsesentences
-export delimited
+export delimited, readdelimited
 export SentenceAnnotation
 export VerbalUnitAnnotation
 export TokenAnnotation
