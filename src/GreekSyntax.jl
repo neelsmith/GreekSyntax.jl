@@ -17,4 +17,7 @@ export SentenceAnnotation
 export VerbalUnitAnnotation
 export TokenAnnotation
 
+
+export htmltext
+
 end # module GreekSyntax
