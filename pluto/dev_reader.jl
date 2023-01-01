@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.18
+# v0.19.17
 
 using Markdown
 using InteractiveUtils
@@ -30,6 +30,8 @@ begin
 	using CitableCorpus
 	using Orthography
 	using PolytonicGreek
+
+	using Kroki
 
 	using PlutoUI 
 	Pkg.status()
@@ -86,6 +88,12 @@ if annsentseq > 0
 	end
 	
 end
+
+# ╔═╡ a5b2760b-70b0-415e-8f65-31f3b4d48a3f
+graphstr  = mermaiddiagram(sentences[annsentseq], syntokens)
+
+# ╔═╡ e1d6eda6-2f6f-4b78-bf6d-05081c980145
+	mermaid"""$(graphstr)"""
 
 # ╔═╡ f537e63d-dc53-4dc3-b12c-775c3d395224
 html"""
@@ -192,6 +200,8 @@ palette = ["#79A6A3;",
 # ╟─241dea49-45f2-498c-9fab-f020378969a0
 # ╟─eeaf2e50-a70b-4113-a85e-66b224aa3356
 # ╟─2a17467a-56ea-49d5-927a-0359a098f2e1
+# ╠═e1d6eda6-2f6f-4b78-bf6d-05081c980145
+# ╠═a5b2760b-70b0-415e-8f65-31f3b4d48a3f
 # ╟─f537e63d-dc53-4dc3-b12c-775c3d395224
 # ╟─8fac0e83-ecd0-4d04-95f3-e72a520dbd25
 # ╟─0d945905-cdbf-4253-b5bf-bbe58a3ea5a5

@@ -39,17 +39,20 @@ function classesfortoken(t, isconnector)
 	if isconnector
 		push!(opts, "connector")
 	end
-	rel1 = lowercase(t.node1relation)
-	if rel1 == "subject"
-		push!(opts, "subject")
-		
-	elseif rel1 == "object"
-		push!(opts, "object")
-		
-	elseif rel1 == "unit verb"
-		push!(opts, "verb")
+	if isnothing(t.node1relation)
+		#skip
+	else
+		rel1 = lowercase(t.node1relation)
+		if rel1 == "subject"
+			push!(opts, "subject")
+			
+		elseif rel1 == "object"
+			push!(opts, "object")
+			
+		elseif rel1 == "unit verb"
+			push!(opts, "verb")
+		end
 	end
-		
 	string("class=\"", join(opts, " "), "\"")
 end
 

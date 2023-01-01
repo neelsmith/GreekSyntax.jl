@@ -10,6 +10,7 @@ include("token.jl")
 include("delimited.jl")
 include("utils.jl")
 include("htmlutils.jl")
+include("mermaidutils.jl")
 
 export parsesentences
 export delimited, readdelimited
@@ -19,5 +20,6 @@ export TokenAnnotation
 
 
 export htmltext, htmltext_indented
+export mermaiddiagram
 
 end # module GreekSyntax

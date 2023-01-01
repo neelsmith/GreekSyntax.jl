@@ -61,4 +61,6 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.54|lexical|αἱ|1.9.39-1.9.57a.
 urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.55|lexical|δὲ|1.9.39-1.9.57a.2|18|conjunction|13|coordinated
 urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.56|lexical|γυναῖκες|1.9.39-1.9.57a.2|20|subject|nothing|nothing
 urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.57|lexical|κάτω|1.9.39-1.9.57a.2|20|adverb|nothing|nothing
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.57a|punctuation|.|1.9.39-1.9.57a.nothing|nothing|nothing|nothing|nothing
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.57a|punctuation|.|1.9.39-1.9.57a.2|nothing|nothing|nothing|nothing
+
+
