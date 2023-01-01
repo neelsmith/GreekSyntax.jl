@@ -95,9 +95,6 @@ graphstr  = mermaiddiagram(sentences[annsentseq], syntokens)
 # ╔═╡ e1d6eda6-2f6f-4b78-bf6d-05081c980145
 	mermaid"""$(graphstr)"""
 
-# ╔═╡ c4528d0e-066c-4b58-85cd-baa82c81a929
-graphlines = split(graphstr, "\n")
-
 # ╔═╡ f537e63d-dc53-4dc3-b12c-775c3d395224
 html"""
 <br/><br/><br/><br/><br/><br/><br/>
@@ -205,7 +202,6 @@ palette = ["#79A6A3;",
 # ╟─2a17467a-56ea-49d5-927a-0359a098f2e1
 # ╠═e1d6eda6-2f6f-4b78-bf6d-05081c980145
 # ╠═a5b2760b-70b0-415e-8f65-31f3b4d48a3f
-# ╠═c4528d0e-066c-4b58-85cd-baa82c81a929
 # ╟─f537e63d-dc53-4dc3-b12c-775c3d395224
 # ╟─8fac0e83-ecd0-4d04-95f3-e72a520dbd25
 # ╟─0d945905-cdbf-4253-b5bf-bbe58a3ea5a5
