@@ -20,5 +20,6 @@ export TokenAnnotation
 
 
 export htmltext, htmltext_indented
+export mermaiddiagram
 
 end # module GreekSyntax
