@@ -1,4 +1,6 @@
-function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
+mermaidformats = ["png", "jpg", "svg"]
+
+function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; format = "text")
     graphlines = [
 		"graph BT;",
 		"classDef implicit fill:#f96,stroke:#333;"
@@ -44,5 +46,14 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 			end
         end
     end
-    join(graphlines, "\n")
+    
+    if format == "text"
+        join(graphlines, "\n")
+    else
+        lc = lowercase(format)
+        if lc in mermaidformats
+            mermgraph = mermaid"""$(join(graphlines,"\n"))"""
+            render(mermgraph, lc)
+        end
+    end
 end

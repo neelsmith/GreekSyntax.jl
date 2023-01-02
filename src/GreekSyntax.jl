@@ -1,7 +1,7 @@
 module GreekSyntax
 using CitableText, CitableCorpus
 using Orthography, PolytonicGreek
-
+using Kroki
 using Documenter, DocStringExtensions
 
 include("sentence.jl")
@@ -20,6 +20,7 @@ export TokenAnnotation
 
 
 export htmltext, htmltext_indented
+export htmlgroup, htmlgrouplist
 export mermaiddiagram
 
 end # module GreekSyntax

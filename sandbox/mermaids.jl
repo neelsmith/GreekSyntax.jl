@@ -2,6 +2,7 @@ using GreekSyntax
 using Kroki
 repo = pwd()
 (sentences, vus, syntokens) = joinpath(repo, "test", "data", "lysias1_selection.cex") |> readlines |> readdelimited
+
 sa = sentences[2]
 
 ## Debugging
@@ -21,3 +22,8 @@ end
 mermaid"""
 $(gr)
 """
+
+
+
+as_png =  mermaiddiagram(sa, syntokens, format = "png")
+write("syntax.png", as_png)

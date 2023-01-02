@@ -1,12 +1,49 @@
+# RGB list to cycle through in assigning colors to groups.
+defaultpalette = [
+	"#79A6A3",
+	"#E5B36A",
+	"#C7D7CA",
+	"#E7926C",
+	"#D29DC0",
+	"#C2D6C4",
+	"#D291BC",
+	"E7DCCA",
+	"#FEC8D8",
+	"#F5CF89",
+	"#F394AF"
+]
+
+function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
+	color = groupcolor(vu, colors = palette)
+	"<span style=\"$(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
+	#=	id
+	semantic_type
+	syntactic_type
+	depth::Int
+	sentence::CtsUrn
+		=#
+	end
+
+
+function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
+	outputlines = ["<ul>"]
+	for vu in vulist
+		push!(outputlines, string("<li>", htmlgroup(vu, palette = palette),"</li>" ))
+	end
+	push!(outputlines, "</ul>")
+	join(outputlines, "\n")
+end
+
+
+
 """Compose HTML string for the annotated sentence `sa` using
 data from a vector of token annotations.  Boolean flags for `sov`
 and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
 and for color coding by verbal unit.
 $(SIGNATURES)
 """
-function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, palette = [])
-	colors = isempty(palette)  ? ["#79A6A3;", "#E5B36A;", "#C7D7CA;", "#E7926C;", "#D29DC0;", "#C2D6C4;", "#D291BC;", "E7DCCA;", "#FEC8D8;", "#F5CF89;","#F394AF;"] : palette
-
+function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette)
+	
 	# HTML strings:
 	formatted = []
 	(sentencetokens, connectorids, origin) = tokensforsentence(sa, tknannotations)
@@ -56,22 +93,40 @@ function classesfortoken(t, isconnector)
 	string("class=\"", join(opts, " "), "\"")
 end
 
+
+"""Select a color to use for item `idx` by 
+mod'ing a list of colors.  Add one to avoid
+zero indexes.
+$(SIGNATURES)
+"""
+function groupcolorforint(idx::Int; colors = defaultpalette)
+	modded = mod(length(colors), idx) + 1
+	colors[modded]
+end
+
 """Choose a color from a list of colors based on group number component of
 the token's verbal unit identifier.
 $(SIGNATURES)
 """
-function groupcolorfortoken(tkn, colors)
-	re = r".+\."
+function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
 	if endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
 		""
 	else
-		digits = replace(tkn.verbalunit, re => "")
-		idx = parse(Int, digits) 
-		modded = mod(length(colors), idx) + 1
+		rgb = groupcolor(tkn.verbalunit, colors = colors)
 		"style=\"color: $(colors[modded])\""
 	end
 end
 
+function groupcolor(vu::VerbalUnitAnnotation; colors = defaultpalette)
+	groupcolor(vu.id, colors = colors)
+end
+
+function groupcolor(groupid::T; colors = defaultpalette) where T <: AbstractString
+	re = r".+\."
+	digits = replace(groupid, re => "")
+	idx = parse(Int, digits) 
+	groupcolorforint(idx, colors = colors)
+end
 
 
 """Compose HTML string for the annotated sentence `sa` indented by level of subordination.
