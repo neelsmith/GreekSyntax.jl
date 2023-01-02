@@ -3,21 +3,21 @@
 // Automatically appended from Pluto notebook "Analyze syntax of Greek text from a CTS source"
 //
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.2
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a|10|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.2
 
-#!verbal_unit
-vuid|semantic_type|syntactic_type|depth
-1.6.1-1.6.46a.1|intransitive|independent clause|1
-1.6.1-1.6.46a.2|transitive|independent clause|1
-1.6.1-1.6.46a.3|transitive|independent clause|1
-1.6.1-1.6.46a.4|intransitive|subordinate clause|2
-1.6.1-1.6.46a.5|transitive|subordinate clause|2
-1.6.1-1.6.46a.6|transitive|subordinate clause|3
-1.6.1-1.6.46a.7|linking|subordinate clause|3
-1.6.1-1.6.46a.8|transitive|subordinate clause|4
-1.6.1-1.6.46a.9|linking|subordinate clause|2
-1.6.1-1.6.46a.10|linking|subordinate clause|2
+#!verbal_units
+vuid|semantic_type|syntactic_type|depth|sentence
+1.6.1-1.6.46a.1|intransitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.2|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.3|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.4|intransitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.5|transitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.6|transitive|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.7|linking|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.8|transitive|subordinate clause|4|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.9|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.10|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation
@@ -79,16 +79,16 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.46a|punctuation|.|1.6.1-1.6.46a.
 // Automatically appended from Pluto notebook "Analyze syntax of Greek text from a CTS source"
 //
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.47-1.6.64a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.47-1.6.64a|11|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
 
-#!verbal_unit
-vuid|semantic_type|syntactic_type|depth
-1.6.47-1.6.64a.1|transitive|independent clause|1
-1.6.47-1.6.64a.2|transitive|independent clause|1
-1.6.47-1.6.64a.3|linking|subordinate clause|2
-1.6.47-1.6.64a.4|transitive|circumstantial participle|2
-1.6.47-1.6.64a.5|linking|indirect statement with infinitive|3
+#!verbal_units
+vuid|semantic_type|syntactic_type|depth|sentence
+1.6.47-1.6.64a.1|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
+1.6.47-1.6.64a.2|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
+1.6.47-1.6.64a.3|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
+1.6.47-1.6.64a.4|transitive|circumstantial participle|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
+1.6.47-1.6.64a.5|linking|indirect statement with infinitive|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.48
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation
@@ -119,12 +119,12 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.64a|punctuation|:|1.6.47-1.6.64a
 // Automatically appended from Pluto notebook "Analyze syntax of Greek text from a CTS source"
 //
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.65-1.7.5a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.66-1.6.67
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.65-1.7.5a|12|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.66-1.6.67
 
-#!verbal_unit
-vuid|semantic_type|syntactic_type|depth
-1.6.65-1.7.5a.1|linking|independent clause|1
+#!verbal_units
+vuid|semantic_type|syntactic_type|depth|sentence
+1.6.65-1.7.5a.1|linking|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.65-1.7.5a
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation
@@ -148,15 +148,15 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.5a|punctuation|:|1.6.65-1.7.5a.1
 // Automatically appended from Pluto notebook "Analyze syntax of Greek text from a CTS source"
 //
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.7
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a|13|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.7
 
-#!verbal_unit
-vuid|semantic_type|syntactic_type|depth
-1.7.6-1.7.16a.1|linking|independent clause|1
-1.7.6-1.7.16a.2|linking|independent clause|1
-1.7.6-1.7.16a.3|linking|independent clause|1
-1.7.6-1.7.16a.4|transitive|circumstantial participle|2
+#!verbal_units
+vuid|semantic_type|syntactic_type|depth|sentence
+1.7.6-1.7.16a.1|linking|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a
+1.7.6-1.7.16a.2|linking|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a
+1.7.6-1.7.16a.3|linking|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a
+1.7.6-1.7.16a.4|transitive|circumstantial participle|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.6-1.7.16a
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation
@@ -178,14 +178,14 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.16a|punctuation|:|1.7.6-1.7.16a.
 // Automatically appended from Pluto notebook "Analyze syntax of Greek text from a CTS source"
 //
 #!sentences
-sentence|connector
-urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.17-1.7.29a|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.18
+sentence|sequence|connector
+urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.17-1.7.29a|14|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.18
 
-#!verbal_unit
-vuid|semantic_type|syntactic_type|depth
-1.7.17-1.7.29a.1|linking|independent clause|1
-1.7.17-1.7.29a.2|intransitive|subordinate clause|2
-1.7.17-1.7.29a.3|intransitive|circumstantial participle|2
+#!verbal_units
+vuid|semantic_type|syntactic_type|depth|sentence
+1.7.17-1.7.29a.1|linking|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.17-1.7.29a
+1.7.17-1.7.29a.2|intransitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.17-1.7.29a
+1.7.17-1.7.29a.3|intransitive|circumstantial participle|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.17-1.7.29a
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation
