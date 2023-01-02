@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.17
+# v0.19.18
 
 using Markdown
 using InteractiveUtils
@@ -35,6 +35,7 @@ begin
 
 	using PlutoUI 
 	Pkg.status()
+	md"""*Environment set up is in this cell*."""
 end
 
 # ╔═╡ 2a2d0160-8794-11ed-23a7-0d6ff795640e
@@ -58,7 +59,7 @@ We can get all of that in one shot with the `readdelimited` function.
 end
 
 # ╔═╡ 9d4cdefa-8119-4255-b13d-7c1828fd318c
-md"""#### A syntactically aware reader in 3 cells"""
+md"""#### A syntactically aware reader in a handful of Pluto cells"""
 
 # ╔═╡ 241dea49-45f2-498c-9fab-f020378969a0
 begin
@@ -70,8 +71,17 @@ end
 begin
 displaymenu = ["continuous" => "continuous text", "indented" => "indented for subordination"
 	]
-	md"""*Display* $(@bind txtdisplay Select(displaymenu)) *Highlight SOV+ functions* $(@bind sov CheckBox()) *Color verbal units* $(@bind vucolor CheckBox()) *Add tooltips* $(@bind tippy CheckBox())
+	md"""*Display* $(@bind txtdisplay Select(displaymenu)) 
+	
+*Highlight SOV+ functions* $(@bind sov CheckBox()) *Color verbal units* $(@bind vucolor CheckBox()) *Include syntax diagram* $(@bind diagram CheckBox(true))
 """
+end
+
+# ╔═╡ 04ebcdec-b7c1-4d48-9774-b8e36fd9da10
+begin
+	if annsentseq > 0
+		"<p><i>Verbal groups</i>:</p>" * htmlgrouplist(sentences[annsentseq], vus) |> HTML
+	end
 end
 
 # ╔═╡ 2a17467a-56ea-49d5-927a-0359a098f2e1
@@ -90,18 +100,17 @@ if annsentseq > 0
 end
 
 # ╔═╡ a5b2760b-70b0-415e-8f65-31f3b4d48a3f
-graphstr  = mermaiddiagram(sentences[annsentseq], syntokens)
+if annsentseq > 0
+	graphstr  = mermaiddiagram(sentences[annsentseq], syntokens)
+end
 
 # ╔═╡ e1d6eda6-2f6f-4b78-bf6d-05081c980145
-	mermaid"""$(graphstr)"""
-
-# ╔═╡ f537e63d-dc53-4dc3-b12c-775c3d395224
-html"""
-<br/><br/><br/><br/><br/><br/><br/>
-"""
+	if annsentseq > 0 && diagram
+		mermaid"""$(graphstr)"""
+	end
 
 # ╔═╡ 8fac0e83-ecd0-4d04-95f3-e72a520dbd25
-md"""> ##### Visual formatting: CSS and color vector"""
+md"""> ##### Visual formatting: CSS and  vector of colors for highlighting groups"""
 
 # ╔═╡ 0d945905-cdbf-4253-b5bf-bbe58a3ea5a5
  css = begin
@@ -195,14 +204,14 @@ palette = ["#79A6A3;",
 # ╟─a4471683-d5cd-4ca4-9f3b-c582427f473b
 # ╟─2a2d0160-8794-11ed-23a7-0d6ff795640e
 # ╟─8c4abe4f-113e-4519-8c55-85aa128a4728
-# ╠═0471aaa8-9a5d-47ca-a7a5-7612c6f86b81
+# ╟─0471aaa8-9a5d-47ca-a7a5-7612c6f86b81
 # ╟─9d4cdefa-8119-4255-b13d-7c1828fd318c
 # ╟─241dea49-45f2-498c-9fab-f020378969a0
 # ╟─eeaf2e50-a70b-4113-a85e-66b224aa3356
+# ╟─04ebcdec-b7c1-4d48-9774-b8e36fd9da10
 # ╟─2a17467a-56ea-49d5-927a-0359a098f2e1
-# ╠═e1d6eda6-2f6f-4b78-bf6d-05081c980145
-# ╠═a5b2760b-70b0-415e-8f65-31f3b4d48a3f
-# ╟─f537e63d-dc53-4dc3-b12c-775c3d395224
+# ╟─e1d6eda6-2f6f-4b78-bf6d-05081c980145
+# ╟─a5b2760b-70b0-415e-8f65-31f3b4d48a3f
 # ╟─8fac0e83-ecd0-4d04-95f3-e72a520dbd25
 # ╟─0d945905-cdbf-4253-b5bf-bbe58a3ea5a5
 # ╟─fdfeae81-e007-482c-98c4-af9295b45f90

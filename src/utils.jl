@@ -24,8 +24,11 @@ function typelabel(tkntype)
 	end
 end
 
+"""Extract from a vector of `TokenAnnotation`s all the tokens that
+belong to sentence `sa`.
+$(SIGNATURES)
+"""
 function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
-
 	# Find indices for tokens indexed to this sentence:
 	tkncorp = map(tknannotations) do t
 		CitablePassage(t.urn, t.text)
@@ -36,4 +39,56 @@ function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenA
 	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
 	connectorids = connectorslice[1]:connectorslice[end]
 	(tknannotations[origin:slice[2]], connectorids, origin)
+end
+
+
+
+"""Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that
+belong to sentence `sa`.
+$(SIGNATURES)
+"""
+function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
+	filter(vu -> vu.sentence == sa.range, groups)
+end
+
+
+function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})::Int
+	groupedtokens = []
+	for (i, s) in enumerate(sentences)
+		(sentencetkns, connection, origin) = tokensforsentence(s, tknannotations)
+		urnstrings = map(t -> string(t.urn), sentencetkns) 	
+		push!(groupedtokens, (index = i, ids = urnstrings))
+	end
+	matches = filter(groupedtokens) do grp
+		string(leafnode) in grp[2]
+	end
+	
+	if length(matches) == 1
+		"FOUND IT!"
+		matches[1].index
+	else
+		@warn("No luck.  matches: $(length(matches))")
+		0
+	end
+end
+
+
+
+function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})
+	tkncorpus = map(tkn -> CitablePassage(tkn.urn, tkn.text), tknannotations) |> CitableTextCorpus
+	
+	idx = CitableCorpus.indexurn(u,tkncorpus)
+	if length(idx) == 1
+		soloindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
+		sentences[soloindex]
+
+	elseif length(idx) == 2
+		startindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
+		endindex = sentenceindexfornode(tkncorpus.passages[idx[2]].urn, sentences, tknannotations)
+		sentences[startindex:endindex]
+	else
+		@warn("No syntactically annotated sentences found for $(u)")
+		[]
+	end
+	
 end

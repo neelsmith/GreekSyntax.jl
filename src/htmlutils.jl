@@ -1,12 +1,48 @@
+# RGB list to cycle through in assigning colors to groups.
+defaultpalette = [
+	"#79A6A3",
+	"#E5B36A",
+	"#C7D7CA",
+	"#E7926C",
+	"#D29DC0",
+	"#C2D6C4",
+	"#D291BC",
+	"E7DCCA",
+	"#FEC8D8",
+	"#F5CF89",
+	"#F394AF"
+]
+
+
+function htmlgrouplist(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
+	htmlgrouplist(groupsforsentence(sa, groups), palette = palette)
+end
+
+function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
+	color = groupcolor(vu, colors = palette)
+	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
+end
+
+
+function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
+	outputlines = ["<ol>"]
+	for vu in vulist
+		push!(outputlines, string("<li>", htmlgroup(vu, palette = palette),"</li>" ))
+	end
+	push!(outputlines, "</ol>")
+	join(outputlines, "\n")
+end
+
+
+
 """Compose HTML string for the annotated sentence `sa` using
 data from a vector of token annotations.  Boolean flags for `sov`
 and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
 and for color coding by verbal unit.
 $(SIGNATURES)
 """
-function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, palette = [])
-	colors = isempty(palette)  ? ["#79A6A3;", "#E5B36A;", "#C7D7CA;", "#E7926C;", "#D29DC0;", "#C2D6C4;", "#D291BC;", "E7DCCA;", "#FEC8D8;", "#F5CF89;","#F394AF;"] : palette
-
+function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette)
+	
 	# HTML strings:
 	formatted = []
 	(sentencetokens, connectorids, origin) = tokensforsentence(sa, tknannotations)
@@ -18,7 +54,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 		if t.tokentype == "lexical"			
 			isconnector = tknidx in connectorids
 			classes = sov ? classesfortoken(t, isconnector) : ""
-			styles = vucolor ? groupcolorfortoken(t, colors) : ""
+			styles = vucolor ? groupcolorfortoken(t, colors = colors) : ""
 			
 			push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
 			
@@ -56,22 +92,40 @@ function classesfortoken(t, isconnector)
 	string("class=\"", join(opts, " "), "\"")
 end
 
+
+"""Select a color to use for item `idx` by 
+mod'ing a list of colors.  Add one to avoid
+zero indexes.
+$(SIGNATURES)
+"""
+function groupcolorforint(idx::Int; colors = defaultpalette)
+	modded = mod(length(colors), idx) + 1
+	colors[modded]
+end
+
 """Choose a color from a list of colors based on group number component of
 the token's verbal unit identifier.
 $(SIGNATURES)
 """
-function groupcolorfortoken(tkn, colors)
-	re = r".+\."
+function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
 	if endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
 		""
 	else
-		digits = replace(tkn.verbalunit, re => "")
-		idx = parse(Int, digits) 
-		modded = mod(length(colors), idx) + 1
-		"style=\"color: $(colors[modded])\""
+		rgb = groupcolor(tkn.verbalunit, colors = colors)
+		"style=\"color: $(rgb)\""
 	end
 end
 
+function groupcolor(vu::VerbalUnitAnnotation; colors = defaultpalette)
+	groupcolor(vu.id, colors = colors)
+end
+
+function groupcolor(groupid::T; colors = defaultpalette) where T <: AbstractString
+	re = r".+\."
+	digits = replace(groupid, re => "")
+	idx = parse(Int, digits) 
+	groupcolorforint(idx, colors = colors)
+end
 
 
 """Compose HTML string for the annotated sentence `sa` indented by level of subordination.
@@ -84,9 +138,8 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
    
 	   # HTML strings:
 	   indentedtext = ["<blockquote class=\"subordination\">"]
-   
-	   (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
-   
+   	   (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+
    
 	   local currindent = 0
 	   tknidx = origin - 1
@@ -112,11 +165,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 					   push!(indentedtext, " $(t.text)")
 				   end
 				   
-	   
-			   
 		   
-		   
-					   
 			   else
 				   if (currindent != 0)
 					   push!(indentedtext, repeat("</blockquote>", currindent))
