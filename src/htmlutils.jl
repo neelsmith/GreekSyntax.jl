@@ -13,24 +13,23 @@ defaultpalette = [
 	"#F394AF"
 ]
 
+
+function htmlgrouplist(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
+	htmlgrouplist(groupsforsentence(sa, groups), palette = palette)
+end
+
 function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
 	color = groupcolor(vu, colors = palette)
-	"<span style=\"$(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
-	#=	id
-	semantic_type
-	syntactic_type
-	depth::Int
-	sentence::CtsUrn
-		=#
-	end
+	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
+end
 
 
 function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
-	outputlines = ["<ul>"]
+	outputlines = ["<ol>"]
 	for vu in vulist
 		push!(outputlines, string("<li>", htmlgroup(vu, palette = palette),"</li>" ))
 	end
-	push!(outputlines, "</ul>")
+	push!(outputlines, "</ol>")
 	join(outputlines, "\n")
 end
 
@@ -55,7 +54,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 		if t.tokentype == "lexical"			
 			isconnector = tknidx in connectorids
 			classes = sov ? classesfortoken(t, isconnector) : ""
-			styles = vucolor ? groupcolorfortoken(t, colors) : ""
+			styles = vucolor ? groupcolorfortoken(t, colors = colors) : ""
 			
 			push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
 			
@@ -113,7 +112,7 @@ function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
 		""
 	else
 		rgb = groupcolor(tkn.verbalunit, colors = colors)
-		"style=\"color: $(colors[modded])\""
+		"style=\"color: $(rgb)\""
 	end
 end
 
@@ -139,9 +138,8 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
    
 	   # HTML strings:
 	   indentedtext = ["<blockquote class=\"subordination\">"]
-   
-	   (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
-   
+   	   (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+
    
 	   local currindent = 0
 	   tknidx = origin - 1
@@ -167,11 +165,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 					   push!(indentedtext, " $(t.text)")
 				   end
 				   
-	   
-			   
 		   
-		   
-					   
 			   else
 				   if (currindent != 0)
 					   push!(indentedtext, repeat("</blockquote>", currindent))

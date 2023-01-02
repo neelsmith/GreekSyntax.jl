@@ -24,8 +24,11 @@ function typelabel(tkntype)
 	end
 end
 
+"""Extract from a vector of `TokenAnnotation`s all the tokens that
+belong to sentence `sa`.
+$(SIGNATURES)
+"""
 function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
-
 	# Find indices for tokens indexed to this sentence:
 	tkncorp = map(tknannotations) do t
 		CitablePassage(t.urn, t.text)
@@ -36,4 +39,14 @@ function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenA
 	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
 	connectorids = connectorslice[1]:connectorslice[end]
 	(tknannotations[origin:slice[2]], connectorids, origin)
+end
+
+
+
+"""Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that
+belong to sentence `sa`.
+$(SIGNATURES)
+"""
+function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
+	filter(vu -> vu.sentence == sa.range, groups)
 end
