@@ -20,7 +20,7 @@ end
 $(SIGNATURES)
 """
 function delimited(sentlist::Vector{SentenceAnnotation}; delimiter = "|")
-	hdr = "sentence|sequence|connector"
+	hdr = "sentence|sequence|connector\n"
 	hdr * join(map(s -> delimited(s), sentlist), "\n") * "⤱" 
 end
 
