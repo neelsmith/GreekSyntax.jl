@@ -182,7 +182,7 @@ the token's verbal unit identifier.
 $(SIGNATURES)
 """
 function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
-	if endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
+	if isnothing(tkn.verbalunit) ||	if endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
 		""
 	else
 		rgb = groupcolor(tkn.verbalunit, colors = colors)
