@@ -66,7 +66,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 		   tknidx = tknidx + 1
 		   isconnector = tknidx in connectorids
 		   classes = sov ? GreekSyntax.classesfortoken(t, isconnector) : ""
-		   styles = vucolor ? GreekSyntax.groupcolorfortoken(t, colors) : ""
+		   styles = vucolor ? groupcolorfortoken(t, colors = palette) : ""
 		   
 		   vumatches = filter(groups) do vu
 			   vu.id == t.verbalunit
