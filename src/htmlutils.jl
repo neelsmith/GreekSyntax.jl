@@ -13,17 +13,24 @@ defaultpalette = [
 	"#F394AF"
 ]
 
-
-function htmlgrouplist(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
-	htmlgrouplist(groupsforsentence(sa, groups), palette = palette)
-end
-
+"""Compose an HTML span for the verbal annotation `vu`.
+$(SIGNATURES)
+"""
 function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
 	color = groupcolor(vu, colors = palette)
 	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
 end
 
+"""Compose an HTML ordered list for groups belonging to sentence `sa`.
+$(SIGNATURES)
+"""
+function htmlgrouplist(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
+	htmlgrouplist(groupsforsentence(sa, groups), palette = palette)
+end
 
+"""Compose an HTML ordered list for the verbal annotations `vulist`.
+$(SIGNATURES)
+"""
 function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
 	outputlines = ["<ol>"]
 	for vu in vulist
