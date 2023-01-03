@@ -13,7 +13,6 @@ defaultpalette = [
 	"#F394AF"
 ]
 
-
 """Compose HTML string for the annotated sentence `sa` using
 data from a vector of token annotations.  Boolean flags for `sov`
 and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
@@ -45,71 +44,63 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 end
 
 
-
-
 """Compose HTML string for the annotated sentence `sa` indented by level of subordination.
 Formatting relies on data from a vector of token annotations and annotations on verbal units.
 $(SIGNATURES)
 """
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
-	sov = true, vucolor = true, palette = [])
-	   colors = isempty(palette)  ? ["#79A6A3;", "#E5B36A;", "#C7D7CA;", "#E7926C;", "#D29DC0;", "#C2D6C4;", "#D291BC;", "E7DCCA;", "#FEC8D8;", "#F5CF89;","#F394AF;"] : palette
-   
-	   # HTML strings:
-	   indentedtext = ["<blockquote class=\"subordination\">"]
-   	   (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+	sov = true, vucolor = true, palette = defaultpalette)
+	# HTML strings:
+	indentedtext = ["<blockquote class=\"subordination\">"]
 
-   
-	   local currindent = 0
-	   tknidx = origin - 1
-	   for t in sentencetokens
-		   tknidx = tknidx + 1
-		   isconnector = tknidx in connectorids
-		   classes = sov ? GreekSyntax.classesfortoken(t, isconnector) : ""
-		   styles = vucolor ? groupcolorfortoken(t, colors = palette) : ""
-		   
-		   vumatches = filter(groups) do vu
-			   vu.id == t.verbalunit
-		   end
-		   
-		   if isempty(vumatches)
-			   @warn("No match found for verbal unit $(t.verbalunit)")
-		   else
-			   matchingdepth = vumatches[1].depth
-			   if currindent == matchingdepth
-				   #push!(indentedtext, " $(t.text)")
-				   if t.tokentype == "lexical"			
-					   push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
-				   else
-					   push!(indentedtext, " $(t.text)")
-				   end
-				   
-		   
-			   else
-				   if (currindent != 0)
-					   push!(indentedtext, repeat("</blockquote>", currindent))
-				   end
-				   push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<strong>$(matchingdepth)</strong>. " * " "  )
-				   currindent = matchingdepth
-   
-				   
-				   #push!(indentedtext, " $(t.text)")
-				   
-				   if t.tokentype == "lexical"			
-					   push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
-				   else
-					   push!(indentedtext, " $(t.text)")
-				   end
-			   end
-		   end
-	   end
-   
-	   push!(indentedtext,"</blockquote>")
-	   join(indentedtext)
-   end
+	(sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
 
+	local currindent = 0
+	tknidx = origin - 1
+	for t in sentencetokens
+		tknidx = tknidx + 1
+		isconnector = tknidx in connectorids
+		classes = sov ? GreekSyntax.classesfortoken(t, isconnector) : ""
+		styles = vucolor ? groupcolorfortoken(t, colors = palette) : ""
+		
+		vumatches = filter(groups) do vu
+			vu.id == t.verbalunit
+		end
+		
+		if isempty(vumatches)
+			@warn("No match found for verbal unit $(t.verbalunit)")
+		else
+			matchingdepth = vumatches[1].depth
+			if currindent == matchingdepth
+				#push!(indentedtext, " $(t.text)")
+				if t.tokentype == "lexical"			
+					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+				else
+					push!(indentedtext, " $(t.text)")
+				end
+				
+		
+			else
+				if (currindent != 0)
+					push!(indentedtext, repeat("</blockquote>", currindent))
+				end
+				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<strong>$(matchingdepth)</strong>. " * " "  )
+				currindent = matchingdepth
 
-
+				
+				#push!(indentedtext, " $(t.text)")
+				
+				if t.tokentype == "lexical"			
+					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+				else
+					push!(indentedtext, " $(t.text)")
+				end
+			end
+		end
+	end
+	push!(indentedtext,"</blockquote>")
+	join(indentedtext)
+end
 
 
 """Compose an HTML span for the verbal annotation `vu`.
@@ -120,7 +111,7 @@ function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
 	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
 end
 
-"""Compose an HTML ordered list for groups belonging to sentence `sa`.
+"""Compose an HTML ordered list for verbal units belonging to sentence `sa`.
 $(SIGNATURES)
 """
 function htmlgrouplist(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
@@ -140,11 +131,10 @@ function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpa
 end
 
 
-
-"""Compose an HTML class attribute for lexical tokens.
+"""Compose an HTML class attribute for a lexical token.
 $(SIGNATURES)
 """
-function classesfortoken(t, isconnector)
+function classesfortoken(t::TokenAnnotation, isconnector)
 	opts = []
 	if isconnector
 		push!(opts, "connector")
@@ -182,7 +172,7 @@ the token's verbal unit identifier.
 $(SIGNATURES)
 """
 function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
-	if isnothing(tkn.verbalunit) ||	if endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
+	if isnothing(tkn.verbalunit) ||	endswith(tkn.verbalunit, "nothing") || endswith(tkn.verbalunit, ".0")
 		""
 	else
 		rgb = groupcolor(tkn.verbalunit, colors = colors)
@@ -190,10 +180,18 @@ function groupcolorfortoken(tkn::TokenAnnotation; colors = defaultpalette)
 	end
 end
 
+"""Choose a color from a list of colors based on the convention of ending the identifier
+for a `VerbalUnitAnnotation` with a number.
+$(SIGNATURES)
+"""
 function groupcolor(vu::VerbalUnitAnnotation; colors = defaultpalette)
 	groupcolor(vu.id, colors = colors)
 end
 
+"""Choose a color from a list of colors based on the convention of ending the identifier
+for a `VerbalUnitAnnotation` with a number.
+$(SIGNATURES)
+"""
 function groupcolor(groupid::T; colors = defaultpalette) where T <: AbstractString
 	re = r".+\."
 	digits = replace(groupid, re => "")
