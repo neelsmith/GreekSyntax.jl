@@ -8,5 +8,4 @@
 - visualize syntax graphically with Mermaid diagrams
 
 
-Not yet published on juliahub:  documentation will be published to 
-<https://neelsmith.github.io/GreekSyntax.jl/stable/> after the `0.1.0` release happens.
+Documentation at  <https://neelsmith.github.io/GreekSyntax.jl/stable/>.
