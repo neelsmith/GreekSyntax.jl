@@ -55,7 +55,7 @@ $(SIGNATURES)
 """
 function delimited(tknlist::Vector{TokenAnnotation}; delimiter = "|")
 	hdr = "urn$(delimiter)tokentype$(delimiter)text$(delimiter)verbalunit$(delimiter)node1$(delimiter)node1relation$(delimiter)node2$(delimiter)node2relation\n"
-	hdr * join(map(vu -> delimited(vu), vulist), "\n") * "\n"
+	hdr * join(map(tkn -> delimited(tkn), tknlist), "\n") * "\n"
 end
 
 #=
