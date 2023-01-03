@@ -1,7 +1,7 @@
 struct VerbalUnitAnnotation
 	id
-	semantic_type
 	syntactic_type
+	semantic_type
 	depth::Int
 	sentence::CtsUrn
 end
@@ -10,7 +10,7 @@ end
 $(SIGNATURES)
 """
 function delimited(vu::VerbalUnitAnnotation; delimiter = "|")
-	string(vu.id,delimiter,vu.semantic_type,delimiter, vu.depth, delimiter, vu.sentence)
+	string(vu.id,delimiter,vu.syntactic_type,delimiter,vu.semantic_type,delimiter, vu.depth, delimiter, vu.sentence)
 end
 
 
@@ -18,7 +18,7 @@ end
 $(SIGNATURES)
 """
 function delimited(vulist::Vector{VerbalUnitAnnotation}; delimiter = "|")
-	hdr = "vuid$(delimiter)semantic_type$(delimiter)syntactic_type$(delimiter)depth$(delimiter)sentence\n"
+	hdr = "vuid$(delimiter)syntactic_type$(delimiter)semantic_type$(delimiter)depth$(delimiter)sentence\n"
 	hdr * join(map(vu -> delimited(vu), vulist), "\n") * "\n"
 end
 
