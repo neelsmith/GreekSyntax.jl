@@ -1,11 +1,22 @@
-"""Find CTS URN for range of tokens in sentence `s`
-where `s` is a vector of analyzed tokens as produced
+"""Find CTS URN for range of tokens in `orthotokens`
+where `orthotokens` is a vector of analyzed tokens as produced
 by `Orthography`'s `tokenize` function.
 """
-function sentencerange(s)
-	baseurn = droppassage(s[1][1].urn)
-	opener = passagecomponent(s[1][1].urn)
-	closer = passagecomponent(s[end][1].urn)
+function sentencerange(orthotokens)
+	baseurn = droppassage(orthotokens[1][1].urn)
+	opener = passagecomponent(orthotokens[1][1].urn)
+	closer = passagecomponent(orthotokens[end][1].urn)
+	addpassage(baseurn, string(opener, "-", closer))
+end
+
+
+"""Find CTS URN for range of tokens in `tokenlist`
+where `tokenlist` is a vector of annotated tokens.
+"""
+function sentencerange(tokenlist::Vector{TokenAnnotation})
+	baseurn = droppassage(tokenlist[1].urn)
+	opener = passagecomponent(tokenlist[1].urn)
+	closer = passagecomponent(tokenlist[end].urn)
 	addpassage(baseurn, string(opener, "-", closer))
 end
 
@@ -34,10 +45,14 @@ function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenA
 		CitablePassage(t.urn, t.text)
 	end |> CitableTextCorpus
 	slice = CitableCorpus.indexurn(sa.range, tkncorp)
+	if isempty(slice)
+		@error("Couldn't slice empty array for $(sa.range)")
+	end
+	@warn("Slicing $(slice)")
 	origin = slice[1]
 
 	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
-	connectorids = connectorslice[1]:connectorslice[end]
+	connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
 	(tknannotations[origin:slice[2]], connectorids, origin)
 end
 
@@ -118,4 +133,9 @@ function tokensforgroup(group::VerbalUnitAnnotation, tokens::Vector{TokenAnnotat
 	filter(tokens) do t
 		t.verbalunit == group.id
 	end
+end
+
+
+function passagefromtoken(tkn::TokenAnnotation)::CitablePassage
+	CitablePassage(tkn.urn, string(tkn.text))
 end
