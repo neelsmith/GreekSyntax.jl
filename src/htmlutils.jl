@@ -84,7 +84,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				if (currindent != 0)
 					push!(indentedtext, repeat("</blockquote>", currindent))
 				end
-				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<span class=\"ref\">$(matchingdepth)</span>. " * " "  )
+				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<span class=\"ref\">$(matchingdepth)</span> " * " "  )
 				currindent = matchingdepth
 
 				

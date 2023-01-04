@@ -48,7 +48,7 @@ function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenA
 	if isempty(slice)
 		@error("Couldn't slice empty array for $(sa.range)")
 	end
-	@warn("Slicing $(slice)")
+	@debug("Slicing $(slice)")
 	origin = slice[1]
 
 	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
