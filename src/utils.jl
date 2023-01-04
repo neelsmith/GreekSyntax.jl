@@ -92,3 +92,11 @@ function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknan
 	end
 	
 end
+
+function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
+
+end
+
+function tokensforgroup(group::VerbalUnitAnnotation, tokens::Vector{TokenAnnotation})
+	
+end
