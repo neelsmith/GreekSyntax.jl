@@ -11,6 +11,7 @@ include("delimited.jl")
 include("utils.jl")
 include("sentenceutils.jl")
 include("grouputils.jl")
+include("tokenutils.jl")
 include("htmlutils.jl")
 include("mermaidutils.jl")
 
