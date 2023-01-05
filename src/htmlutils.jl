@@ -60,7 +60,7 @@ $(SIGNATURES)
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
 	sov = true, vucolor = true, palette = defaultpalette)
 	# Vector where we'll collect HTML strings:
-	indentedtext = ["<blockquote class=\"subordination\">"]
+	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
 	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
 
@@ -128,7 +128,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			end
 		end
 	end
-	push!(indentedtext,"</blockquote>")
+	push!(indentedtext,"</blockquote></div>")
 	join(indentedtext)
 end
 
