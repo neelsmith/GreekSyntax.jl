@@ -48,3 +48,49 @@ $(SIGNATURES)
 function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
 	filter(vu -> vu.sentence == sa.range, groups)
 end
+
+
+"""Find index in a vector sentence annotations of the sentence
+containing the token identified by CtsUrn `leafnode`.
+$(SIGNATURES)
+"""
+function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})::Int
+	groupedtokens = []
+	for (i, s) in enumerate(sentences)
+		(sentencetkns, connection, origin) = tokeninfoforsentence(s, tknannotations)
+		urnstrings = map(t -> string(t.urn), sentencetkns) 	
+		push!(groupedtokens, (index = i, ids = urnstrings))
+	end
+	matches = filter(groupedtokens) do grp
+		string(leafnode) in grp[2]
+	end
+	
+	if length(matches) == 1
+		matches[1].index
+	else
+		@warn("Failed to find unique match for $(leafnode).  matches: $(length(matches))")
+		0
+	end
+end
+
+"""Find sentence in a vector sentence annotations containing the token identified by CtsUrn `u`.
+$(SIGNATURES)
+"""
+function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})
+	tkncorpus = map(tkn -> CitablePassage(tkn.urn, tkn.text), tknannotations) |> CitableTextCorpus
+	
+	idx = CitableCorpus.indexurn(u,tkncorpus)
+	if length(idx) == 1
+		soloindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
+		sentences[soloindex]
+
+	elseif length(idx) == 2
+		startindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
+		endindex = sentenceindexfornode(tkncorpus.passages[idx[2]].urn, sentences, tknannotations)
+		sentences[startindex:endindex]
+	else
+		@warn("No syntactically annotated sentences found for $(u)")
+		[]
+	end
+	
+end

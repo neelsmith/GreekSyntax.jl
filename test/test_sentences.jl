@@ -38,7 +38,6 @@ end
     @test origin == 1
     @test connectors == 2:2
     @test length(senttokens) == 52
-
 end
 
 @testset "Test finding verbal expressions for a sentence" begin
@@ -47,3 +46,10 @@ end
     @test length(GreekSyntax.groupsforsentence(sents[1], groups)) == 10
 end
 
+@testset "Test identifying from a list of sentences the sentence including a URN" begin
+    data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
+    (sents, groups, tokens) = readdelimited(data)
+    
+    @test GreekSyntax.sentenceindexfornode(tokens[55].urn, sents, tokens) == 2
+    @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens) == sents[2]
+end
