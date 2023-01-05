@@ -4,6 +4,8 @@ using Orthography, PolytonicGreek
 using Kroki
 using Documenter, DocStringExtensions
 
+import Base: ==
+
 include("sentence.jl")
 include("groups.jl")
 include("token.jl")
@@ -15,12 +17,13 @@ include("tokenutils.jl")
 include("htmlutils.jl")
 include("mermaidutils.jl")
 
-export parsesentences
-export delimited, readdelimited
+
 export SentenceAnnotation
 export VerbalUnitAnnotation
 export TokenAnnotation
 
+export parsesentences
+export delimited, readdelimited
 
 export htmltext, htmltext_indented
 export htmlgroup, htmlgrouplist
