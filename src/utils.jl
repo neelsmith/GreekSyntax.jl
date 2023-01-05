@@ -39,7 +39,7 @@ end
 belong to sentence `sa`.
 $(SIGNATURES)
 """
-function tokensforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
+function tokeninfoforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
 	# Find indices for tokens indexed to this sentence:
 	tkncorp = map(tknannotations) do t
 		CitablePassage(t.urn, t.text)
@@ -70,7 +70,7 @@ end
 function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})::Int
 	groupedtokens = []
 	for (i, s) in enumerate(sentences)
-		(sentencetkns, connection, origin) = tokensforsentence(s, tknannotations)
+		(sentencetkns, connection, origin) = tokeninfoforsentence(s, tknannotations)
 		urnstrings = map(t -> string(t.urn), sentencetkns) 	
 		push!(groupedtokens, (index = i, ids = urnstrings))
 	end
@@ -123,6 +123,18 @@ function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 		@warn("No group found for token $(tkn.urn) with verbal unit $(tkn.verbalunit) ")
 		nothing
 	end
+end
+
+function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
+	grp = groupfortoken(tkn, groups)
+	isnothing(grp) ? nothing : grp.depth
+end
+
+
+
+function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
+	senttokens = tokeninfoforsentence(s, tokens)
+	map(t -> depthfortoken(t, groups), senttokens)
 end
 
 

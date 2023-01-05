@@ -23,7 +23,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	
 	# HTML strings:
 	formatted = []
-	(sentencetokens, connectorids, origin) = tokensforsentence(sa, tknannotations)
+	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
 
 	tknidx = origin - 1
 	for t in sentencetokens
@@ -53,7 +53,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	# HTML strings:
 	indentedtext = ["<blockquote class=\"subordination\">"]
 
-	(sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
 
 	local currindent = 0
 	tknidx = origin - 1
