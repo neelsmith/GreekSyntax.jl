@@ -5,11 +5,12 @@ using Kroki
 using Documenter, DocStringExtensions
 
 include("sentence.jl")
-include("verbalunit.jl")
+include("groups.jl")
 include("token.jl")
 include("delimited.jl")
 include("utils.jl")
 include("sentenceutils.jl")
+include("grouputils.jl")
 include("htmlutils.jl")
 include("mermaidutils.jl")
 

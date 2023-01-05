@@ -44,6 +44,6 @@ end
 @testset "Test finding verbal expressions for a sentence" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
-    @test length(GreekSyntax.groupsforsentence(s1, groups)) == 10
+    @test length(GreekSyntax.groupsforsentence(sents[1], groups)) == 10
 end
 
