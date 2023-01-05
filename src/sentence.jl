@@ -21,7 +21,7 @@ $(SIGNATURES)
 """
 function delimited(sentlist::Vector{SentenceAnnotation}; delimiter = "|")
 	hdr = "sentence|sequence|connector\n"
-	hdr * join(map(s -> delimited(s), sentlist), "\n") * "⤱" 
+	hdr * join(map(s -> delimited(s), sentlist), "\n") * "\n" 
 end
 
 """Parse delimited string `s` into a `SentenceAnnotation`."""
