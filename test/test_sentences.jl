@@ -1,5 +1,5 @@
 @testset "Test parsing a text corpus into sentences" begin
-    srcf = joinpath(pwd(), "data", "lysias1.cex")
+    srcf = joinpath(pwd(), "data", "texts", "lysias1.cex")
     c = fromcex(srcf, CitableTextCorpus, FileReader)
     sentenceidx = parsesentences(c, literaryGreek())
     @test length(sentenceidx) == 123
@@ -16,7 +16,8 @@ end
 end
 
 @testset "Test finding range of sentence in orthographic tokens" begin
-    corp = fromcex(joinpath(pwd(), "data", "lysias1.cex"), CitableTextCorpus, FileReader)
+    src = joinpath(pwd(), "data", "texts", "lysias1.cex")
+    corp = fromcex(src, CitableTextCorpus, FileReader)
     orthotokens = tokenize(corp, literaryGreek())
     expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.1.1-1.2.10")
     @test GreekSyntax.sentencerange(orthotokens[1:80]) == expectedrange
@@ -58,5 +59,5 @@ end
 @testset "Test finding maximum syntactic depth for a sentence" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
-   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 2
+   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 3
 end

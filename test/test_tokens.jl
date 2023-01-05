@@ -32,6 +32,7 @@ end
     (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sentences[1], tokens)
 
     @test length(GreekSyntax.filterbylevel(1, groups, senttokens)) == 15
-    @test length(GreekSyntax.filterbylevel(2, groups, senttokens)) == 45
+    @test length(GreekSyntax.filterbylevel(2, groups, senttokens)) == 40
+    @test length(GreekSyntax.filterbylevel(3, groups, senttokens)) == 45
 
 end
