@@ -2,7 +2,7 @@
 root = pwd() |> dirname |> dirname
 ```
 
-# Reading an annotated text from a delimited file
+# Reading an annotated text from a delimited-text source
 
 The `readdelimited` function takes a Vector of delimited-text strings and parses them into annotations on sentences, verbal expressions, and individual tokens.
 
