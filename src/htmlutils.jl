@@ -25,21 +25,28 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	formatted = []
 	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
 
+	prefixedpunct = false
 	tknidx = origin - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
 
-
-		# CHECK FOR PREFIX/POSTFIX
 		if t.tokentype == "lexical"			
 			isconnector = tknidx in connectorids
 			classes = sov ? classesfortoken(t, isconnector) : ""
 			styles = vucolor ? groupcolorfortoken(t, colors = colors) : ""
-			
-			push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
+			if prefixedpunct
+				push!(formatted, "<span $(classes) $(styles)>"  * t.text * "</span>")
+			else
+				push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
+			end
 			
 		else
-			push!(formatted, t.text)
+			if occursin(t.text,PolytonicGreek.prefixpunctuation())
+				prefixedpunct = true
+				push!(formatted, " " * t.text)
+			else
+				push!(formatted, t.text)
+			end
 		end
 	end
 	join(formatted,"")
@@ -60,6 +67,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	currindent = 0
 	currgroup = ""
 	tknidx = origin - 1
+	prefixedpunct = false
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
@@ -79,9 +87,17 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				
 				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
-					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					if prefixedpunct
+						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
+					else
+						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					end
 				else
-					push!(indentedtext, " $(t.text)")
+					if occursin(t.text, PolytonicGreek.prefixpunctuation())
+						push!(indentedtext, " $(t.text)")
+					else
+						push!(indentedtext, "$(t.text)")
+					end
 				end
 				
 		
@@ -94,11 +110,21 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				currgroup = matchinggroup
 
 				
-				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
-					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					if prefixedpunct
+						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
+					else
+						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					end
+
+
 				else
-					push!(indentedtext, " $(t.text)")
+					if occursin(t.text,PolytonicGreek.prefixpunctuation())
+						prefixedpunct = true
+						push!(indentedtext, " $(t.text)")
+					else
+						push!(indentedtext, "$(t.text)")
+					end
 				end
 			end
 		end
