@@ -18,14 +18,14 @@ end
 @testset "Test finding range of sentence in orthographic tokens" begin
     corp = fromcex(joinpath(pwd(), "data", "lysias1.cex"), CitableTextCorpus, FileReader)
     orthotokens = tokenize(corp, literaryGreek())
-    expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.1.1-1.2.28")
+    expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.1.1-1.2.10")
     @test GreekSyntax.sentencerange(orthotokens[1:80]) == expectedrange
 end
 
 @testset "Test finding range of sentence in annotated tokens" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
-    expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.7.17")
+    expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.70a")
     @test GreekSyntax.sentencerange(tokens[1:80]) == expectedrange
 end
 
@@ -58,5 +58,5 @@ end
 @testset "Test finding maximum syntactic depth for a sentence" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
-   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 4
+   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 2
 end

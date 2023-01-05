@@ -100,5 +100,5 @@ $(SIGNATURES)
 """
 function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
 	sentgroups = groupsforsentence(s, groups)
-	map(gr -> gr.depth, groups) |> maximum
+	map(gr -> gr.depth, sentgroups) |> maximum
 end
