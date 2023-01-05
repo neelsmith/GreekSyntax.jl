@@ -28,3 +28,22 @@ end
     expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.7.17")
     @test GreekSyntax.sentencerange(tokens[1:100]) == expectedrange
 end
+
+@testset "Test finding token information for a sentence" begin
+    data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
+    (sents, groups, tokens) = readdelimited(data)
+
+    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens[1:100])
+
+    @test origin == 1
+    @test connectors == 2:2
+    @test length(senttokens) == 52
+
+end
+
+@testset "Test finding verbal expressions for a sentence" begin
+    data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
+    (sents, groups, tokens) = readdelimited(data)
+    @test length(GreekSyntax.groupsforsentence(s1, groups)) == 10
+end
+

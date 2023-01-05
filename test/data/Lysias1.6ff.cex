@@ -8,16 +8,16 @@ urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a|10|urn:cts:greekLit:tl
 
 #!verbal_units
 vuid|semantic_type|syntactic_type|depth|sentence
-1.6.1-1.6.46a.1|intransitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.2|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.3|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.4|intransitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.5|transitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.6|transitive|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.7|linking|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.8|transitive|subordinate clause|4|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.9|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
-1.6.1-1.6.46a.10|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.4
+1.6.1-1.6.46a.1|intransitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.2|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.3|transitive|independent clause|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.4|intransitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.5|transitive|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.6|transitive|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.7|linking|subordinate clause|3|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.8|transitive|subordinate clause|4|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.9|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
+1.6.1-1.6.46a.10|linking|subordinate clause|2|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.6.46a
 
 #!tokens
 urn|tokentype|text|verbalunit|node1|node1relation|node2|node2relation

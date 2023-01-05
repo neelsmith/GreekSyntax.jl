@@ -1,6 +1,4 @@
 
-
-
 """Compose a string value for type of token, for use in
 writing delimited-text representation of annotations.
 """
@@ -16,34 +14,8 @@ function typelabel(tkntype)
 	end
 end
 
-"""Extract from a vector of `TokenAnnotation`s all the tokens that
-belong to sentence `sa`.
-$(SIGNATURES)
-"""
-function tokeninfoforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
-	# Find indices for tokens indexed to this sentence:
-	tkncorp = map(tknannotations) do t
-		CitablePassage(t.urn, t.text)
-	end |> CitableTextCorpus
-	slice = CitableCorpus.indexurn(sa.range, tkncorp)
-	if isempty(slice)
-		@error("Couldn't slice empty array for $(sa.range)")
-	end
-	@debug("Slicing $(slice)")
-	origin = slice[1]
 
-	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
-	connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
-	(tknannotations[origin:slice[2]], connectorids, origin)
-end
 
-s"""Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that
-belong to sentence `sa`.
-$(SIGNATURES)
-"""
-function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
-	filter(vu -> vu.sentence == sa.range, groups)
-end
 
 """Find index in a vector sentence annotations of the sentence
 containing the token identified by CtsUrn `leafnode`.
