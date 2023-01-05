@@ -85,7 +85,6 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			matchinggroup = vumatches[1].id
 			if currindent == matchingdepth &&  currgroup == matchinggroup
 				
-				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
 					if prefixedpunct
 						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
