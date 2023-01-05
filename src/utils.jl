@@ -56,9 +56,7 @@ function tokeninfoforsentence(sa::SentenceAnnotation, tknannotations::Vector{Tok
 	(tknannotations[origin:slice[2]], connectorids, origin)
 end
 
-
-
-"""Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that
+s"""Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that
 belong to sentence `sa`.
 $(SIGNATURES)
 """
@@ -66,7 +64,10 @@ function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnno
 	filter(vu -> vu.sentence == sa.range, groups)
 end
 
-
+"""Find index in a vector sentence annotations of the sentence
+containing the token identified by CtsUrn `leafnode`.
+$(SIGNATURES)
+"""
 function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})::Int
 	groupedtokens = []
 	for (i, s) in enumerate(sentences)
@@ -79,16 +80,18 @@ function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnota
 	end
 	
 	if length(matches) == 1
-		"FOUND IT!"
 		matches[1].index
 	else
-		@warn("No luck.  matches: $(length(matches))")
+		@warn("Failed to find unique match for $(leafnode).  matches: $(length(matches))")
 		0
 	end
 end
 
 
-
+"""Select sentences contained by or overlapping with a text passage
+defined by CtsUrn `u`.
+$(SIGNATURES)
+"""
 function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation})
 	tkncorpus = map(tkn -> CitablePassage(tkn.urn, tkn.text), tknannotations) |> CitableTextCorpus
 	
@@ -131,7 +134,9 @@ function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 end
 
 
-
+"""Find maximum depth of subordination in sentnec `s`.
+$(SIGNATURES)
+"""
 function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
 	senttokens = tokeninfoforsentence(s, tokens)
 	map(t -> depthfortoken(t, groups), senttokens)
@@ -147,7 +152,21 @@ function tokensforgroup(group::VerbalUnitAnnotation, tokens::Vector{TokenAnnotat
 	end
 end
 
-
+"""Map a `TokenAnnotation` to a `CitablePassage` cited
+at the token level.
+$(SIGNATURES)
+"""
 function passagefromtoken(tkn::TokenAnnotation)::CitablePassage
 	CitablePassage(tkn.urn, string(tkn.text))
+end
+
+
+"""Find all tokens at level of subordination <= `depth`.
+$(SIGNATURES)
+"""
+function filterbylevel(depth::Int, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
+	filter(tokens) do tkn
+	    grp = groupfortoken(tkn, groups)
+	    !isnothing(grp) && grp.depth <= threshhold && grp.depth != 0
+	end
 end

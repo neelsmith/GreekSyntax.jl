@@ -163,8 +163,12 @@ zero indexes.
 $(SIGNATURES)
 """
 function groupcolorforint(idx::Int; colors = defaultpalette)
-	modded = mod(length(colors), idx) + 1
-	colors[modded]
+	if idx == 0
+		""
+	else
+		modded = mod(length(colors), idx) + 1
+		colors[modded]
+	end
 end
 
 """Choose a color from a list of colors based on group number component of
