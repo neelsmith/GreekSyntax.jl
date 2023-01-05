@@ -1,4 +1,4 @@
-# HTML and CSS conventions
+# HTML + CSS conventions
 
 The `GreekSyntax` package includes functions that compose HTML for incorporation in web pages.  The HTML and attached CSS classes produced by these functions are intentionally minimal, to facilitate incorporating the content and adapting its visual styling to its context.
 

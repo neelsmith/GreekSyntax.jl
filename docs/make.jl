@@ -19,7 +19,7 @@ makedocs(
         "Overview" => "index.md",
         "Read a delimited file" => "read.md",
         "Working with sentences, verbal expressions and tokens" => "structures.md",
-        "HTML formatting" => "html.md"
+        "HTML + CSS conventions" => "html.md"
        
     ]
     )
