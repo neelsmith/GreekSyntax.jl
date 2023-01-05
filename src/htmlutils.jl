@@ -50,12 +50,13 @@ $(SIGNATURES)
 """
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
 	sov = true, vucolor = true, palette = defaultpalette)
-	# HTML strings:
+	# Vector where we'll collect HTML strings:
 	indentedtext = ["<blockquote class=\"subordination\">"]
 
 	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
 
-	local currindent = 0
+	currindent = 0
+	currgroup = ""
 	tknidx = origin - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
@@ -71,7 +72,8 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			@warn("No match found for verbal unit $(t.verbalunit)")
 		else
 			matchingdepth = vumatches[1].depth
-			if currindent == matchingdepth
+			matchinggroup = vumatches[1].id
+			if currindent == matchingdepth &&  currgroup == matchinggroup
 				#push!(indentedtext, " $(t.text)")
 				if t.tokentype == "lexical"			
 					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
@@ -86,6 +88,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				end
 				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<span class=\"ref\">$(matchingdepth)</span> " * " "  )
 				currindent = matchingdepth
+				currgroup = matchinggroup
 
 				
 				#push!(indentedtext, " $(t.text)")
