@@ -33,7 +33,7 @@ end
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
 
-    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens[1:80])
+    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens)
 
     @test origin == 1
     @test connectors == 2:2

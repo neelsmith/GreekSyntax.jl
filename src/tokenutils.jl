@@ -23,3 +23,25 @@ function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 	grp = groupfortoken(tkn, groups)
 	isnothing(grp) ? nothing : grp.depth
 end
+
+
+
+"""Map a `TokenAnnotation` to a `CitablePassage` cited
+at the token level.
+$(SIGNATURES)
+"""
+function passagefromtoken(tkn::TokenAnnotation)::CitablePassage
+	CitablePassage(tkn.urn, string(tkn.text))
+end
+
+
+
+"""Find all tokens at level of subordination <= `depth`.
+$(SIGNATURES)
+"""
+function filterbylevel(depth::Int, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
+	filter(tokens) do tkn
+	    grp = groupfortoken(tkn, groups)
+	    !isnothing(grp) && grp.depth <= depth && grp.depth != 0
+	end
+end

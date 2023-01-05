@@ -15,3 +15,23 @@ end
 
     @test GreekSyntax.depthfortoken(tokens[1], groups) == 1
 end
+
+@testset "Test deriving a `CitablePassage` from a token annotation" begin
+    datalines = joinpath(pwd(), "data", "Lysias1.6ff.cex")   |> readlines
+    (sentences, groups, tokens) = readdelimited(datalines)
+    
+    expected = CitablePassage(CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1"), "ἐγὼ")
+    @test GreekSyntax.passagefromtoken(tokens[1]) == expected
+end
+
+
+@testset "Test filtering tokens by their depth of subordination" begin
+    datalines = joinpath(pwd(), "data", "Lysias1.6ff.cex")   |> readlines
+    (sentences, groups, tokens) = readdelimited(datalines)
+
+    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sentences[1], tokens)
+
+    @test length(GreekSyntax.filterbylevel(1, groups, senttokens)) == 15
+    @test length(GreekSyntax.filterbylevel(2, groups, senttokens)) == 45
+
+end
