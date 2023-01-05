@@ -12,8 +12,8 @@ $(SIGNATURES)
 """
 function ==(vu1::VerbalUnitAnnotation, vu2::VerbalUnitAnnotation)
 	vu1.id == vu2.id &&
-	vu1.syntactic_type == vu2.syntactic_type &&
-	vu1.semantic_type == vu2.semantic_type &&
+	lowercase(vu1.syntactic_type) == lowercase(vu2.syntactic_type) &&
+	lowercase(vu1.semantic_type) == lowercase(vu2.semantic_type) &&
 	vu1.depth == vu2.depth &&
 	vu1.sentence == vu2.sentence
 end
