@@ -15,3 +15,11 @@ function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 		nothing
 	end
 end
+
+"""Find syntactic depth of token `tkn`.
+$(SIGNATURES)
+"""
+function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
+	grp = groupfortoken(tkn, groups)
+	isnothing(grp) ? nothing : grp.depth
+end
