@@ -94,3 +94,11 @@ function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknan
 	end
 	
 end
+
+"""Find maximum depth of subordination in sentnec `s`.
+$(SIGNATURES)
+"""
+function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
+	sentgroups = groupsforsentence(s, groups)
+	map(gr -> gr.depth, groups) |> maximum
+end

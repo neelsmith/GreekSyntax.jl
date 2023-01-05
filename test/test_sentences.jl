@@ -53,3 +53,10 @@ end
     @test GreekSyntax.sentenceindexfornode(tokens[55].urn, sents, tokens) == 2
     @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens) == sents[2]
 end
+
+
+@testset "Test finding maximum syntactic depth for a sentence" begin
+    data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
+    (sents, groups, tokens) = readdelimited(data)
+   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 4
+end

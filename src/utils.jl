@@ -16,34 +16,6 @@ end
 
 
 
-
-
-
-
-function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
-	grp = groupfortoken(tkn, groups)
-	isnothing(grp) ? nothing : grp.depth
-end
-
-
-"""Find maximum depth of subordination in sentnec `s`.
-$(SIGNATURES)
-"""
-function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
-	senttokens = tokeninfoforsentence(s, tokens)
-	map(t -> depthfortoken(t, groups), senttokens)
-end
-
-
-"""Find all tokens belonging to a given verbal unit.
-$(SIGNATURES)
-"""
-function tokensforgroup(group::VerbalUnitAnnotation, tokens::Vector{TokenAnnotation})
-	filter(tokens) do t
-		t.verbalunit == group.id
-	end
-end
-
 """Map a `TokenAnnotation` to a `CitablePassage` cited
 at the token level.
 $(SIGNATURES)
