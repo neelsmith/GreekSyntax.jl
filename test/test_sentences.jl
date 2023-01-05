@@ -19,21 +19,21 @@ end
     corp = fromcex(joinpath(pwd(), "data", "lysias1.cex"), CitableTextCorpus, FileReader)
     orthotokens = tokenize(corp, literaryGreek())
     expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.1.1-1.2.28")
-    @test GreekSyntax.sentencerange(orthotokens[1:100]) == expectedrange
+    @test GreekSyntax.sentencerange(orthotokens[1:80]) == expectedrange
 end
 
 @testset "Test finding range of sentence in annotated tokens" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
     expectedrange = CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1-1.7.17")
-    @test GreekSyntax.sentencerange(tokens[1:100]) == expectedrange
+    @test GreekSyntax.sentencerange(tokens[1:80]) == expectedrange
 end
 
 @testset "Test finding token information for a sentence" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
 
-    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens[1:100])
+    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens[1:80])
 
     @test origin == 1
     @test connectors == 2:2
