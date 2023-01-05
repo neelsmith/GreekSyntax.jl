@@ -29,6 +29,8 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	for t in sentencetokens
 		tknidx = tknidx + 1
 
+
+		# CHECK FOR PREFIX/POSTFIX
 		if t.tokentype == "lexical"			
 			isconnector = tknidx in connectorids
 			classes = sov ? classesfortoken(t, isconnector) : ""
@@ -74,7 +76,8 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			matchingdepth = vumatches[1].depth
 			matchinggroup = vumatches[1].id
 			if currindent == matchingdepth &&  currgroup == matchinggroup
-				#push!(indentedtext, " $(t.text)")
+				
+				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
 					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 				else
@@ -91,8 +94,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				currgroup = matchinggroup
 
 				
-				#push!(indentedtext, " $(t.text)")
-				
+				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
 					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 				else
