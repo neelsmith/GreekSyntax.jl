@@ -15,3 +15,8 @@ end
     expected = "urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.29-1.9.38a|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.9.30"
     @test delimited(s) == expected
 end
+
+@testset "Test finding range of sentence in tokens" begin
+    corp = fromcex(joinpath(pwd(), "data", "lysias1.cex"), CitableTextCorpus, FileReader)
+    
+end

@@ -9,6 +9,7 @@ include("verbalunit.jl")
 include("token.jl")
 include("delimited.jl")
 include("utils.jl")
+include("sentenceutils.jl")
 include("htmlutils.jl")
 include("mermaidutils.jl")
 
