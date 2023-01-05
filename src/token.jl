@@ -10,6 +10,28 @@ struct TokenAnnotation
 end
 
 
+"""Implement equality testing on `TokenAnnotation`s.
+$(SIGNATURES)
+"""
+function ==(t1::TokenAnnotation, t2::TokenAnnotation)
+	lc1rel1 = isnothing(t1.node1relation) ? "" : lowercase(t1.node1relation)
+	lc1rel2 = isnothing(t1.node2relation) ? "" : lowercase(t1.node1relation)
+
+	lc2rel1 = isnothing(t2.node1relation) ? "" : lowercase(t2.node1relation)
+	lc2rel2 = isnothing(t2.node2relation) ? "" : lowercase(t2.node1relation)
+
+	t1.urn == t2.urn &&
+	lowercase(t1.tokentype) == lowercase(t2.tokentype) &&
+	t1.text == t2.text &&
+	t1.verbalunit == t2.verbalunit &&
+	t1.node1 == t2.node1 &&
+	lc1rel1 == lc2rel1 &&
+	t1.node2 == t2.node2 &&
+	lc1rel2 == lc2rel2
+end
+
+
+
 """Parse delimited string `s` into a `TokenAnnotation`."""
 function token(s; delimiter = "|")
 	parts = split(s, delimiter)

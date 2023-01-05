@@ -1,8 +1,23 @@
 
+"""Annotations on a sentence:
+
+1. range of tokens it comprises
+2. sentence sequence within its context
+3. connecting word(s)
+"""
 struct SentenceAnnotation
 	range::CtsUrn
 	sequence::Int
 	connector::Union{CtsUrn, Nothing}
+end
+
+"""Implement equality testing on `SentenceAnnotation`s.
+$(SIGNATURES)
+"""
+function ==(s1::SentenceAnnotation, s2::SentenceAnnotation)
+	s1.range == s2.range &&
+	s1.sequence == s2.sequence &&
+	s1.connector == s2.connector
 end
 
 """Compose delimited-text representation of a `SentenceAnnotation`.
@@ -21,7 +36,7 @@ $(SIGNATURES)
 """
 function delimited(sentlist::Vector{SentenceAnnotation}; delimiter = "|")
 	hdr = "sentence|sequence|connector\n"
-	hdr * join(map(s -> delimited(s), sentlist), "\n") * "⤱" 
+	hdr * join(map(s -> delimited(s), sentlist), "\n") * "\n" 
 end
 
 """Parse delimited string `s` into a `SentenceAnnotation`."""

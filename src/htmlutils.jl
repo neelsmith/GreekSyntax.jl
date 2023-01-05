@@ -23,8 +23,9 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	
 	# HTML strings:
 	formatted = []
-	(sentencetokens, connectorids, origin) = tokensforsentence(sa, tknannotations)
+	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
 
+	prefixedpunct = false
 	tknidx = origin - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
@@ -33,11 +34,19 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 			isconnector = tknidx in connectorids
 			classes = sov ? classesfortoken(t, isconnector) : ""
 			styles = vucolor ? groupcolorfortoken(t, colors = colors) : ""
-			
-			push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
+			if prefixedpunct
+				push!(formatted, "<span $(classes) $(styles)>"  * t.text * "</span>")
+			else
+				push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
+			end
 			
 		else
-			push!(formatted, t.text)
+			if occursin(t.text,PolytonicGreek.prefixpunctuation())
+				prefixedpunct = true
+				push!(formatted, " " * t.text)
+			else
+				push!(formatted, t.text)
+			end
 		end
 	end
 	join(formatted,"")
@@ -50,13 +59,15 @@ $(SIGNATURES)
 """
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
 	sov = true, vucolor = true, palette = defaultpalette)
-	# HTML strings:
+	# Vector where we'll collect HTML strings:
 	indentedtext = ["<blockquote class=\"subordination\">"]
 
-	(sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
 
-	local currindent = 0
+	currindent = 0
+	currgroup = ""
 	tknidx = origin - 1
+	prefixedpunct = false
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
@@ -71,12 +82,22 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			@warn("No match found for verbal unit $(t.verbalunit)")
 		else
 			matchingdepth = vumatches[1].depth
-			if currindent == matchingdepth
-				#push!(indentedtext, " $(t.text)")
+			matchinggroup = vumatches[1].id
+			if currindent == matchingdepth &&  currgroup == matchinggroup
+				
+				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
-					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					if prefixedpunct
+						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
+					else
+						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					end
 				else
-					push!(indentedtext, " $(t.text)")
+					if occursin(t.text, PolytonicGreek.prefixpunctuation())
+						push!(indentedtext, " $(t.text)")
+					else
+						push!(indentedtext, "$(t.text)")
+					end
 				end
 				
 		
@@ -84,16 +105,26 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				if (currindent != 0)
 					push!(indentedtext, repeat("</blockquote>", currindent))
 				end
-				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<span class=\"ref\">$(matchingdepth)</span>. " * " "  )
+				push!(indentedtext,  repeat("<blockquote class=\"subordination\">", matchingdepth) * "<span class=\"ref\">$(matchingdepth)</span> " * " "  )
 				currindent = matchingdepth
+				currgroup = matchinggroup
 
 				
-				#push!(indentedtext, " $(t.text)")
-				
 				if t.tokentype == "lexical"			
-					push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					if prefixedpunct
+						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
+					else
+						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
+					end
+
+
 				else
-					push!(indentedtext, " $(t.text)")
+					if occursin(t.text,PolytonicGreek.prefixpunctuation())
+						prefixedpunct = true
+						push!(indentedtext, " $(t.text)")
+					else
+						push!(indentedtext, "$(t.text)")
+					end
 				end
 			end
 		end
@@ -163,8 +194,12 @@ zero indexes.
 $(SIGNATURES)
 """
 function groupcolorforint(idx::Int; colors = defaultpalette)
-	modded = mod(length(colors), idx) + 1
-	colors[modded]
+	if idx == 0
+		""
+	else
+		modded = mod(length(colors), idx) + 1
+		colors[modded]
+	end
 end
 
 """Choose a color from a list of colors based on group number component of

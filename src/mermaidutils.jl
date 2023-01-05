@@ -6,7 +6,7 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 		"classDef implicit fill:#f96,stroke:#333;"
 	]
 
-    (sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sa, tknannotations)
+    (sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
     lextokens = filter(sentencetokens) do t
         t.tokentype == "lexical"
     end
