@@ -4,7 +4,7 @@ root = pwd() |> dirname |> dirname
 
 # Reading an annotated text from a delimited-text source
 
-The `readdelimited` function takes a Vector of delimited-text strings and parses them into annotations on sentences, verbal expressions, and individual tokens.
+The `readdelimited` function takes a Vector of delimited-text strings and parses them into annotations on sentences, verbal expressions, and individual tokens.  (See the page on delimited-text format for details of its structure.)
 
 
 The `test/data` directory of this repository has a test file with syntactic annotations on sentences from Lysias 1.
@@ -43,3 +43,4 @@ length(remote_verbalunits)
 ```
 ```@example basic
 length(remote_tokens)
+```

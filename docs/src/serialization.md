@@ -1,10 +1,14 @@
 # Delimited-text format
 
-TBA
+## Structure
 
-- text file segmented by block labels
+- line-oriented plain text
 - empty lines and comments (starting with `//`) are ignored
-- block labels `#!`
+- lines are segmented by block labels
+- block labels begin with `#!`
+   - `#!sentences`
+   - `#!verbal_units`
+   - `#!tokens`
 - within each type of block, one header line and 1 or more data lnes lines of delimited text with specified columns for each block type
 
 
