@@ -39,6 +39,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 			else
 				push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
 			end
+			prefixedpunct == false
 			
 		else
 			if occursin(t.text,PolytonicGreek.prefixpunctuation())
@@ -91,6 +92,8 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 					else
 						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 					end
+					prefixedpunct = false
+
 				else
 					if occursin(t.text, PolytonicGreek.prefixpunctuation())
 						push!(indentedtext, " $(t.text)")
@@ -115,7 +118,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 					else
 						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 					end
-
+					prefixedpunct = false
 
 				else
 					if occursin(t.text,PolytonicGreek.prefixpunctuation())

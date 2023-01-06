@@ -11,6 +11,12 @@ struct SentenceAnnotation
 	connector::Union{CtsUrn, Nothing}
 end
 
+# Strings that terminate a sentence
+finalstrings = [".", ":", ";",
+	".\"", ":\"", ";\"",
+	"\".", "\":", "\";"
+]
+
 """Implement equality testing on `SentenceAnnotation`s.
 $(SIGNATURES)
 """
@@ -54,7 +60,7 @@ The URN is a range of tokens.
 $(SIGNATURES)
 """
 function parsesentences(c::CitableTextCorpus, ortho::T;	
-	terminators = [".", ":", ";"]) where T <: OrthographicSystem
+	terminators = finalstrings) where T <: OrthographicSystem
     tokens = tokenize(c, ortho)
 	parsesentences(tokens, terminators = terminators)
 end
@@ -63,7 +69,7 @@ end
 The URN is a range of tokens.
 $(SIGNATURES)
 """
-function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}; terminators = [".", ":", ";"])
+function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}; terminators = finalstrings)
 	sentenceindex =  []
 
 	currenttext = v[1][1].urn |> droppassage

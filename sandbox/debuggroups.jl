@@ -1,33 +1,21 @@
 using GreekSyntax
-using Downloads
-using CitableText, CitableCorpus
+using CitableBase, CitableText, CitableCorpus
 
-url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/lysias1_selection.cex"
+url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
 
 (sentences, groups, tokens) = Downloads.download(url) |> readlines |> readdelimited
 
-
-sentence = sentences[1]
-
-
-(sentencetokens, connectorids, origin) = GreekSyntax.tokensforsentence(sentence, tokens)
+(tkns, conns, origin) = GreekSyntax.tokeninfoforsentence(sentences[40], tokens)
 
 
 
-typeof(sentencetokens)
+using Orthography, PolytonicGreek
+f = joinpath(pwd(), "test", "data", "texts", "lysias1.cex")
+c = fromcex(f, CitableTextCorpus, FileReader)
+tokenanalysis = tokenize(c, literaryGreek())
+tokencorpus = map(pr -> pr[1], tokenanalysis) |> CitableTextCorpus
+sents = parsesentences(c, literaryGreek())
 
-thresh = 1
-levelselection = filter(sentencetokens) do tkn
-    g = GreekSyntax.groupfortoken(tkn, groups)
-    !isnothing(g) && g.depth <= thresh && g.depth != 0
-end
-
-levelcorp = map(t -> GreekSyntax.passagefromtoken(t), levelselection) |> CitableTextCorpus
-selrange = GreekSyntax.sentencerange(levelselection)
-newsent = SentenceAnnotation(
-    selrange, sentence.sequence, sentence.connector
-)
+select(sents[40].urn, tokencorpus)
 
 
-
-htmltext_indented(newsent, groups, levelselection)
