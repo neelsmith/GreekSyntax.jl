@@ -83,9 +83,6 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	join(formatted,"")
 end
 
-
-
-
 """Compose HTML string for the annotated sentence `sa` indented by level of subordination.
 Formatting relies on data from a vector of token annotations and annotations on verbal units.
 $(SIGNATURES)
@@ -141,13 +138,12 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	join(indentedtext)
 end
 
-
 """Compose an HTML span for the verbal annotation `vu`.
 $(SIGNATURES)
 """
 function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
 	color = groupcolor(vu, colors = palette)
-	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
+	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> (level $(vu.depth),  $(vu.semantic_type) verb)"
 end
 
 """Compose an HTML ordered list for verbal units belonging to sentence `sa`.
@@ -162,7 +158,7 @@ $(SIGNATURES)
 """
 function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
 	outputlines = ["<ol>"]
-	for vu in vulist
+	for  vu in vulist
 		push!(outputlines, string("<li>", htmlgroup(vu, palette = palette),"</li>" ))
 	end
 	push!(outputlines, "</ol>")
