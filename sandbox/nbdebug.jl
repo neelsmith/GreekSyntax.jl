@@ -1,6 +1,6 @@
 using GreekSyntax
 
-data = joinpath(dirname(pwd()), "GreekSyntax","pluto","output","Lysias_1_round_trip.cex") |> readlines
+data = joinpath(pwd(), "test", "data", "Lysias1.6ff.cex") |> readlines
 
 (s,g,t) = readdelimited(data)
 
