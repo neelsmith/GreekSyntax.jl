@@ -39,6 +39,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 			else
 				push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
 			end
+			prefixedpunct == false
 			
 		else
 			if occursin(t.text,PolytonicGreek.prefixpunctuation())
@@ -60,7 +61,7 @@ $(SIGNATURES)
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
 	sov = true, vucolor = true, palette = defaultpalette)
 	# Vector where we'll collect HTML strings:
-	indentedtext = ["<blockquote class=\"subordination\">"]
+	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
 	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
 
@@ -85,13 +86,14 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			matchinggroup = vumatches[1].id
 			if currindent == matchingdepth &&  currgroup == matchinggroup
 				
-				# CHECK FOR PREFIX/POSTFIX
 				if t.tokentype == "lexical"			
 					if prefixedpunct
 						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
 					else
 						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 					end
+					prefixedpunct = false
+
 				else
 					if occursin(t.text, PolytonicGreek.prefixpunctuation())
 						push!(indentedtext, " $(t.text)")
@@ -116,7 +118,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 					else
 						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
 					end
-
+					prefixedpunct = false
 
 				else
 					if occursin(t.text,PolytonicGreek.prefixpunctuation())
@@ -129,7 +131,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			end
 		end
 	end
-	push!(indentedtext,"</blockquote>")
+	push!(indentedtext,"</blockquote></div>")
 	join(indentedtext)
 end
 

@@ -1,6 +1,5 @@
 
-
-"""Find the `VerbalUnitAnnotation` object for a given token.
+s"""Find the `VerbalUnitAnnotation` object for a given token.
 $(SIGNATURES)
 """
 function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
@@ -11,7 +10,7 @@ function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 		@warn("Multiple matches found for token $(tkn.urn) with verbal unit $(tkn.verbalunit)! ")
 		nothing
 	else
-		@warn("No group found for token $(tkn.urn) with verbal unit $(tkn.verbalunit) ")
+		@debug("No group found for token $(tkn.urn) with verbal unit $(tkn.verbalunit) ")
 		nothing
 	end
 end
@@ -24,8 +23,6 @@ function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 	isnothing(grp) ? nothing : grp.depth
 end
 
-
-
 """Map a `TokenAnnotation` to a `CitablePassage` cited
 at the token level.
 $(SIGNATURES)
@@ -33,8 +30,6 @@ $(SIGNATURES)
 function passagefromtoken(tkn::TokenAnnotation)::CitablePassage
 	CitablePassage(tkn.urn, string(tkn.text))
 end
-
-
 
 """Find all tokens at level of subordination <= `depth`.
 $(SIGNATURES)
