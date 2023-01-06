@@ -82,7 +82,7 @@ function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknan
 	idx = CitableCorpus.indexurn(u,tkncorpus)
 	if length(idx) == 1
 		soloindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
-		sentences[soloindex]
+		[sentences[soloindex]]
 
 	elseif length(idx) == 2
 		startindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)

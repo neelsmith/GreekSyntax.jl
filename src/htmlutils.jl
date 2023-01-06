@@ -13,6 +13,47 @@ defaultpalette = [
 	"#F394AF"
 ]
 
+"""Compose HTML string for tokens included  in `u`.
+$(SIGNATURES)
+"""
+function htmltext(u::CtsUrn, sentencelist::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation}; 
+	sov = true, vucolor = true, colors = defaultpalette)
+
+	# Build up HTML strings here:
+	formatted = ["<div class=\"passage\">",
+	"<span class=\"ref\">$(passagecomponent(u))</span>"
+	]
+	currentcontainer = nothing
+	for sentence in sentencesforurn(u, sentencelist, tknannotations)
+		push!(formatted, htmltext(sentence, tknannotations, sov = sov, vucolor = vucolor, colors = colors))
+	end
+	push!(formatted, "</div>")
+	join(formatted, "\n")
+end
+
+"""Compose string for a token, wrapping lexical tokens in an HTML `span`. 
+Based on lexical type and context indicated by `inprefix` flag, prefixes the resulting string with a leading space or not.
+$(SIGNATURES)
+"""
+function htmltoken(t::TokenAnnotation, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette)
+	if t.tokentype == "lexical"			
+		classes = add_sov ? classesfortoken(t, connectingword) : ""
+		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
+		if inprefix
+			"<span $(classes) $(styles)>"  * t.text * "</span>"
+		else
+			" <span $(classes) $(styles)>"  * t.text * "</span>"
+		end
+
+	else
+		if occursin(t.text,PolytonicGreek.prefixpunctuation())
+			" " * t.text
+		else
+			t.text
+		end
+	end
+end
+
 """Compose HTML string for the annotated sentence `sa` using
 data from a vector of token annotations.  Boolean flags for `sov`
 and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
@@ -20,39 +61,27 @@ and for color coding by verbal unit.
 $(SIGNATURES)
 """
 function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette)
-	
-	# HTML strings:
+	# Build up HTML strings here:
 	formatted = []
+
 	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
 
 	prefixedpunct = false
 	tknidx = origin - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
+		isconnector = tknidx in connectorids
+		spanstr = htmltoken(t, prefixedpunct, isconnector, sov, vucolor, colors = colors)
+		push!(formatted, spanstr)
 
 		if t.tokentype == "lexical"			
-			isconnector = tknidx in connectorids
-			classes = sov ? classesfortoken(t, isconnector) : ""
-			styles = vucolor ? groupcolorfortoken(t, colors = colors) : ""
-			if prefixedpunct
-				push!(formatted, "<span $(classes) $(styles)>"  * t.text * "</span>")
-			else
-				push!(formatted, " <span $(classes) $(styles)>"  * t.text * "</span>")
-			end
-			prefixedpunct == false
-			
-		else
-			if occursin(t.text,PolytonicGreek.prefixpunctuation())
-				prefixedpunct = true
-				push!(formatted, " " * t.text)
-			else
-				push!(formatted, t.text)
-			end
+			prefixedpunct = false
+		elseif occursin(t.text,PolytonicGreek.prefixpunctuation())
+			prefixedpunct = true
 		end
 	end
 	join(formatted,"")
 end
-
 
 """Compose HTML string for the annotated sentence `sa` indented by level of subordination.
 Formatting relies on data from a vector of token annotations and annotations on verbal units.
@@ -64,44 +93,29 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
 	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
-
+	
+	prefixedpunct = false
+	tknidx = origin - 1
 	currindent = 0
 	currgroup = ""
-	tknidx = origin - 1
-	prefixedpunct = false
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
-		classes = sov ? GreekSyntax.classesfortoken(t, isconnector) : ""
-		styles = vucolor ? groupcolorfortoken(t, colors = palette) : ""
 		
 		vumatches = filter(groups) do vu
 			vu.id == t.verbalunit
 		end
-		
 		if isempty(vumatches)
 			@warn("No match found for verbal unit $(t.verbalunit)")
+
 		else
+			spanstr = htmltoken(t, prefixedpunct, isconnector, sov, vucolor, colors = palette)
 			matchingdepth = vumatches[1].depth
 			matchinggroup = vumatches[1].id
-			if currindent == matchingdepth &&  currgroup == matchinggroup
-				
-				if t.tokentype == "lexical"			
-					if prefixedpunct
-						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
-					else
-						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
-					end
-					prefixedpunct = false
 
-				else
-					if occursin(t.text, PolytonicGreek.prefixpunctuation())
-						push!(indentedtext, " $(t.text)")
-					else
-						push!(indentedtext, "$(t.text)")
-					end
-				end
-				
+
+			if currindent == matchingdepth &&  currgroup == matchinggroup
+				push!(indentedtext, spanstr)
 		
 			else
 				if (currindent != 0)
@@ -111,37 +125,25 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 				currindent = matchingdepth
 				currgroup = matchinggroup
 
-				
-				if t.tokentype == "lexical"			
-					if prefixedpunct
-						push!(indentedtext, "<span $(classes) $(styles)>"  * t.text * "</span>")
-					else
-						push!(indentedtext, " <span $(classes) $(styles)>"  * t.text * "</span>")
-					end
-					prefixedpunct = false
-
-				else
-					if occursin(t.text,PolytonicGreek.prefixpunctuation())
-						prefixedpunct = true
-						push!(indentedtext, " $(t.text)")
-					else
-						push!(indentedtext, "$(t.text)")
-					end
-				end
+				push!(indentedtext, spanstr)
 			end
+		end
+		if t.tokentype == "lexical"			
+			prefixedpunct = false
+		elseif occursin(t.text,PolytonicGreek.prefixpunctuation())
+			prefixedpunct = true
 		end
 	end
 	push!(indentedtext,"</blockquote></div>")
 	join(indentedtext)
 end
 
-
 """Compose an HTML span for the verbal annotation `vu`.
 $(SIGNATURES)
 """
 function htmlgroup(vu::VerbalUnitAnnotation; palette = defaultpalette)
 	color = groupcolor(vu, colors = palette)
-	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> ($(vu.semantic_type) verb)"
+	"<span style=\"color: $(color);\">$(vu.syntactic_type)</span> (level $(vu.depth),  $(vu.semantic_type) verb)"
 end
 
 """Compose an HTML ordered list for verbal units belonging to sentence `sa`.
@@ -156,7 +158,7 @@ $(SIGNATURES)
 """
 function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpalette)
 	outputlines = ["<ol>"]
-	for vu in vulist
+	for  vu in vulist
 		push!(outputlines, string("<li>", htmlgroup(vu, palette = palette),"</li>" ))
 	end
 	push!(outputlines, "</ol>")
