@@ -12,7 +12,7 @@ to interpreting the visual formatting of the passage.
 
 #= 1. Three required settings:
 =#
-outputdir = joinpath(pwd(), "lysias1")
+outputdir = joinpath(pwd(), "debug", "lysias1_site")
 textlabel = "Lysias 1"
 annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
 
@@ -27,15 +27,16 @@ css_text = GreekSyntax.defaultcss()
 without any further modification.
 =#
 
+# Directory where we'll write PNGs to link to:
+pngdir = joinpath(outputdir, "pngs")
+mkpath(pngdir)
+
 # CSS file to link to in web pages:
 csselement = "<style>\n" * css_text * "\n</style>"
 open(joinpath(outputdir, "syntax.css"), "w") do io
     write(io, GreekSyntax.defaultcss())
 end
 
-# Directory where we'll write PNGs to link to:
-pngdir = joinpath(outputdir, "pngs")
-mkpath(pngdir)
 
 """Wrap page title and body content in HTML elements,
 and include link to syntax.css.
@@ -51,11 +52,13 @@ function wrap_page(title, content)
 end
 
 using Downloads
-(sentences, groups, tokens) = Downloads.download(url) |> readlines |> readdelimited
+(sentences, groups, tokens) = Downloads.download(annotations_url) |> readlines |> readdelimited
 
+using CitableText # for manipulating CTS URNS
 nxt = ""
 prev = ""
 for (idx, sentence) in enumerate(sentences)
+    @info("$(idx). Writing page for $(sentence.range)...")
     # Write png for page:
     pngout = mermaiddiagram(sentence, tokens, format = "png")
     write(joinpath(pngdir, "sentence_$(idx).png"), pngout)
@@ -90,20 +93,21 @@ for (idx, sentence) in enumerate(sentences)
     
 
     key1 = "<div class=\"key\"><strong>Highlighting</strong>:" *  GreekSyntax.sovkey() * "</div>"
-    txtdisplay1 = "<h2>Indented by level of subordination</h2><div class=\"passage\">" * htmltext_indented(s, groups, tokens, sov = true, vucolor = false) * "</div>"
+    txtdisplay1 = "<h2>Indented by level of subordination</h2><div class=\"passage\">" * htmltext_indented(sentence, groups, tokens, sov = true, vucolor = false) * "</div>"
 
 
-    pagegroups = groupsforsentence(sentence, groups)
+    pagegroups = GreekSyntax.groupsforsentence(sentence, groups)
     key2 = "<div class=\"key\"><strong>Color code</strong>:" * GreekSyntax.htmlgrouplist(pagegroups) * "</div>"
-    txtdisplay2 = "<h2>Colored by verbal expression</h2><div class=\"passage\">" * htmltext(s, tokens, sov = true, vucolor = true) * "</div>"
+    txtdisplay2 = "<h2>Colored by verbal expression</h2><div class=\"passage\">" * htmltext(sentence, tokens, sov = true, vucolor = true) * "</div>"
 
-    imglnk = "<img src=\"pngs/sentence_$(idx).png\" alt=\"Syntax diagram, sentence $(idx)\"/>"
+    imglink = "<img src=\"pngs/sentence_$(idx).png\" alt=\"Syntax diagram, sentence $(idx)\"/>"
     diagram = "<div class=\"diagram\"><h2>Diagrammed syntactically</h2>" * imglink * "</div>"
     
     # String all the parts together!
     bodycontent = hdg * nav * key1 * txtdisplay1 * key2 * txtdisplay2 * diagram
 
     open(joinpath(outputdir, "$(psg).html"), "w") do io
-        write(io, wrap_page(title, bodycontent))
+        write(io, wrap_page(pagetitle, bodycontent))
     end
 end
+@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file.")
