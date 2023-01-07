@@ -9,3 +9,9 @@
 
 
 Documentation at  <https://neelsmith.github.io/GreekSyntax.jl/stable/>.
+
+
+
+## Example
+
+The script in `scripts/syntaxsite.jl` illustrates usage of the functions composing HTML views of syntactically annotated text. It reads a set of syntactic annotations from a delimited-text source, and composes a web page for each annotated sentence.  Try it!  You can run it as is to build pages for Lysias 1. Supply your own data, or modify the CSS to format the web pages as you like.
