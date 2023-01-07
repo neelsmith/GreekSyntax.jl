@@ -165,6 +165,20 @@ function htmlgrouplist(vulist::Vector{VerbalUnitAnnotation}; palette = defaultpa
 	join(outputlines, "\n")
 end
 
+"""Compose an HTML unordered list illustrating each CSS class
+used in marking `span` elements.
+$(SIGNATURES)
+"""
+function sovkey()
+    """
+<ul>
+<li><span class="connector">connecting words</span>
+<li><span class="verb">unit verb</span>
+<li><span class="subject">subject</span>
+<li><span class="object">object</span>
+</ul>
+"""
+end
 
 """Compose an HTML class attribute for a lexical token.
 $(SIGNATURES)
