@@ -44,10 +44,15 @@ end
 """Parse delimited string `s` into a `SentenceAnnotation`."""
 function sentence(s; delimiter = "|")
 	parts = split(s, delimiter)
+	connector = if parts[3] == "nothing"
+		nothing
+	else
+		CtsUrn(parts[3])
+	end
 	SentenceAnnotation(
 		CtsUrn(parts[1]), 
 		parse(Int, parts[2]),
-		CtsUrn(parts[3])
+		connector
 	)
 end
 
@@ -58,14 +63,14 @@ $(SIGNATURES)
 function parsesentences(c::CitableTextCorpus, ortho::T;	
 	terminators = finalstrings) where T <: OrthographicSystem
     tokens = tokenize(c, ortho)
-	parsesentences(tokens, terminators = terminators)
+	parsesentences(tokens, ortho, terminators = terminators)
 end
 
 """Tokenize a vector of analyzed tokens, and chunk by sentence. The result is a vector of `NamedTuple`s with a URN and a sequence number. 
 The URN is a range of tokens.
 $(SIGNATURES)
 """
-function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}; terminators = finalstrings)
+function parsesentences(v::Vector{Tuple{CitablePassage,TokenCategory}}, ortho::T; terminators = finalstrings) where T <: OrthographicSystem
 	sentenceindex =  []
 
 	currenttext = v[1][1].urn |> droppassage
