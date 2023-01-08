@@ -4,9 +4,8 @@ $(SIGNATURES)
 """
 function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|") where T <: AbstractString
 	parts = split(s, delimiter)
-
 	
-	urn = isnothing(parts[1]) ? nothing : CtsUrn(parts[1])
+	urn = parts[1] == "nothing" ? nothing : CtsUrn(parts[1])
 	# 5-8
 	node1 = parts[5] == "nothing" ? nothing : parts[5]
 	node1rel = parts[6] == "nothing" ? nothing : parts[6]
