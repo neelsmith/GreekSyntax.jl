@@ -23,9 +23,9 @@ include("html/htmlutils.jl")
 include("html/mermaidutils.jl")
 
 
-export SentenceAnnotation
-export VerbalUnitAnnotation
-export TokenAnnotation
+export SentenceAnnotation, sentence
+export VerbalUnitAnnotation, verbalunit
+export TokenAnnotation, token
 
 export parsesentences
 export delimited, readdelimited

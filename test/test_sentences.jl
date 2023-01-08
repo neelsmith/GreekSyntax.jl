@@ -2,7 +2,7 @@
     srcf = joinpath(pwd(), "data", "texts", "lysias1.cex")
     c = fromcex(srcf, CitableTextCorpus, FileReader)
     sentenceidx = parsesentences(c, literaryGreek())
-    @test length(sentenceidx) == 123
+    @test length(sentenceidx) == 128
 end
 
 @testset "Test serializing sentences" begin
@@ -52,7 +52,7 @@ end
     (sents, groups, tokens) = readdelimited(data)
     
     @test GreekSyntax.sentenceindexfornode(tokens[55].urn, sents, tokens) == 2
-    @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens) == sents[2]
+    @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens)[1] == sents[2]
 end
 
 

@@ -1,6 +1,8 @@
 
-"""Parse delimited string `s` into a `TokenAnnotation`."""
-function token(s; delimiter = "|")
+"""Parse delimited string `s` into a `TokenAnnotation`.
+$(SIGNATURES)
+"""
+function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|") where T <: AbstractString
 	parts = split(s, delimiter)
 
 	
@@ -22,3 +24,10 @@ function token(s; delimiter = "|")
 	)
 end
 
+
+"""Parse delimited string `s` into a `TokenAnnotation`.
+$(SIGNATURES)
+"""
+function token(s::T; delimiter = "|") where T <: AbstractString
+	token(s, literaryGreek(), delimiter = delimiter)
+end
