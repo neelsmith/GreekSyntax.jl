@@ -11,11 +11,7 @@ struct SentenceAnnotation
 	connector::Union{CtsUrn, Nothing}
 end
 
-# Strings that terminate a sentence
-finalstrings = [".", ":", ";",
-	".\"", ":\"", ";\"",
-	"\".", "\":", "\";"
-]
+
 
 """Implement equality testing on `SentenceAnnotation`s.
 $(SIGNATURES)

@@ -7,17 +7,20 @@ using Documenter, DocStringExtensions
 import Base: ==
 
 
-include("css.jl")
-include("sentence.jl")
-include("groups.jl")
-include("token.jl")
-include("delimited.jl")
-include("utils.jl")
-include("sentenceutils.jl")
-include("grouputils.jl")
-include("tokenutils.jl")
-include("htmlutils.jl")
-include("mermaidutils.jl")
+include("html/css.jl")
+include("common/sentence.jl")
+include("greek/sentenceparser.jl")
+include("common/groups.jl")
+include("greek/groupsparser.jl")
+include("common/token.jl")
+include("greek/tokenparser.jl")
+include("common/delimited.jl")
+include("common/utils.jl")
+include("common/sentenceutils.jl")
+include("common/grouputils.jl")
+include("common/tokenutils.jl")
+include("html/htmlutils.jl")
+include("html/mermaidutils.jl")
 
 
 export SentenceAnnotation
