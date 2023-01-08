@@ -1,5 +1,5 @@
-#= This scripts downloads a delimited-text file with syntactic
-annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page 
+#= This script downloads a delimited-text file with syntactic
+annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page including a link to the image.
 
 Each web page includes:
 
