@@ -1,4 +1,5 @@
 using Pkg
+originaldir = pwd()
 workspace = tempdir()
 cd(workspace)
 Pkg.activate(workspace)
@@ -20,7 +21,7 @@ to interpreting the visual formatting of the passage.
 
 #= 1. Three required settings:
 =#
-outputdir = joinpath(pwd(), "debug", "lysias1_site")
+outputdir = joinpath(originaldir, "debug", "lysias1_site")
 textlabel = "Lysias 1"
 annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
 
@@ -121,4 +122,4 @@ for (idx, sentence) in enumerate(sentences)
         write(io, wrap_page(pagetitle, bodycontent))
     end
 end
-@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file.")
+@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file in $(outputdir).")
