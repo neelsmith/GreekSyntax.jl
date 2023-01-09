@@ -14,7 +14,7 @@ to interpreting the visual formatting of the passage.
 =#
 outputdir = joinpath(pwd(), "debug", "lysias1_site")
 textlabel = "Lysias 1"
-annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
+annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekAndLatinSyntax/main/data/Lysias1_annotations.cex"
 
 
 #= 2. Optionally, define your own CSS.
