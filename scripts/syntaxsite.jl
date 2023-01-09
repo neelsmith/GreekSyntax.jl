@@ -50,26 +50,10 @@ mkpath(pngdir)
 @info("Created directory $(pngdir)")
 
 
-# Move to package in future version:
-footercss = """
-footer {
-    text-align: right;
-    font-style: italic;
-    padding-top: 2em;
-    margin-top: 2em;
-    font-size: 80%;
-}
-
-footer code {f
-    font-style: normal;
-    font-family: monospace;
-}
-"""
-
 
 # CSS files to link to in web pages:
 open(joinpath(outputdir, "syntax.css"), "w") do io
-    write(io, GreekSyntax.defaultcss() * "\n" * footercss)
+    write(io, GreekSyntax.defaultcss() * "\n")
 end
 open(joinpath(outputdir, "page.css"), "w") do io
     write(io, GreekSyntax.pagecss())
