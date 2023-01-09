@@ -85,7 +85,7 @@ for (idx, sentence) in enumerate(sentences)
         nxt = ""
 
         prevpsg = sentences[idx - 1].range |> passagecomponent
-        prev = "<a href=\"./$(prevpsg)\">$(prevpsg)</a>"
+        prev = "<a href=\"./$(prevpsg).html\">$(prevpsg)</a>"
 
     else
         nxtpsg = sentences[idx + 1].range |> passagecomponent
