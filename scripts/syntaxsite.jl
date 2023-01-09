@@ -1,13 +1,3 @@
-using Pkg
-originaldir = pwd()
-workspace = tempdir()
-cd(workspace)
-Pkg.activate(workspace)
-Pkg.add("GreekSyntax")
-Pkg.add("Downloads")
-Pkg.add("CitableText")
-Pkg.add("Kroki")
-
 #= This script downloads a delimited-text file with syntactic annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page linking to the image.
 
 Each web page includes:
@@ -17,22 +7,34 @@ to interpreting the visual formatting of the passage.
 - 1 div of class `diagram` with a link to the png file for this sentence.
 
 =#
-
+originaldir = pwd()
+@info("Starting from directory $(originaldir)")
 
 #= 1. Three required settings:
 =#
 outputdir = joinpath(originaldir, "debug", "lysias1_site")
 textlabel = "Lysias 1"
 annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
-
+@info("Using output directory $(outputdir)")
 
 # set up environment:
+using Pkg
+
+workspace = tempdir()
+cd(workspace)
+Pkg.activate(workspace)
+Pkg.add("GreekSyntax")
+Pkg.add("Downloads")
+Pkg.add("CitableText")
+Pkg.add("Kroki")
+Pkg.update()
 
 
 #= 2. Optionally, define your own CSS.
 =#
 using GreekSyntax
 css_text = GreekSyntax.defaultcss()
+page_css = GreekSyntax.pagecss()
 
 
 #= 3. Good to go!  The rest of this script should run
@@ -42,13 +44,15 @@ without any further modification.
 # Directory where we'll write PNGs to link to:
 pngdir = joinpath(outputdir, "pngs")
 mkpath(pngdir)
+@info("Created directory $(pngdir)")
 
-# CSS file to link to in web pages:
-csselement = "<style>\n" * css_text * "\n</style>"
+# CSS files to link to in web pages:
 open(joinpath(outputdir, "syntax.css"), "w") do io
     write(io, GreekSyntax.defaultcss())
 end
-
+open(joinpath(outputdir, "page.css"), "w") do io
+    write(io, GreekSyntax.pagecss())
+end
 
 """Wrap page title and body content in HTML elements,
 and include link to syntax.css.
@@ -58,6 +62,7 @@ function wrap_page(title, content)
     <head>
     <title>$(title)</title>
     <link rel=\"stylesheet\" href=\"syntax.css\">
+    <link rel=\"stylesheet\" href=\"page.css\">
     </head>
     <body>$(content)</body>
     </html>"""
@@ -100,26 +105,32 @@ for (idx, sentence) in enumerate(sentences)
 
     # Compose parts of page content:
     psg = passagecomponent(sentence.range)
-    pagetitle = "$(textlabel), sentence $(sentence.sequence), $(psg)"
+    pagetitle = "$(textlabel),  $(psg)"
     hdg = "<h1>$(pagetitle)</h1>"
+    subhead = "<h2>Sentence $(sentence.sequence)</h2>"
     
+    plaintext = htmltext(sentence.range, sentences, tokens, sov = false, vucolor = false)
 
-    key1 = "<div class=\"key\"><strong>Highlighting</strong>:" *  GreekSyntax.sovkey() * "</div>"
-    txtdisplay1 = "<h2>Indented by level of subordination</h2><div class=\"passage\">" * htmltext_indented(sentence, groups, tokens, sov = true, vucolor = false) * "</div>"
+
+    key1 = "<div class=\"key right\"><strong>Highlighting</strong>:" *  GreekSyntax.sovkey() * "</div>"
+    txtdisplay1 = "<div class=\"passage\">" * htmltext_indented(sentence, groups, tokens, sov = true, vucolor = false) * "</div>"
 
 
     pagegroups = GreekSyntax.groupsforsentence(sentence, groups)
-    key2 = "<div class=\"key\"><strong>Color code</strong>:" * GreekSyntax.htmlgrouplist(pagegroups) * "</div>"
-    txtdisplay2 = "<h2>Colored by verbal expression</h2><div class=\"passage\">" * htmltext(sentence, tokens, sov = true, vucolor = true) * "</div>"
+    key2 = "<div class=\"key left\"><strong>Color code</strong>:" * GreekSyntax.htmlgrouplist(pagegroups) * "</div>"
+    txtdisplay2 = "<div class=\"passage\">" * htmltext(sentence, tokens, sov = true, vucolor = true) * "</div>"
 
     imglink = "<img src=\"pngs/sentence_$(idx).png\" alt=\"Syntax diagram, sentence $(idx)\"/>"
-    diagram = "<div class=\"diagram\"><h2>Diagrammed syntactically</h2>" * imglink * "</div>"
+    diagram = "<div class=\"diagram\">" * imglink * "</div>"
     
     # String all the parts together!
-    bodycontent = hdg * nav * key1 * txtdisplay1 * key2 * txtdisplay2 * diagram
+    htmlparts = [hdg, nav, subhead, plaintext, txtdisplay1, txtdisplay2, key1, key2, diagram]
+    bodycontent = join(htmlparts, "\n\n")
 
     open(joinpath(outputdir, "$(psg).html"), "w") do io
         write(io, wrap_page(pagetitle, bodycontent))
     end
 end
-@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file in $(outputdir).")
+
+cd(originaldir)
+@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file in $(outputdir). (Now working in $(pwd()).)")
