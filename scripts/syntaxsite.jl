@@ -1,5 +1,7 @@
+# set up environment:
 using Pkg
 originaldir = pwd()
+@info("Starting from directory $(originaldir)")
 workspace = tempdir()
 cd(workspace)
 Pkg.activate(workspace)
@@ -7,6 +9,7 @@ Pkg.add("GreekSyntax")
 Pkg.add("Downloads")
 Pkg.add("CitableText")
 Pkg.add("Kroki")
+Pkg.update()
 
 #= This script downloads a delimited-text file with syntactic annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page linking to the image.
 
@@ -26,7 +29,8 @@ textlabel = "Lysias 1"
 annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
 
 
-# set up environment:
+@info("Using output directory $(outputdir)")
+
 
 
 #= 2. Optionally, define your own CSS.
@@ -42,6 +46,7 @@ without any further modification.
 # Directory where we'll write PNGs to link to:
 pngdir = joinpath(outputdir, "pngs")
 mkpath(pngdir)
+@info("Created directory $(pngdir)")
 
 # CSS file to link to in web pages:
 csselement = "<style>\n" * css_text * "\n</style>"
@@ -122,4 +127,6 @@ for (idx, sentence) in enumerate(sentences)
         write(io, wrap_page(pagetitle, bodycontent))
     end
 end
-@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file in $(outputdir).")
+
+cd(originaldir)
+@info("Done: wrote $(length(sentences)) HTML pages linked to accompanying PNG file in $(outputdir). (Now working in $(pwd()).)")
