@@ -106,7 +106,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			vu.id == t.verbalunit
 		end
 		if isempty(vumatches)
-			@warn("No match found for verbal unit $(t.verbalunit)")
+			@debug("No match found for verbal unit $(t.verbalunit)")
 
 		else
 			spanstr = htmltoken(t, prefixedpunct, isconnector, sov, vucolor, colors = palette)
