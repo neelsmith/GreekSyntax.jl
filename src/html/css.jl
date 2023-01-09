@@ -5,7 +5,7 @@ $(SIGNATURES)
 """
 function defaultcss()
 
-    """
+    """   
 .passage {
   padding-top: 2em;
   padding-bottom: 2em;
@@ -31,7 +31,6 @@ function defaultcss()
   border: thin solid black;
   padding: 1px 3px; 
 }
-
 blockquote.subordination {
   padding: 0em;
 }
@@ -48,7 +47,10 @@ blockquote.subordination {
 .right {
   float: right;
 }
-
+footer {
+  text-align: right;
+  font-style: italic;
+} 
 
  /** Tool tip functionality: */   
 span.tooltip{
