@@ -1,16 +1,3 @@
-# set up environment:
-using Pkg
-originaldir = pwd()
-@info("Starting from directory $(originaldir)")
-workspace = tempdir()
-cd(workspace)
-Pkg.activate(workspace)
-Pkg.add("GreekSyntax")
-Pkg.add("Downloads")
-Pkg.add("CitableText")
-Pkg.add("Kroki")
-Pkg.update()
-
 #= This script downloads a delimited-text file with syntactic annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page linking to the image.
 
 Each web page includes:
@@ -31,7 +18,18 @@ annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/
 
 @info("Using output directory $(outputdir)")
 
-
+# set up environment:
+using Pkg
+originaldir = pwd()
+@info("Starting from directory $(originaldir)")
+workspace = tempdir()
+cd(workspace)
+Pkg.activate(workspace)
+Pkg.add("GreekSyntax")
+Pkg.add("Downloads")
+Pkg.add("CitableText")
+Pkg.add("Kroki")
+Pkg.update()
 
 #= 2. Optionally, define your own CSS.
 =#
