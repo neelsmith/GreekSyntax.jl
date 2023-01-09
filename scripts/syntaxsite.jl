@@ -1,5 +1,13 @@
-#= This scripts downloads a delimited-text file with syntactic
-annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page 
+using Pkg
+workspace = tempdir()
+cd(workspace)
+Pkg.activate(workspace)
+Pkg.add("GreekSyntax")
+Pkg.add("Downloads")
+Pkg.add("CitableText")
+Pkg.add("Kroki")
+
+#= This script downloads a delimited-text file with syntactic annotations, and for each annotated sentence generates a `png` image for its syntax diagram, and a web page linking to the image.
 
 Each web page includes:
 
@@ -15,6 +23,9 @@ to interpreting the visual formatting of the passage.
 outputdir = joinpath(pwd(), "debug", "lysias1_site")
 textlabel = "Lysias 1"
 annotations_url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax/main/data/Lysias1_annotations.cex"
+
+
+# set up environment:
 
 
 #= 2. Optionally, define your own CSS.
