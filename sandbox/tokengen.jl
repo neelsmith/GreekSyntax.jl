@@ -40,3 +40,5 @@ tokens = filter(ln -> ! isempty(ln), tknlines) .|> GreekSyntax.token
 
 
 htmltext(sa, tokens, syntaxtips = true) |> println
+
+htmltext_indented(sa, verbalunits,  tokens, syntaxtips = true) |> println

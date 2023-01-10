@@ -48,7 +48,7 @@ $(SIGNATURES)
 """
 function htmltoken(t::TokenAnnotation, lextokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
 	if t.tokentype == "lexical"			
-		classes = add_sov ? classesfortoken(t, connectingword, syntaxtips = syntaxtips) : ""
+		classes = add_sov  || syntaxtips ? classesfortoken(t, connectingword, syntaxtips = syntaxtips) : ""
 		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
 		tips = syntaxtips ? tipsfortoken(t, lextokens, connectingword) : ""
 		if inprefix
@@ -121,7 +121,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			@debug("No match found for verbal unit $(t.verbalunit)")
 
 		else
-			spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = palette)
+			spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = palette, syntaxtips = syntaxtips)
 			matchingdepth = vumatches[1].depth
 			matchinggroup = vumatches[1].id
 
