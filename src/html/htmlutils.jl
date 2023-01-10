@@ -16,8 +16,11 @@ defaultpalette = [
 """Compose HTML string for tokens included  in `u`.
 $(SIGNATURES)
 """
-function htmltext(u::CtsUrn, sentencelist::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation}; 
-	sov = true, vucolor = true, colors = defaultpalette, syntaxtips = false)
+function htmltext(u::CtsUrn, 
+	sentencelist::Vector{SentenceAnnotation}, 
+	tknannotations::Vector{TokenAnnotation}; 
+	sov = true, vucolor = true, syntaxtips = false,
+	colors = defaultpalette)
 
 	# Build up HTML strings here:
 	formatted = ["<div class=\"passage\">",
@@ -39,11 +42,15 @@ function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconne
 	else
 		@debug("Add tips using vector of $(length(tkns)) tokens")
 		tokenidx = parse(Int, t.node1)
-		if tokenidx > 0
+		if tokenidx > length(tkns)
+			@debug("Indexed to implied token")
+			"tool-tips=\"Related to implied token: $(t.node1relation).\""
+		elseif tokenidx > 0
 			related = tkns[tokenidx]
 			"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
 		else
 			""
+
 		end
 	end
 end
