@@ -17,7 +17,7 @@ defaultpalette = [
 $(SIGNATURES)
 """
 function htmltext(u::CtsUrn, sentencelist::Vector{SentenceAnnotation}, tknannotations::Vector{TokenAnnotation}; 
-	sov = true, vucolor = true, colors = defaultpalette)
+	sov = true, vucolor = true, colors = defaultpalette, syntaxtips = false)
 
 	# Build up HTML strings here:
 	formatted = ["<div class=\"passage\">",
@@ -25,24 +25,36 @@ function htmltext(u::CtsUrn, sentencelist::Vector{SentenceAnnotation}, tknannota
 	]
 	currentcontainer = nothing
 	for sentence in sentencesforurn(u, sentencelist, tknannotations)
-		push!(formatted, htmltext(sentence, tknannotations, sov = sov, vucolor = vucolor, colors = colors))
+		push!(formatted, htmltext(sentence, tknannotations, sov = sov, vucolor = vucolor, colors = colors, syntaxtips = syntaxtips))
 	end
 	push!(formatted, "</div>")
 	join(formatted, "\n")
+end
+
+function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconnector::Bool)
+	if isconnector
+		"tool-tips=\"Connects sentence to context.\""
+	elseif t.node1relation == "nothing" || isnothing(t.node1relation)
+		""
+	else
+		related = tkns[parse(Int, t.node1)]
+		"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
+	end
 end
 
 """Compose string for a token, wrapping lexical tokens in an HTML `span`. 
 Based on lexical type and context indicated by `inprefix` flag, prefixes the resulting string with a leading space or not.
 $(SIGNATURES)
 """
-function htmltoken(t::TokenAnnotation, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette)
+function htmltoken(t::TokenAnnotation, lextokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
 	if t.tokentype == "lexical"			
-		classes = add_sov ? classesfortoken(t, connectingword) : ""
+		classes = add_sov ? classesfortoken(t, connectingword, syntaxtips = syntaxtips) : ""
 		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
+		tips = syntaxtips ? tipsfortoken(t, lextokens, connectingword) : ""
 		if inprefix
-			"<span $(classes) $(styles)>"  * t.text * "</span>"
+			"<span $(classes) $(styles) $(tips)>"  * t.text * "</span>"
 		else
-			" <span $(classes) $(styles)>"  * t.text * "</span>"
+			" <span $(classes) $(styles)  $(tips)>"  * t.text * "</span>"
 		end
 
 	else
@@ -60,18 +72,18 @@ and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
 and for color coding by verbal unit.
 $(SIGNATURES)
 """
-function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette)
+function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette, syntaxtips = false)
 	# Build up HTML strings here:
 	formatted = []
 
 	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
-
+	lexical = filter(t -> t.tokentype == "lexical", sentencetokens)
 	prefixedpunct = false
 	tknidx = origin - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
-		spanstr = htmltoken(t, prefixedpunct, isconnector, sov, vucolor, colors = colors)
+		spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = colors, syntaxtips = syntaxtips)
 		push!(formatted, spanstr)
 
 		if t.tokentype == "lexical"			
@@ -88,12 +100,12 @@ Formatting relies on data from a vector of token annotations and annotations on 
 $(SIGNATURES)
 """
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
-	sov = true, vucolor = true, palette = defaultpalette)
+	sov = true, vucolor = true, palette = defaultpalette, syntaxtips = false)
 	# Vector where we'll collect HTML strings:
 	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
 	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
-	
+	lexical = filter(t -> t.tokentype == "lexical", sentencetokens)
 	prefixedpunct = false
 	tknidx = origin - 1
 	currindent = 0
@@ -109,7 +121,7 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			@debug("No match found for verbal unit $(t.verbalunit)")
 
 		else
-			spanstr = htmltoken(t, prefixedpunct, isconnector, sov, vucolor, colors = palette)
+			spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = palette)
 			matchingdepth = vumatches[1].depth
 			matchinggroup = vumatches[1].id
 
@@ -183,10 +195,13 @@ end
 """Compose an HTML class attribute for a lexical token.
 $(SIGNATURES)
 """
-function classesfortoken(t::TokenAnnotation, isconnector)
+function classesfortoken(t::TokenAnnotation, isconnector; syntaxtips = false)
 	opts = []
 	if isconnector
 		push!(opts, "connector")
+	end
+	if syntaxtips
+		push!(opts, "tooltip")
 	end
 	if isnothing(t.node1relation)
 		#skip
