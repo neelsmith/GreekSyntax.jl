@@ -1,5 +1,5 @@
 #1: directory where output will be written
-outputdir = joinpath(pwd(), "scratchpad", "reader")
+outputdir = joinpath(pwd(), "scratchpad", "hygreader")
 #2: title for your text
 textlabel = "Hyginus, Fabulae"
 #3:  source for your syntactic annotations.
@@ -108,7 +108,7 @@ function webpage(idx, sentences, groups, tokens)
     m = now() |> monthname
     d = now() |> day
     y = now() |> year
-    footer = "<footer>DEBUG THIS STUFF></footer>"
+    footer = "<footer>Web page generated $(m) $(d), $(y)</footer>"
 
     # String all the parts together!
     htmlparts = [hdg, nav, subhead, plaintext, txtdisplay1, txtdisplay2, key1, key2, diagram, footer]
