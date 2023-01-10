@@ -37,8 +37,14 @@ function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconne
 	elseif t.node1relation == "nothing" || isnothing(t.node1relation)
 		""
 	else
-		related = tkns[parse(Int, t.node1)]
-		"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
+		@debug("Add tips using vector of $(length(tkns)) tokens")
+		tokenidx = parse(Int, t.node1)
+		if tokenidx > 0
+			related = tkns[tokenidx]
+			"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
+		else
+			""
+		end
 	end
 end
 
@@ -46,16 +52,20 @@ end
 Based on lexical type and context indicated by `inprefix` flag, prefixes the resulting string with a leading space or not.
 $(SIGNATURES)
 """
-function htmltoken(t::TokenAnnotation, lextokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
+function htmltoken(t::TokenAnnotation, tokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
+	lextokens = filter(t -> t.tokentype == "lexical", tokens)
 	if t.tokentype == "lexical"			
-		classes = add_sov  || syntaxtips ? classesfortoken(t, connectingword, syntaxtips = syntaxtips) : ""
+		classes = add_sov || syntaxtips  ? classesfortoken(t, connectingword, syntaxtips = syntaxtips, sov = add_sov) : ""
 		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
+
 		tips = syntaxtips ? tipsfortoken(t, lextokens, connectingword) : ""
-		if inprefix
+		spanhtml = if inprefix
 			"<span $(classes) $(styles) $(tips)>"  * t.text * "</span>"
 		else
 			" <span $(classes) $(styles)  $(tips)>"  * t.text * "</span>"
 		end
+		tidy = replace(spanhtml, r"[ ]+" => " ")
+		replace(tidy, " >" => ">")
 
 	else
 		if occursin(t.text,PolytonicGreek.prefixpunctuation())
@@ -195,29 +205,33 @@ end
 """Compose an HTML class attribute for a lexical token.
 $(SIGNATURES)
 """
-function classesfortoken(t::TokenAnnotation, isconnector; syntaxtips = false)
+function classesfortoken(t::TokenAnnotation, isconnector; syntaxtips = false, sov = true)
 	opts = []
-	if isconnector
-		push!(opts, "connector")
-	end
 	if syntaxtips
 		push!(opts, "tooltip")
 	end
-	if isnothing(t.node1relation)
-		#skip
-	else
-		rel1 = lowercase(t.node1relation)
-		if rel1 == "subject"
-			push!(opts, "subject")
-			
-		elseif rel1 == "object"
-			push!(opts, "object")
-			
-		elseif rel1 == "unit verb"
-			push!(opts, "verb")
+
+	if sov
+		if isconnector
+			push!(opts, "connector")
+		end
+
+		if isnothing(t.node1relation)
+			#skip
+		else
+			rel1 = lowercase(t.node1relation)
+			if rel1 == "subject"
+				push!(opts, "subject")
+				
+			elseif rel1 == "object"
+				push!(opts, "object")
+				
+			elseif rel1 == "unit verb" || rel1 == "compound verb"
+				push!(opts, "verb")
+			end
 		end
 	end
-	string("class=\"", join(opts, " "), "\"")
+	isempty(opts) ? "" : string("class=\"", join(opts, " "), "\"")
 end
 
 
