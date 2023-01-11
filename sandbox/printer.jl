@@ -17,18 +17,6 @@ open(joinpath(outputdir, "greek.css"), "w") do io
     write(io, GreekSyntax.defaultcss())
 end
 
-function sovkey()
-    """
-<h3>Key to functional highlighting</h3>
-<ul>
-<li><span class="connector">connecting words</span>
-<li><span class="verb">unit verb</span>
-<li><span class="subject">subject</span>
-<li><span class="object">object</span>
-</ul>
-</p>
-"""
-end
 
 function wrap_page(s)
     """<html><head><link rel=\"stylesheet\" href=\"greek.css\"></head>

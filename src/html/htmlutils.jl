@@ -34,6 +34,9 @@ function htmltext(u::CtsUrn,
 	join(formatted, "\n")
 end
 
+"""Compose a tooltips attribute documenting the syntactic relation of token `t`.
+$(SIGNATURES)
+"""
 function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconnector::Bool)
 	if isconnector
 		"tool-tips=\"Connects sentence to context.\""
