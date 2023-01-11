@@ -13,23 +13,31 @@ sentencerange
 ## Working with verbal expressions and tokens
 
 ```@docs
-GreekSyntax.tokensforgroup
-GreekSyntax.groupfortoken
-GreekSyntax.depthfortoken
-GreekSyntax.passagefromtoken
-GreekSyntax.filterbylevel
-
+tokensforgroup
+sentenceforgroup
+groupfortoken
+sentencefortoken
 ```
 
 ## Syntactic metrics
 
 
 ```@docs
-maxdepth
+
 distance
 displacement
 cohesion
+span
+spansize
+maxdepth
+maxtokendistance
+avgtokendistance
+maxtokendisplacement
+avgtokendisplacement
+maxgroupdisplacement
+avggroupdisplacement
 ```
+
 
 ## Writing HTML and mermaid diagrams
 

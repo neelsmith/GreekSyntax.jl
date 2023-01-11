@@ -49,8 +49,11 @@ export htmltext, htmltext_indented
 export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
 
-export maxdepth
 export distance, displacement
-export cohesion
+export span, spansize, cohesion
+export maxdepth
+export maxtokendistance, avgtokendistance
+export maxtokendisplacement, avgtokendisplacement
+export maxgroupdisplacement, avggroupdisplacement
 
 end # module GreekSyntax

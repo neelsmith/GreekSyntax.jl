@@ -1,6 +1,6 @@
 # Metrics of syntactic complexity
 
-Documentation TBA
+Explanatory introduction TBA: see API listings for basic docstrings.
 
 
 ## Tokens
