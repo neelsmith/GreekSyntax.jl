@@ -35,8 +35,12 @@ export TokenAnnotation, token
 export parsesentences
 export delimited, readdelimited
 
+export groupsforsentence
+export tokensforsentence
+export sentencerange, sentencesforurn
+
 export htmltext, htmltext_indented
-export htmlgroup, htmlgrouplist
+export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
 
 end # module GreekSyntax

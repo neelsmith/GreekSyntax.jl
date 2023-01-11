@@ -3,37 +3,40 @@
 
 # Working with sentences, verbal expressions and tokens
 
-- many functions let you organize related material. examples:
-    - finding verbal expressions belonging to a particular sentence
-    - finding tokens belonging to a particular sentence or verbal expression
-    - finding information about the sentence or verbal expression a particular token belongs to
-    
-## Organizing material by sentence
+Many functions let you organize related annotations about sentences, verbal expressions and tokens, to do things like:
 
-Pull data from URL, and choose an example sentence to analyze.
+- finding verbal expressions belonging to a particular sentence
+- finding tokens belonging to a particular sentence or verbal expression
+- finding information about the sentence or verbal expression a particular token belongs to
+    
+The examples on this page will use the set of annotations downloaded like this:
 
 ```@example struct
 using GreekSyntax, Downloads
 url = "https://raw.githubusercontent.com/neelsmith/eagl-texts/main/annotations/Lysias1_annotations.cex"
 (sentences, groups, tokens) = Downloads.download(url) |> readlines |> readdelimited
-sentence1 = sentences[1]
+length(sentences)
 ```
 
 
+## Organizing material by sentence
 
-
-
-- tokeninfoforsentence
+Find verbal expressions belonging to a particular sentence with the `groupsforsentences` function:
 
 ```@example struct
-(sentencetokens, connectors, origin) = GreekSyntax.tokeninfoforsentence(sentence1, tokens)
+s1 = sentences[1]
+s1groups = groupsforsentence(s1, groups)
 ```
 
-- groupsforsentence
+Find tokens belonging to a particular sentence:
+
+
 
 ```@example struct
-groups1 = GreekSyntax.groupsforsentence(sentence1, groups)
+(sentencetokens, connectors, origin) = tokeninfoforsentence(s1, tokens)
 ```
+
+
 
 
 ## Organizing material by verbal expression

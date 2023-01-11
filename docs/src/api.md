@@ -4,11 +4,10 @@
 ## Working with sentences
 
 ```@docs
-GreekSyntax.tokeninfoforsentence
-GreekSyntax.sentencerange
-GreekSyntax.groupsforsentence
-GreekSyntax.sentenceindexfornode
-GreekSyntax.sentencesforurn
+groupsforsentence
+tokensforsentence
+sentencesforurn
+sentencerange
 ```
 
 ## Working with verbal expressions and tokens
@@ -43,6 +42,15 @@ mermaiddiagram
 
 
 ## Internals (not exported)
+
+Sentences:
+
+```@docs
+GreekSyntax.connectorindexes
+GreekSyntax.sentenceindexfornode
+```
+
+HTML:
 
 ```@docs
 GreekSyntax.tipsfortoken

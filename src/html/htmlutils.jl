@@ -202,7 +202,7 @@ used in marking `span` elements.
 $(SIGNATURES)
 """
 function sovkey()
-    """
+    keyhtml = """
 <ul>
 <li><span class="connector">connecting words</span>
 <li><span class="verb">unit verb</span>
@@ -210,6 +210,7 @@ function sovkey()
 <li><span class="object">object</span>
 </ul>
 """
+	keyhtml
 end
 
 """Compose an HTML class attribute for a lexical token.

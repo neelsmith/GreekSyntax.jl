@@ -22,33 +22,56 @@ function sentencerange(tokenlist::Vector{TokenAnnotation})
 	addpassage(baseurn, string(opener, "-", closer))
 end
 
-
+#=
 """Extract from a vector of `TokenAnnotation`s all the tokens that
-belong to sentence `sa`.
+belong to sentence `s`. The result is a 3-Tuple containing a list of `TokenAnnotation`s,
+an integer range of indexes for any connecting words in the sentence, and an index value to 
+the first token in `tknannotations` belonging to sentence `s`.
 $(SIGNATURES)
 """
-function tokeninfoforsentence(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
+function tokeninfoforsentence(s::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
 	# Find indices for tokens indexed to this sentence:
 	tkncorp = map(tknannotations) do t
 		CitablePassage(t.urn, t.text)
 	end |> CitableTextCorpus
-	slice = CitableCorpus.indexurn(sa.range, tkncorp)
+	slice = CitableCorpus.indexurn(s.range, tkncorp)
 	if isempty(slice)
-		@error("Couldn't slice empty array for $(sa.range)")
+		@error("Couldn't slice empty array for $(s.range)")
 	end
 	@debug("Slicing $(slice)")
 	origin = slice[1]
 
-	connectorslice = CitableCorpus.indexurn(sa.connector, tkncorp)
+	connectorslice = CitableCorpus.indexurn(s.connector, tkncorp)
 	connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
 	(tknannotations[origin:slice[2]], connectorids, origin)
 end
+=#
+
+
 
 """Extract from a vector of `VerbalUnitAnnotation`s all the verbal units that belong to sentence `sa`.
 $(SIGNATURES)
 """
 function groupsforsentence(sa::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
 	filter(vu -> vu.sentence == sa.range, groups)
+end
+
+
+"""Find all tokens in `tknannotations` belonging to sentence `s`.
+$(SIGNATURES)
+"""
+function tokensforsentence(s::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
+	# Find indices for tokens indexed to this sentence:
+	tkncorp = map(tknannotations) do t
+		CitablePassage(t.urn, t.text)
+	end |> CitableTextCorpus
+	slice = CitableCorpus.indexurn(s.range, tkncorp)
+	if isempty(slice)
+		@error("Couldn't slice empty array for $(s.range)")
+	end
+	@debug("Slicing $(slice)")
+	origin = slice[1]
+	tknannotations[origin:slice[2]]
 end
 
 
@@ -75,6 +98,27 @@ function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnota
 	end
 end
 
+
+"""Find a starting and ending index withint `tknannotations` for connecting words
+annotated for sentence `s`.
+$(SIGNATURES)	
+"""
+function connectorindexes(s::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
+	# Find indices for tokens indexed to this sentence:
+	tkncorp = map(tknannotations) do t
+		CitablePassage(t.urn, t.text)
+	end |> CitableTextCorpus
+	slice = CitableCorpus.indexurn(s.range, tkncorp)
+	if isempty(slice)
+		@error("Couldn't slice empty array for $(s.range)")
+	end
+	@debug("Slicing $(slice)")	
+	connectorslice = CitableCorpus.indexurn(s.connector, tkncorp)
+	connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
+	connectorids
+end
+
+
 """Find sentence in a vector sentence annotations containing the token identified by CtsUrn `u`.
 $(SIGNATURES)
 """
@@ -96,4 +140,5 @@ function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknan
 	end
 	
 end
+
 

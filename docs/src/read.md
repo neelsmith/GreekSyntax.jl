@@ -31,7 +31,7 @@ length(tokens)
 It is equally easy to retrieve a source from a URL.  Here is the same dataset:
 
 ```@example basic
-url = "https://raw.githubusercontent.com/neelsmith/GreekSyntax.jl/main/test/data/Lysias1.6ff.cex"
+url = "https://raw.githubusercontent.com/neelsmith/eagl-texts/main/annotations/Lysias1_annotations.cex"
 
 using Downloads
 (remote_sentences, remote_verbalunits, remote_tokens) = Downloads.download(url) |> readlines |> readdelimited
