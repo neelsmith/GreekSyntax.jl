@@ -30,6 +30,13 @@ s1tokens = tokensforsentence(s1, tokens)
 typeof(s1tokens)
 ```
 
+Find lexical tokens belonging to a particular sentence:
+
+```@example struct
+s1tokens = lexicalforsentence(s1, tokens)
+typeof(s1tokens)
+```
+
 
 ## Verbal expression
 

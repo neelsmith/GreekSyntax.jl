@@ -36,7 +36,7 @@ export parsesentences
 export delimited, readdelimited
 
 export groupsforsentence
-export tokensforsentence
+export tokensforsentence, lexicalforsentence
 export sentencerange, sentencesforurn
 export tokensforgroup
 export sentenceforgroup
