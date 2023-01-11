@@ -1,6 +1,7 @@
 """Find CTS URN for range of tokens in `orthotokens`
 where `orthotokens` is a vector of analyzed tokens as produced
 by `Orthography`'s `tokenize` function.
+$(SIGNATURES)
 """
 function sentencerange(orthotokens)
 	baseurn = droppassage(orthotokens[1][1].urn)
@@ -12,6 +13,7 @@ end
 
 """Find CTS URN for range of tokens in `tokenlist`
 where `tokenlist` is a vector of annotated tokens.
+$(SIGNATURES)
 """
 function sentencerange(tokenlist::Vector{TokenAnnotation})
 	baseurn = droppassage(tokenlist[1].urn)
