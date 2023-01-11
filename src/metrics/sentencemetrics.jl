@@ -9,12 +9,11 @@ function maxdepth(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
 end
 
 
-#=
-## Sentences
-
-- maxdepth: maximum syntactic level of a sentence
-- maxtokendistance
-- avgtokendistance
-- maxgroupdistance
-- avggroupdistance
-=#
+function maxtokendistance()
+end
+function avgtokendistance()
+end
+function maxgroupdistance()
+end
+function avggroupdistance()
+end
