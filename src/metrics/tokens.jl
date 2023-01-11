@@ -28,14 +28,3 @@ function displacement(tkn::TokenAnnotation, s::SentenceAnnotation,  tknlist::Vec
 	distance(tkn, s, tknlist) - 1
 end
 
-function cohesion()
-end
-
-
-"""Find maximum depth of subordination in sentence `s`.
-$(SIGNATURES)
-"""
-function maxdepth(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
-	sentgroups = groupsforsentence(s, groups)
-	map(gr -> gr.depth, sentgroups) |> maximum
-end

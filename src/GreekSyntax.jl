@@ -22,7 +22,9 @@ include("common/sentenceutils.jl")
 include("common/grouputils.jl")
 include("common/tokenutils.jl")
 
-include("metrics/syntax.jl")
+include("metrics/tokens.jl")
+include("metrics/groups.jl")
+include("metrics/sentences.jl")
 
 include("html/htmlutils.jl")
 include("html/mermaidutils.jl")

@@ -149,3 +149,12 @@ function sentenceindexfornode(leafnode::CtsUrn, sentences::Vector{SentenceAnnota
 		0
 	end
 end
+
+
+"""Find list of distinct syntactic types in sentence `s`.
+$(SIGNATURES)
+"""
+function syntactictypes(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
+	sentgroups = groupsforsentence(s, groups)
+	map(g -> g.syntactic_type, sentgroups) |> unique
+end

@@ -49,6 +49,7 @@ Sentences:
 ```@docs
 GreekSyntax.connectorindexes
 GreekSyntax.sentenceindexfornode
+GreekSyntax.syntactictypes
 ```
 
 Tokens:
