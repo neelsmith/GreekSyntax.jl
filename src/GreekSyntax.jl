@@ -39,6 +39,8 @@ export groupsforsentence
 export tokensforsentence
 export sentencerange, sentencesforurn
 
+export tokensforgroup
+
 export htmltext, htmltext_indented
 export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
