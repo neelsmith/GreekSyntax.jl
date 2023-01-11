@@ -1,5 +1,5 @@
 """
-range of tokens
+Find indexes within lexical tokens of sentence `s` the first and last token belonging to group `grp`.
 $(SIGNATURES)
 """
 function span(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
@@ -11,7 +11,7 @@ function span(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{T
 end
 
 """
-range of tokens
+Find indexes within lexical tokens of the sentence `grp` belongs to of the first and last tokens of group `grp`.
 $(SIGNATURES)
 """
 function span(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
@@ -20,7 +20,7 @@ function span(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, 
 end
 
 """
-distance from first to last token in group
+Find the number of tokens included in the span of `grp`.
 $(SIGNATURES)
 """
 function spansize(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
@@ -29,7 +29,7 @@ function spansize(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vect
 end
 
 """
-distance from first to last token in group
+Find the number of tokens included in the span of `grp`.
 $(SIGNATURES)
 """
 function spansize(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
@@ -37,7 +37,9 @@ function spansize(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotatio
     spansize(grp, s, tokens)
 end
 
-"""number of groups between start and end of span 
+"""
+List other groups appearing between first and last tokens
+belonging to group `grp`.
 $(SIGNATURES)
 """
 function displacedby(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
@@ -55,22 +57,31 @@ function displacedby(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::V
     unique(othergroups) 
 end
 
-function displacement(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
-    displacedby(grp, s, tokens) |> length
-end
-
-function displacement(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
-    s = sentenceforgroup(grp, sentences) 
-    displacement(grp, s, tokens)
-end
-
-"""number of groups between start and end of span 
+"""
+List other groups appearing between first and last tokens
+belonging to group `grp`.
 $(SIGNATURES)
 """
 function displacedby(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
     s = sentenceforgroup(grp, sentences)
     displacedby(grp, s, tokens)
 end
+
+"""Find number of other groups occurring within span of `grp`.
+$(SIGNATURES)
+"""
+function displacement(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
+    displacedby(grp, s, tokens) |> length
+end
+
+"""Find number of other groups occurring within span of `grp`.
+$(SIGNATURES)
+"""
+function displacement(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
+    s = sentenceforgroup(grp, sentences) 
+    displacement(grp, s, tokens)
+end
+
 
 
 """

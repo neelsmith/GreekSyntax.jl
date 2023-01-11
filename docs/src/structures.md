@@ -11,7 +11,7 @@ length(sentences)
 
 # Working with sentences, verbal expressions and tokens
 
-The `GreekSyntax` package includes many functions documented in the API page on this site.  This page highlights a few functions relating annotations to each other in the hierarchy of sentences, verbal expressions, and tokens
+The `GreekSyntax` package includes many functions documented in the API page on this site.  This page highlights a few functions relating annotations in the hierarchy of sentences, verbal expressions, and tokens, to each other.
 
 ## Sentence
 

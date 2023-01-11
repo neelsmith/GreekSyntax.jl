@@ -28,7 +28,7 @@ length(verbalunits)
 length(tokens)
 ```
 
-It is equally easy to retrieve a source from a URL.  Here is the same dataset:
+It is equally easy to retrieve a source from a URL.  Here is a  set of annottions from the `eagl-texts` repository:
 
 ```@example basic
 url = "https://raw.githubusercontent.com/neelsmith/eagl-texts/main/annotations/Lysias1_annotations.cex"
