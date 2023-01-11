@@ -96,10 +96,9 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	# Build up HTML strings here:
 	formatted = []
 
-	(sentencetokens, connectorids, origin) = tokeninfoforsentence(sa, tknannotations)
-	lexical = filter(t -> t.tokentype == "lexical", sentencetokens)
 	prefixedpunct = false
-	tknidx = origin - 1
+	# "Zero" origin to augment each pass through loop:
+	tknidx = originindex(sa, tknannotations)  - 1
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
@@ -124,10 +123,10 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	# Vector where we'll collect HTML strings:
 	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
-	(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
-	lexical = filter(t -> t.tokentype == "lexical", sentencetokens)
+	lexical = lexicalforsentence(sa, tknannotations)
+	sentencetokens = tokensforsentence(sa, tknannotations)
 	prefixedpunct = false
-	tknidx = origin - 1
+	tknidx = originindex(sa, tknannotations)  - 1
 	currindent = 0
 	currgroup = ""
 	for t in sentencetokens
@@ -144,7 +143,6 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 			spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = palette, syntaxtips = syntaxtips)
 			matchingdepth = vumatches[1].depth
 			matchinggroup = vumatches[1].id
-
 
 			if currindent == matchingdepth &&  currgroup == matchinggroup
 				push!(indentedtext, spanstr)
