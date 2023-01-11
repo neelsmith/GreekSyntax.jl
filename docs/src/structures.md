@@ -26,7 +26,7 @@ sentence1 = sentences[1]
 - tokeninfoforsentence
 
 ```@example struct
-(sentencetokens, connectors, origin) = GreekSyntax.tokeninfoforsentence(sentence, tokens)
+(sentencetokens, connectors, origin) = GreekSyntax.tokeninfoforsentence(sentence1, tokens)
 ```
 
 - groupsforsentence

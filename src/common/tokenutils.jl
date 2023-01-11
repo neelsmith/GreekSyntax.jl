@@ -1,5 +1,5 @@
 
-s"""Find the `VerbalUnitAnnotation` object for a given token.
+"""Find the `VerbalUnitAnnotation` object for a given token.
 $(SIGNATURES)
 """
 function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})

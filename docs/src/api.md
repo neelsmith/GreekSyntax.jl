@@ -1,7 +1,7 @@
 # API documentation
 
 
-Working with sentences:
+## Working with sentences
 
 ```@docs
 GreekSyntax.tokeninfoforsentence
@@ -11,7 +11,7 @@ GreekSyntax.sentenceindexfornode
 GreekSyntax.sentencesforurn
 ```
 
-Working with verbal expressions and tokens:
+## Working with verbal expressions and tokens
 
 ```@docs
 GreekSyntax.tokensforgroup
