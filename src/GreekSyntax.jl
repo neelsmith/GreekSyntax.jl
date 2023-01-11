@@ -50,7 +50,7 @@ export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
 
 export distance, displacement
-export span, spansize, cohesion
+export span, spansize, displacedby, cohesion
 export maxdepth
 export maxtokendistance, avgtokendistance
 export maxtokendisplacement, avgtokendisplacement

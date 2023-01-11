@@ -26,6 +26,7 @@ sentencefortoken
 
 distance
 displacement
+displacedby
 cohesion
 span
 spansize
