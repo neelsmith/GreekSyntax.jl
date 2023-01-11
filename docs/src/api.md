@@ -26,6 +26,9 @@ GreekSyntax.filterbylevel
 
 ```@docs
 maxdepth
+distance
+displacement
+cohesion
 ```
 
 ## Writing HTML and mermaid diagrams

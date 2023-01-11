@@ -62,5 +62,5 @@ Find the sentence a token belongs to:
 
 
 ```@example struct
-sentencefortoken(t1, groups)
+sentencefortoken(t1, groups, sentences)
 ```

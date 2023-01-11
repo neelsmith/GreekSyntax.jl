@@ -48,5 +48,7 @@ export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
 
 export maxdepth
+export distance, displacement
+export cohesion
 
 end # module GreekSyntax

@@ -5,6 +5,11 @@ function distance(tkn::TokenAnnotation, tknlist::Vector{TokenAnnotation})
 
 end
 
+function displacement()
+end
+
+function cohesion()
+end
 
 
 """Find maximum depth of subordination in sentnec `s`.

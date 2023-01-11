@@ -19,6 +19,7 @@ makedocs(
         "Overview" => "index.md",
         "Read an annotated text from a delimited-text source" => "read.md",
         "Working with sentences, verbal expressions and tokens" => "structures.md",
+        "Metrics of syntactic complexity" => "metrics.md",
         "Composing HTML and CSS" => "html.md",
         "API docs" => "api.md",
         "Appendix: delimited-text format" => "serialization.md"
