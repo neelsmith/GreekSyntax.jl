@@ -8,17 +8,22 @@ import Base: ==
 
 
 include("html/css.jl")
+
 include("common/sentence.jl")
 include("greek/sentenceparser.jl")
 include("common/groups.jl")
 include("greek/groupsparser.jl")
 include("common/token.jl")
 include("greek/tokenparser.jl")
+
 include("common/delimited.jl")
 include("common/utils.jl")
 include("common/sentenceutils.jl")
 include("common/grouputils.jl")
 include("common/tokenutils.jl")
+
+include("metrics/syntax.jl")
+
 include("html/htmlutils.jl")
 include("html/mermaidutils.jl")
 

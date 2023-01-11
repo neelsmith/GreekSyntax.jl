@@ -26,7 +26,7 @@ sentence1 = sentences[1]
 - tokeninfoforsentence
 
 ```@example struct
-(sentencetokens, connectors, origin) = tokeninfoforsentence(sentence, tokens)
+(sentencetokens, connectors, origin) = GreekSyntax.tokeninfoforsentence(sentence, tokens)
 ```
 
 - groupsforsentence
@@ -34,3 +34,15 @@ sentence1 = sentences[1]
 ```@example struct
 groups1 = GreekSyntax.groupsforsentence(sentence1, groups)
 ```
+
+
+## Organizing material by verbal expression
+
+- tokensforgroup
+
+## Getting information about an individual token
+
+- groupfortoken(tkn, groups)
+- function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
+
+
