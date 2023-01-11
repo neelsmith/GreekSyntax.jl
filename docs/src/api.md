@@ -25,7 +25,7 @@ GreekSyntax.filterbylevel
 
 
 ```@docs
-GreekSyntax.maxdepth
+maxdepth
 ```
 
 ## Writing HTML and mermaid diagrams
@@ -39,9 +39,7 @@ sovkey
 mermaiddiagram
 ```
 
-
-
-## Internals (not exported)
+## Internal functions (not exported)
 
 Sentences:
 
@@ -50,7 +48,15 @@ GreekSyntax.connectorindexes
 GreekSyntax.sentenceindexfornode
 ```
 
-HTML:
+Tokens:
+
+```@docs
+GreekSyntax.depthfortoken
+GreekSyntax.filterbylevel
+GreekSyntax.passagefromtoken
+```
+
+Composing HTML:
 
 ```@docs
 GreekSyntax.tipsfortoken

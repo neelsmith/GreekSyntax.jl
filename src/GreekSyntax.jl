@@ -38,11 +38,15 @@ export delimited, readdelimited
 export groupsforsentence
 export tokensforsentence
 export sentencerange, sentencesforurn
-
 export tokensforgroup
+export sentenceforgroup
+export groupfortoken
+export sentencefortoken
 
 export htmltext, htmltext_indented
 export htmlgroup, htmlgrouplist, sovkey
 export mermaiddiagram
+
+export maxdepth
 
 end # module GreekSyntax

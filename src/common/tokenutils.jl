@@ -15,6 +15,16 @@ function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 	end
 end
 
+
+
+"""Find the `SentenceAnnotation` for a token `t`.
+$(SIGNATURES)
+"""
+function sentencefortoken(t, groups, sentences)
+	tokengroup = groupfortoken(t, groups)
+	sentenceforgroup(tokengroup, sentences)
+end
+
 """Find syntactic depth of token `tkn`.
 $(SIGNATURES)
 """

@@ -11,17 +11,11 @@ length(sentences)
 
 # Working with sentences, verbal expressions and tokens
 
-The `GreekSyntax` package includes many functions documented in the API listing on this site for working with annotations about sentences, verbal expressions and tokens.  This page highlights a few functions to relate annotations to each other, such as:
+The `GreekSyntax` package includes many functions documented in the API page on this site.  This page highlights a few functions relating annotations to each other in the hierarchy of sentences, verbal expressions, and tokens
 
-- finding verbal expressions belonging to a particular sentence
-- finding tokens belonging to a particular sentence or verbal expression
-- finding information about the sentence or verbal expression a particular token belongs to
-    
+## Sentence
 
-
-## Organizing material by sentence
-
-Find verbal expressions belonging to a particular sentence with the `groupsforsentences` function:
+Find verbal expressions belonging to a particular sentence:
 
 ```@example struct
 s1 = sentences[1]
@@ -37,7 +31,7 @@ typeof(s1tokens)
 ```
 
 
-## Organizing material by verbal expression
+## Verbal expression
 
 Find tokens belonging to a particular verbal expression:
 
@@ -47,10 +41,26 @@ g1tokens = tokensforgroup(g1, tokens)
 typeof(g1tokens)
 ```
 
+Find the sentence a verbal expression belongs to:
 
-## Getting information about an individual token
+```@example struct
+g1sentence = sentenceforgroup(g1, sentences)
+```
 
-- groupfortoken(tkn, groups)
-- function depthfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
 
 
+## Token
+
+Find the group a token belongs to:
+
+```@example struct
+t1 = tokens[1]
+groupfortoken(t1, groups)
+```
+
+Find the sentence a token belongs to:
+
+
+```@example struct
+sentencefortoken(t1, groups)
+```
