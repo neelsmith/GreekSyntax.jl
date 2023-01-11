@@ -1,5 +1,10 @@
 mermaidformats = ["png", "jpg", "svg"]
 
+
+"""Compose diagram in Mermaid format of the syntactic relations in sentence `sa`.  
+Output formats can be `text`, `jpg`, `png` or `svg`.
+$(SIGNATURES)
+"""
 function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; format = "text")
     graphlines = [
 		"graph BT;",

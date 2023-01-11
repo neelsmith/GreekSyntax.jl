@@ -28,3 +28,27 @@ GreekSyntax.filterbylevel
 ```@docs
 GreekSyntax.maxdepthforsentence
 ```
+
+## Writing HTML and mermaid diagrams
+
+```@docs
+htmltext
+htmltext_indented
+htmlgroup
+htmlgrouplist
+sovkey
+mermaiddiagram
+```
+
+
+
+## Internals (not exported)
+
+```@docs
+GreekSyntax.tipsfortoken
+GreekSyntax.htmltoken
+GreekSyntax.classesfortoken
+GreekSyntax.groupcolorforint
+GreekSyntax.groupcolorfortoken
+GreekSyntax.groupcolor
+```
