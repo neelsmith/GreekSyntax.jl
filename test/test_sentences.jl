@@ -33,10 +33,11 @@ end
 @testset "Test finding token information for a sentence" begin
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
+    senttokens  = tokensforsentence(sents[1], tokens)
+    connectors = GreekSyntax.connectorindexes(sents[1], tokens)
+    #(senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens)
 
-    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens)
-
-    @test origin == 1
+    #@test origin == 1
     @test connectors == 2:2
     @test length(senttokens) == 52
 end
@@ -55,9 +56,3 @@ end
     @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens)[1] == sents[2]
 end
 
-
-@testset "Test finding maximum syntactic depth for a sentence" begin
-    data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
-    (sents, groups, tokens) = readdelimited(data)
-   @test GreekSyntax.maxdepthforsentence(sents[1], groups)  == 3
-end

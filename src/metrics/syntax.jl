@@ -10,7 +10,7 @@ end
 """Find maximum depth of subordination in sentnec `s`.
 $(SIGNATURES)
 """
-function maxdepthforsentence(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
+function maxdepth(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation})
 	sentgroups = groupsforsentence(s, groups)
 	map(gr -> gr.depth, sentgroups) |> maximum
 end

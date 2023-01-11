@@ -25,7 +25,7 @@ GreekSyntax.filterbylevel
 
 
 ```@docs
-GreekSyntax.maxdepthforsentence
+GreekSyntax.maxdepth
 ```
 
 ## Writing HTML and mermaid diagrams
