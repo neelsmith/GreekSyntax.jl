@@ -35,9 +35,9 @@ end
     (sents, groups, tokens) = readdelimited(data)
     senttokens  = tokensforsentence(sents[1], tokens)
     connectors = GreekSyntax.connectorindexes(sents[1], tokens)
-    #(senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sents[1], tokens)
-
-    #@test origin == 1
+    
+    origin = GreekSyntax.originindex(sents[1], tokens)
+    @test origin == 1
     @test connectors == 2:2
     @test length(senttokens) == 52
 end
@@ -52,6 +52,7 @@ end
     data = joinpath(pwd(), "data", "Lysias1.6ff.cex") |> readlines
     (sents, groups, tokens) = readdelimited(data)
     
+
     @test GreekSyntax.sentenceindexfornode(tokens[55].urn, sents, tokens) == 2
     @test GreekSyntax.sentencesforurn(tokens[55].urn, sents, tokens)[1] == sents[2]
 end
