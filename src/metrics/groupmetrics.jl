@@ -84,9 +84,34 @@ end
 
 
 
-"""
-- cohesion: proportion of tokens with span belonging to group 
+"""Compute the proportion of tokens within the  span of `grp` that  belonging to the group.
 $(SIGNATURES)
 """
-function cohesion()
+function cohesion(grp::VerbalUnitAnnotation, sentences::Vector{SentenceAnnotation}, tokens::Vector{TokenAnnotation})
+    s = sentenceforgroup(grp, sentences) 
+    cohesion(grp, s, tokens)
+end
+
+
+
+"""Compute the proportion of tokens within the  span of `grp` that  belonging to the group.
+$(SIGNATURES)
+"""
+function cohesion(grp::VerbalUnitAnnotation, s::SentenceAnnotation, tokens::Vector{TokenAnnotation})
+    (startidx, endidx) = span(grp, s, tokens)
+    senttokens = lexicalforsentence(s, tokens)
+
+    seen = 0
+    others = 0
+    for t in senttokens[startidx:endidx]
+        if isnothing(t.verbalunit) || t.verbalunit == "nothing"
+            # omit
+        else
+            seen = seen + 1
+            if t.verbalunit != grp.id
+                others = others + 1
+            end
+        end
+    end
+    (seen - others) / seen    
 end
