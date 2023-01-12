@@ -11,11 +11,8 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 		"classDef implicit fill:#f96,stroke:#333;"
 	]
 
-    #sentencetokens = GreekSyntax.tokensforsentence(sa, tknannotations)
-    #lextokens = filter(sentencetokens) do t
-    #    t.tokentype == "lexical"
-    #end
-
+    
+    lextokens = lexicalforsentence(sa, tknannotations)
 
     tknidx = originindex(sa, tknannotations) - 1
     impliedids = []
