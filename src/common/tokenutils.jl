@@ -1,5 +1,5 @@
 
-s"""Find the `VerbalUnitAnnotation` object for a given token.
+"""Find the `VerbalUnitAnnotation` object for a given token.
 $(SIGNATURES)
 """
 function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation})
@@ -13,6 +13,16 @@ function groupfortoken(tkn::TokenAnnotation, groups::Vector{VerbalUnitAnnotation
 		@debug("No group found for token $(tkn.urn) with verbal unit $(tkn.verbalunit) ")
 		nothing
 	end
+end
+
+
+
+"""Find the `SentenceAnnotation` for a token `t`.
+$(SIGNATURES)
+"""
+function sentencefortoken(t, groups, sentences)
+	tokengroup = groupfortoken(t, groups)
+	sentenceforgroup(tokengroup, sentences)
 end
 
 """Find syntactic depth of token `tkn`.

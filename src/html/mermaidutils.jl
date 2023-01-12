@@ -1,20 +1,25 @@
 mermaidformats = ["png", "jpg", "svg"]
 
+
+"""Compose diagram in Mermaid format of the syntactic relations in sentence `sa`.  
+Output formats can be `text`, `jpg`, `png` or `svg`.
+$(SIGNATURES)
+"""
 function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; format = "text")
     graphlines = [
 		"graph BT;",
 		"classDef implicit fill:#f96,stroke:#333;"
 	]
 
-    (sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, tknannotations)
-    lextokens = filter(sentencetokens) do t
-        t.tokentype == "lexical"
-    end
-    zero = origin - 1
+    #sentencetokens = GreekSyntax.tokensforsentence(sa, tknannotations)
+    #lextokens = filter(sentencetokens) do t
+    #    t.tokentype == "lexical"
+    #end
 
+
+    tknidx = originindex(sa, tknannotations) - 1
     impliedids = []
-    tknidx = zero
-    for t in lextokens
+    for t in lexicalforsentence(sa, tknannotations)
         tknidx = tknidx + 1
 
         if isnothing(t.node1relation) || isnothing(t.node1)

@@ -28,8 +28,7 @@ end
 @testset "Test filtering tokens by their depth of subordination" begin
     datalines = joinpath(pwd(), "data", "Lysias1.6ff.cex")   |> readlines
     (sentences, groups, tokens) = readdelimited(datalines)
-
-    (senttokens,connectors,origin) = GreekSyntax.tokeninfoforsentence(sentences[1], tokens)
+    senttokens = tokensforsentence(sentences[1], tokens)
 
     @test length(GreekSyntax.filterbylevel(1, groups, senttokens)) == 15
     @test length(GreekSyntax.filterbylevel(2, groups, senttokens)) == 40
