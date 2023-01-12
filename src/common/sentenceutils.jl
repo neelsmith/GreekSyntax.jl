@@ -29,17 +29,18 @@ function sentencesforurn(u::CtsUrn, sentences::Vector{SentenceAnnotation}, tknan
 	tkncorpus = map(tkn -> CitablePassage(tkn.urn, tkn.text), tknannotations) |> CitableTextCorpus
 	
 	idx = CitableCorpus.indexurn(u,tkncorpus)
-	if length(idx) == 1
+
+	if isempty(idx)
+		@warn("No syntactically annotated sentences found for $(u)")
+		[]
+	elseif length(idx) == 1
 		soloindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
 		[sentences[soloindex]]
 
-	elseif length(idx) == 2
+	else # length(idx) == 2
 		startindex = sentenceindexfornode(tkncorpus.passages[idx[1]].urn, sentences, tknannotations)
 		endindex = sentenceindexfornode(tkncorpus.passages[idx[2]].urn, sentences, tknannotations)
 		sentences[startindex:endindex]
-	else
-		@warn("No syntactically annotated sentences found for $(u)")
-		[]
 	end
 	
 end

@@ -20,7 +20,7 @@ function htmltext(u::CtsUrn,
 	sentencelist::Vector{SentenceAnnotation}, 
 	tknannotations::Vector{TokenAnnotation}; 
 	sov = true, vucolor = true, syntaxtips = false,
-	colors = defaultpalette)
+	colors = defaultpalette, connectorlist = [])
 
 	# Build up HTML strings here:
 	formatted = ["<div class=\"passage\">",
@@ -34,65 +34,15 @@ function htmltext(u::CtsUrn,
 	join(formatted, "\n")
 end
 
-"""Compose a tooltips attribute documenting the syntactic relation of token `t`.
-$(SIGNATURES)
-"""
-function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconnector::Bool)
-	if isconnector
-		"tool-tips=\"Connects sentence to context.\""
-	elseif t.node1relation == "nothing" || isnothing(t.node1relation)
-		""
-	else
-		@debug("Add tips using vector of $(length(tkns)) tokens")
-		tokenidx = parse(Int, t.node1)
-		if tokenidx > length(tkns)
-			@debug("Indexed to implied token")
-			"tool-tips=\"Related to implied token: $(t.node1relation).\""
-		elseif tokenidx > 0
-			related = tkns[tokenidx]
-			"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
-		else
-			""
-
-		end
-	end
-end
-
-"""Compose string for a token, wrapping lexical tokens in an HTML `span`. 
-Based on lexical type and context indicated by `inprefix` flag, prefixes the resulting string with a leading space or not.
-$(SIGNATURES)
-"""
-function htmltoken(t::TokenAnnotation, tokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
-	lextokens = filter(t -> t.tokentype == "lexical", tokens)
-	if t.tokentype == "lexical"			
-		classes = add_sov || syntaxtips  ? classesfortoken(t, connectingword, syntaxtips = syntaxtips, sov = add_sov) : ""
-		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
-
-		tips = syntaxtips ? tipsfortoken(t, lextokens, connectingword) : ""
-		spanhtml = if inprefix
-			"<span $(classes) $(styles) $(tips)>"  * t.text * "</span>"
-		else
-			" <span $(classes) $(styles)  $(tips)>"  * t.text * "</span>"
-		end
-		tidy = replace(spanhtml, r"[ ]+" => " ")
-		replace(tidy, " >" => ">")
-
-	else
-		if occursin(t.text,PolytonicGreek.prefixpunctuation())
-			" " * t.text
-		else
-			t.text
-		end
-	end
-end
-
 """Compose HTML string for the annotated sentence `sa` using
 data from a vector of token annotations.  Boolean flags for `sov`
 and `vucolor` provoke CSS additions for Subject-Object-Verb highlight,
 and for color coding by verbal unit.
 $(SIGNATURES)
 """
-function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette, syntaxtips = false)
+function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation}; sov = true, vucolor = true, colors = defaultpalette, syntaxtips = false, connectorids = [])
+	sentencetokens = tokensforsentence(sa, tknannotations)
+	lex = lexicalforsentence(sa, sentencetokens)
 	# Build up HTML strings here:
 	formatted = []
 
@@ -102,7 +52,7 @@ function htmltext(sa::SentenceAnnotation, tknannotations::Vector{TokenAnnotation
 	for t in sentencetokens
 		tknidx = tknidx + 1
 		isconnector = tknidx in connectorids
-		spanstr = htmltoken(t, lexical, prefixedpunct, isconnector, sov, vucolor, colors = colors, syntaxtips = syntaxtips)
+		spanstr = htmltoken(t, lex, prefixedpunct, isconnector, sov, vucolor, colors = colors, syntaxtips = syntaxtips)
 		push!(formatted, spanstr)
 
 		if t.tokentype == "lexical"			
@@ -119,7 +69,7 @@ Formatting relies on data from a vector of token annotations and annotations on 
 $(SIGNATURES)
 """
 function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnnotation}, tknannotations::Vector{TokenAnnotation};
-	sov = true, vucolor = true, palette = defaultpalette, syntaxtips = false)
+	sov = true, vucolor = true, palette = defaultpalette, syntaxtips = false, connectorids = [])
 	# Vector where we'll collect HTML strings:
 	indentedtext = ["<div class=\"passage\"><blockquote class=\"subordination\">"]
 
@@ -167,6 +117,63 @@ function htmltext_indented(sa::SentenceAnnotation, 	groups::Vector{VerbalUnitAnn
 	push!(indentedtext,"</blockquote></div>")
 	join(indentedtext)
 end
+
+
+"""Compose string for a token, wrapping lexical tokens in an HTML `span`. 
+Based on lexical type and context indicated by `inprefix` flag, prefixes the resulting string with a leading space or not.
+$(SIGNATURES)
+"""
+function htmltoken(t::TokenAnnotation, tokens::Vector{TokenAnnotation}, inprefix::Bool, connectingword::Bool, add_sov::Bool, add_color::Bool; colors = defaultpalette, syntaxtips = false)
+	lextokens = filter(t -> t.tokentype == "lexical", tokens)
+	if t.tokentype == "lexical"			
+		classes = add_sov || syntaxtips  ? classesfortoken(t, connectingword, syntaxtips = syntaxtips, sov = add_sov) : ""
+		styles = add_color ? groupcolorfortoken(t, colors = colors) : ""
+
+		tips = syntaxtips ? tipsfortoken(t, lextokens, connectingword) : ""
+		spanhtml = if inprefix
+			"<span $(classes) $(styles) $(tips)>"  * t.text * "</span>"
+		else
+			" <span $(classes) $(styles)  $(tips)>"  * t.text * "</span>"
+		end
+		tidy = replace(spanhtml, r"[ ]+" => " ")
+		replace(tidy, " >" => ">")
+
+	else
+		if occursin(t.text,PolytonicGreek.prefixpunctuation())
+			" " * t.text
+		else
+			t.text
+		end
+	end
+end
+
+"""Compose a tooltips attribute documenting the syntactic relation of token `t`.
+$(SIGNATURES)
+"""
+function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconnector::Bool)
+	if isconnector
+		"tool-tips=\"Connects sentence to context.\""
+	elseif t.node1relation == "nothing" || isnothing(t.node1relation)
+		""
+	else
+		@debug("Add tips using vector of $(length(tkns)) tokens")
+		tokenidx = parse(Int, t.node1)
+		if tokenidx > length(tkns)
+			@debug("Indexed to implied token")
+			"tool-tips=\"Related to implied token: $(t.node1relation).\""
+		elseif tokenidx > 0
+			related = tkns[tokenidx]
+			"tool-tips=\"Related to $(related.text): $(t.node1relation).\""
+		else
+			""
+
+		end
+	end
+end
+
+
+
+
 
 """Compose an HTML span for the verbal annotation `vu`.
 $(SIGNATURES)
