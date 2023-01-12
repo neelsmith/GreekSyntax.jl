@@ -13,8 +13,8 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 
     
     lextokens = lexicalforsentence(sa, tknannotations)
-
-    tknidx = originindex(sa, tknannotations) - 1
+    zero = originindex(sa, tknannotations) - 1
+    tknidx =  zero
     impliedids = []
     for t in lexicalforsentence(sa, tknannotations)
         tknidx = tknidx + 1
