@@ -31,34 +31,73 @@ $(SIGNATURES)
 """
 function avgtokendistance(s::SentenceAnnotation, tknlist::Vector{TokenAnnotation})
 	lex = lexicalforsentence(s, tknlist)
-	scores = map(tknlist) do tkn
-		distance(tkn, s, lex)
-	end
-	nonnull = filter(score -> !isnothing(score), scores)
-	sum(nonnull) / length(nonull)
+	scores = []
+	for t in lex
+		dist = distance(t, s, tknlist)
+		if isnothing(dist)
 
+		else
+			push!(scores, dist)
+		end
+	end
+	sum(scores) / length(scores)
 end
 
 """Find maximum displacement between syntactically related tokens.
 $(SIGNATURES)
 """
-function maxtokendisplacement()
+function maxtokendisplacement(s::SentenceAnnotation, tknlist::Vector{TokenAnnotation})
+	maxtokendistance(s, tknlist) - 1
 end
 
 """Find average displacement between syntactically related tokens.
 $(SIGNATURES)
 """
-function avgtokendisplacement()
+function avgtokendisplacement(s::SentenceAnnotation, tknlist::Vector{TokenAnnotation})
+	lex = lexicalforsentence(s, tknlist)
+	scores = []
+	for t in lex
+		disp = displacement(t, s, tknlist)
+		if isnothing(disp)
+
+		else
+			push!(scores, disp)
+		end
+	end
+	sum(scores) / length(scores)
 end
+
+
+
 
 """Find maximum displacement between verbal expressions.
 $(SIGNATURES)
 """
-function maxgroupdisplacement()
+function maxgroupdisplacement(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
+	max = 0
+	for g in groupsforsentence(s, groups)
+		disp = displacement(g, s, tokens)
+		if isnothing(disp)
+
+		elseif disp > max
+			max = disp
+		end
+	end
+	max
 end
 
 """Find average displacement between verbal expressions.
 $(SIGNATURES)
 """
-function avggroupdisplacement()
+function avggroupdisplacement(s::SentenceAnnotation, groups::Vector{VerbalUnitAnnotation}, tokens::Vector{TokenAnnotation})
+	scores = []
+	for g in groupsforsentence(s, groups)
+		disp = displacement(g, s, tokens)
+		if isnothing(disp)
+
+		else
+			push!(scores, disp)
+		end
+	end
+	sum(scores) / length(scores)
 end

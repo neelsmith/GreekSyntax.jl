@@ -33,7 +33,8 @@ end
 $(SIGNATURES). 
 """
 function displacement(tkn::TokenAnnotation, s::SentenceAnnotation,  tknlist::Vector{TokenAnnotation})
-	distance(tkn, s, tknlist) - 1
+	dist = distance(tkn, s, tknlist)
+	isnothing(dist) ? nothing : dist - 1
 end
 
 """Find number of tokens between `tkn` and its syntactic connection.
