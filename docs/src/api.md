@@ -57,6 +57,7 @@ Sentences:
 
 ```@docs
 GreekSyntax.connectorindexes
+GreekSyntax.originindex
 GreekSyntax.sentenceindexfornode
 GreekSyntax.syntactictypes
 ```

@@ -85,18 +85,24 @@ annotated for sentence `s`.
 $(SIGNATURES)	
 """
 function connectorindexes(s::SentenceAnnotation, tknannotations::Vector{TokenAnnotation})
-	# Find indices for tokens indexed to this sentence:
-	tkncorp = map(tknannotations) do t
-		CitablePassage(t.urn, t.text)
-	end |> CitableTextCorpus
-	slice = CitableCorpus.indexurn(s.range, tkncorp)
-	if isempty(slice)
-		@error("Couldn't slice empty array for $(s.range)")
+	if isnothing(s.connector)
+		[]
+		
+	else
+		# Find indices for tokens indexed to this sentence:
+		tkncorp = map(tknannotations) do t
+			CitablePassage(t.urn, t.text)
+		end |> CitableTextCorpus
+		slice = CitableCorpus.indexurn(s.range, tkncorp)
+		if isempty(slice)
+			@error("Couldn't slice empty array for $(s.range)")
+		end
+		@debug("Slicing $(slice)")	
+
+		connectorslice = CitableCorpus.indexurn(s.connector, tkncorp)
+		connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
+		connectorids
 	end
-	@debug("Slicing $(slice)")	
-	connectorslice = CitableCorpus.indexurn(s.connector, tkncorp)
-	connectorids = isempty(connectorslice) ?  [] : connectorslice[1]:connectorslice[end]
-	connectorids
 end
 
 
