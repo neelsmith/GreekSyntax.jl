@@ -44,7 +44,10 @@ end
 """Parse delimited string `s` into a `SentenceAnnotation`."""
 function sentence(s; delimiter = "|")
 	parts = split(s, delimiter)
-	connector = if parts[3] == "nothing"
+	if length(parts) < 3
+		@error("Could not parse sentence annotation from string $(s)")
+	end
+	connector = if isempty(parts[3]) || parts[3] == "nothing"
 		nothing
 	else
 		CtsUrn(parts[3])
