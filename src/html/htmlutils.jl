@@ -257,10 +257,12 @@ zero indexes.
 $(SIGNATURES)
 """
 function groupcolorforint(idx::Int; colors = defaultpalette)
+	
 	if idx == 0
 		""
 	else
-		modded = mod(length(colors), idx) + 1
+		modded = mod(length(colors) - 1, idx) + 1
+		@debug("IDX $(idx) for palette $(length(colors)), modded is $(modded)")
 		colors[modded]
 	end
 end
