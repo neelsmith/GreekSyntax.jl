@@ -1,11 +1,13 @@
+"""Syntactic annotation on a single token.
+"""
 struct TokenAnnotation
 	urn::Union{CtsUrn, Nothing}
 	tokentype
 	text
 	verbalunit
-	node1
+	node1::Union{Int, Nothing}
 	node1relation
-	node2
+	node2::Union{Int, Nothing}
 	node2relation
 end
 

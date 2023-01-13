@@ -1,5 +1,6 @@
 
 function readdelimited(v::Vector{T}) where T <: AbstractString
+    #; ortho::{O <: OrthographicSystem} ) #where T <: AbstractString, O <: OrthographicSystem
     nocomments = filter(ln -> ! startswith(ln, "//"), v)
 
     sentences = SentenceAnnotation[]

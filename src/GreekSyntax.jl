@@ -21,6 +21,7 @@ include("greek/tokenparser.jl")
 
 include("common/delimited.jl")
 include("common/validation.jl")
+include("greek/greekvalidation.jl")
 include("common/utils.jl")
 include("common/sentenceutils.jl")
 include("common/grouputils.jl")
