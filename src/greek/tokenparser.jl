@@ -47,6 +47,6 @@ end
 """Parse delimited string `s` into a `TokenAnnotation`.
 $(SIGNATURES)
 """
-function token(s::T; delimiter = "|") where T <: AbstractString
-	token(s, literaryGreek(), delimiter = delimiter)
+function token(s::T; delimiter = "|", threshhold = 1.0) where T <: AbstractString
+	token(s, literaryGreek(), delimiter = delimiter, threshhold = threshhold)
 end

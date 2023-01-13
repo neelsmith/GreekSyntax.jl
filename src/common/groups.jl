@@ -11,9 +11,17 @@ end
 $(SIGNATURES)
 """
 function ==(vu1::VerbalUnitAnnotation, vu2::VerbalUnitAnnotation)
+
+	lc1syntype = isnothing(vu1.syntactic_type) ? "" : lowercase(vu1.syntactic_type)
+	lc2syntype = isnothing(vu2.syntactic_type) ? "" : lowercase(vu2.syntactic_type)
+
+	lc1semtype = isnothing(vu1.semantic_type) ? "" : lowercase(vu1.semantic_type)
+	lc2semtype = isnothing(vu2.semantic_type) ? "" : lowercase(vu2.semantic_type)
+
+
 	vu1.id == vu2.id &&
-	lowercase(vu1.syntactic_type) == lowercase(vu2.syntactic_type) &&
-	lowercase(vu1.semantic_type) == lowercase(vu2.semantic_type) &&
+	lc1syntype == lc2syntype &&
+	lc1semtype == lc2semtype &&
 	vu1.depth == vu2.depth &&
 	vu1.sentence == vu2.sentence
 end

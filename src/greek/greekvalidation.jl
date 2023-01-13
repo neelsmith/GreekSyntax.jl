@@ -40,7 +40,6 @@ syntaxrelations = [
     "article",
     "pronoun",
 
-
     "dative",
     "genitive"
 ]
