@@ -42,10 +42,12 @@ end
 
 @testset "Test validation for authority list for syntactic relations of tokens" begin
     @test GreekSyntax.validatedrelation("u") == "unit verb"
-    @test GreekSyntax.validatedrelation("su") |> isnothing
+    @test GreekSyntax.validatedrelation("sub") |> isnothing
     @test GreekSyntax.validatedrelation("sup") == "supplementary participle"
-    @test GreekSyntax.validatedrelation("sub") == "subject"
+    @test GreekSyntax.validatedrelation("subj") == "subject"
+    @test GreekSyntax.validatedrelation("subo") == "subordinate conjunction"
     # Built-in dictionary of abbreviations!
     @test GreekSyntax.validatedrelation("s") == "subject"
+    @test GreekSyntax.validatedrelation("sc") == "subordinate conjunction"
 
 end

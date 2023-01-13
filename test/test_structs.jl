@@ -11,6 +11,6 @@
     @test g1 == groups[1]
 
 
-    t1 = TokenAnnotation(CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1"), "lexical", "ἐγὼ", "1.6.1-1.6.46a.1", "20", "subject", nothing, nothing)
+    t1 = TokenAnnotation(CtsUrn("urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.6.1"), "lexical", "ἐγὼ", "1.6.1-1.6.46a.1", 20, "subject", nothing, nothing)
     @test t1 == tokens[1]
 end
