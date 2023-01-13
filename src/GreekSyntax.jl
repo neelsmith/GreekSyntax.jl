@@ -2,9 +2,12 @@ module GreekSyntax
 using CitableText, CitableCorpus
 using Orthography, PolytonicGreek
 using Kroki
+using StringDistances
 using Documenter, DocStringExtensions
 
 import Base: ==
+
+
 
 
 include("html/css.jl")
@@ -17,6 +20,7 @@ include("common/token.jl")
 include("greek/tokenparser.jl")
 
 include("common/delimited.jl")
+include("common/validation.jl")
 include("common/utils.jl")
 include("common/sentenceutils.jl")
 include("common/grouputils.jl")
@@ -36,6 +40,7 @@ export TokenAnnotation, token
 
 export parsesentences
 export delimited, readdelimited
+export validatedform
 
 export groupsforsentence
 export tokensforsentence, lexicalforsentence

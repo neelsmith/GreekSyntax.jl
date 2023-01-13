@@ -80,7 +80,7 @@ if `s` fails to satisfy matching criteria.
 $(SIGNATURES)
 """
 function validatedverbsemantics(s::T; threshhold = 1.0) where T <: AbstractString
-    validatedform(s, verbsemantics, abbrdict = syntaxdict, threshhold =  threshhold)
+    validatedform(s, verbsemantics, threshhold =  threshhold)
 end
 
 """Return a validated string value for syntactic relation between two tokens, or `nothing`
@@ -88,5 +88,5 @@ if `s` fails to satisfy matching criteria.
 $(SIGNATURES)
 """
 function validatedrelation(s::T; threshhold = 1.0) where T <: AbstractString
-    validatedform(s, syntaxrelations, threshhold =  threshhold)
+    validatedform(s, syntaxrelations, abbrdict = syntaxdict,  threshhold =  threshhold)
 end

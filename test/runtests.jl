@@ -4,7 +4,7 @@ using Orthography, PolytonicGreek
 using Test
 
 
-
+include("test_validation.jl")
 include("test_metrics.jl")
 include("test_structs.jl")
 include("test_tokens.jl")
