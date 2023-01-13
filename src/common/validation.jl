@@ -10,6 +10,7 @@ vutypes = [
     "aside"
 ]
 
+"Authority list for sematnic type of verbs."
 verbsemantics = [
     "transitive", 
     "intransitive", 
@@ -35,6 +36,7 @@ syntaxrelations = [
     "pronoun"
 ]
 
+"Abbreviation dictionary for syntactic relations"
 syntaxdict = Dict(
     "op" => "object of preposition",
     "o" => "object",
