@@ -22,6 +22,24 @@
 
 end
 
+@testset "Test exception handling in validation" begin
+    badgroup = "1.24.1-1.24.11a.1|Independent clause|ADD VALUE HERE|1|urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.24.1-1.24.11a"    
+    @test_throws DomainError verbalunit(badgroup)
+    badvalallowed = verbalunit(badgroup, strict = false)
+    @test badvalallowed isa VerbalUnitAnnotation
+
+
+
+    badrel1  = "urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.29|lexical|γεγένηται|1.7.17-1.7.29a.2|2|NOT A VALUE|nothing|nothing"
+    @test_throws DomainError token(badrel1)
+    @test token(badrel1, strict = false) isa TokenAnnotation
+
+    badrel2  = "urn:cts:greekLit:tlg0540.tlg001.omar_tokens:1.7.29|lexical|γεγένηται|1.7.17-1.7.29a.2|2|unit verb|3|NOT A VALUE"
+    @test_throws DomainError token(badrel2)
+    @test token(badrel2, strict = false) isa TokenAnnotation
+end
+
+
 @testset "Test validation for authority list for syntactic type of verbal expression" begin
     @test GreekSyntax.validatedvutype("attributive participle") == "attributive participle"
     @test GreekSyntax.validatedvutype("at") == "attributive participle"

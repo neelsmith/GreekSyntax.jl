@@ -1,7 +1,7 @@
 """Parse delimited string `s` into a `VerbalUnitAnnotation`.
 $(SIGNATURES)
 """
-function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshhold = 1.0)
+function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshhold = 1.0, strict = true)
 	parts = split(s, delimiter)
 
 	syntype =  if parts[2] == "nothing"
@@ -9,7 +9,14 @@ function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshh
 	else
 		tidiedup = validatedvutype(string(parts[2]), threshhold = threshhold)
 	 	if  isnothing(tidiedup)
-			@error("Invalid value for syntactic type of verbal expression: $(parts[2])")
+		
+			if strict
+				throw(DomainError(parts[2], "Invalid value for syntactic type of verbal expression: $(parts[2])"))
+			else
+				@error("Invalid value for syntactic type of verbal expression: $(parts[2])")
+				tidiedup
+			end
+
 		else
 			tidiedup
 		end
@@ -19,7 +26,13 @@ function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshh
 	else
 		tidiedup = validatedverbsemantics(string(parts[3]), threshhold = threshhold)
 	 	if  isnothing(tidiedup)
-			@error("Invalid value for semantic type of verbal expression: $(parts[3])")
+			
+			if strict
+				throw(DomainError(parts[3], "Invalid value for semantic type of verbal expression: $(parts[3])"))
+			else
+				@error("Invalid value for semantic type of verbal expression: $(parts[3])")
+				tidiedup
+			end
 		else
 			tidiedup
 		end
@@ -36,6 +49,6 @@ end
 """Parse delimited string `s` into a `VerbalUnitAnnotation`.
 $(SIGNATURES)
 """
-function verbalunit(s; delimiter = "|", threshhold = 1.0)
-	verbalunit(s, literaryGreek(), delimiter = delimiter, threshhold = threshhold)
+function verbalunit(s; delimiter = "|", threshhold = 1.0, strict = true)
+	verbalunit(s, literaryGreek(), delimiter = delimiter, threshhold = threshhold, strict = strict)
 end
