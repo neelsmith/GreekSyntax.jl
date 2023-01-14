@@ -2,7 +2,7 @@
 """Parse delimited string `s` into a `TokenAnnotation`.
 $(SIGNATURES)
 """
-function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|", threshhold = 1.0) where T <: AbstractString
+function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|", threshhold = 1.0, strict = true) where T <: AbstractString
 	parts = split(s, delimiter)
 	urn = parts[1] == "nothing" ? nothing : CtsUrn(parts[1])
 
@@ -15,7 +15,17 @@ function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|", threshhol
 	else
 		tidiedup = validatedrelation(string(parts[6]), threshhold = threshhold)
 	 	if  isnothing(tidiedup)
-			@error("Invalid value for syntactic relation: $(parts[6])")
+			if strict
+				throw(DomainError(parts[6], "Invalid value for syntactic relation: $(parts[6])"))
+			else
+				if strict
+					throw(DomainError(parts[6], "Invalid value for syntactic relation: $(parts[6])") )
+				else
+					@error("Invalid value for syntactic relation: $(parts[6])")
+					tidiedup
+				end
+				tidiedup
+			end
 		else
 			tidiedup
 		end
@@ -25,7 +35,17 @@ function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|", threshhol
 	else
 		tidiedup = validatedrelation(string(parts[8]), threshhold = threshhold)
 	 	if  isnothing(tidiedup)
-			@error("Invalid value for syntactic relation: $(parts[8])")
+			if strict
+				throw(DomainError(parts[8], "Invalid value for syntactic relation: $(parts[8])"))
+			else
+				if strict
+					throw(DomainError(parts[8], "Invalid value for syntactic relation: $(parts[8])") )
+				else
+					@error("Invalid value for syntactic relation: $(parts[8])")
+					tidiedup
+				end
+				tidiedup
+			end
 		else
 			tidiedup
 		end
@@ -47,6 +67,6 @@ end
 """Parse delimited string `s` into a `TokenAnnotation`.
 $(SIGNATURES)
 """
-function token(s::T; delimiter = "|", threshhold = 1.0) where T <: AbstractString
-	token(s, literaryGreek(), delimiter = delimiter, threshhold = threshhold)
+function token(s::T; delimiter = "|", threshhold = 1.0, strict = true) where T <: AbstractString
+	token(s, literaryGreek(), delimiter = delimiter, threshhold = threshhold, strict = strict)
 end
