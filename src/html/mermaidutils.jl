@@ -26,11 +26,11 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
             push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "|0[asyndeton];"))
 
         else
-            n1int = parse(Int, t.node1) 
-            if n1int > length(lextokens) && ! in(n1int, impliedids)
-                push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", n1int + zero, "[implied];"))
+           # n1int = parse(Int, t.node1) 
+            if t.node1 > length(lextokens) && ! in(t.node1, impliedids)
+                push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", t.node1 + zero, "[implied];"))
             else
-                push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", n1int + zero, "[", lextokens[n1int].text,  "];"))
+                push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", t.node1 + zero, "[", lextokens[t.node1].text,  "];"))
             end
             
 
@@ -38,12 +38,12 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
                  # skip
 			else
                 
-                n2int = parse(Int, t.node2)
-                if n2int > length(lextokens) && ! in(n1int, impliedids)
+                #n2int = parse(Int, )
+                if t.node2 > length(lextokens) && ! in(t.node2, impliedids)
                     # PUSH AN IMPLIED LINE
-                    push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node2relation, "| ", n2int + zero, "[implied];"))
+                    push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node2relation, "| ", t.node2 + zero, "[implied];"))
                 else
-                    push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node2relation, "| ",  n2int + zero, "[", lextokens[n2int].text,  "];"))
+                    push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node2relation, "| ",  t.node2 + zero, "[", lextokens[t.node2].text,  "];"))
                 end
 			end
         end

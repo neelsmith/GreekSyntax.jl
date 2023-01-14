@@ -1,7 +1,7 @@
 using GreekSyntax
 using Kroki
 repo = pwd()
-(sentences, vus, syntokens) = joinpath(repo, "test", "data", "lysias1_selection.cex") |> readlines |> readdelimited
+(sentences, vus, syntokens) = joinpath(repo, "test", "data", "Lysias1.6ff.cex") |> readlines |> readdelimited
 
 sa = sentences[2]
 
