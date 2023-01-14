@@ -6,10 +6,7 @@ repo = pwd()
 sa = sentences[2]
 
 ## Debugging
-(sentencetokens, connectorids, origin) = GreekSyntax.tokeninfoforsentence(sa, syntokens)
-lextokens = filter(sentencetokens) do t
-    t.tokentype == "lexical"
-end
+lextokens = lexicalforsentence(sa, tokens)
 
 
 
