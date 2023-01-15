@@ -50,7 +50,8 @@ syntaxdict = Dict(
     "op" => "object of preposition",
     "sc" => "subordinate conjunction",
     "o" => "object",
-    "s" => "subject"
+    "s" => "subject",
+    "v" => "unit verb"
 )
 
 
