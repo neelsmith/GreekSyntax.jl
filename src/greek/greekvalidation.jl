@@ -24,6 +24,7 @@ syntaxrelations = [
     "relative pronoun",
 
     "unit verb",
+    "compound verb",
 
     "object",
     "predicate",
@@ -34,6 +35,8 @@ syntaxrelations = [
     "modal particle",
     "adverbial",
     "absolute",
+    "agent",
+
 
     "object of preposition",
 
@@ -50,7 +53,8 @@ syntaxdict = Dict(
     "op" => "object of preposition",
     "sc" => "subordinate conjunction",
     "o" => "object",
-    "s" => "subject"
+    "s" => "subject",
+    "v" => "unit verb"
 )
 
 
