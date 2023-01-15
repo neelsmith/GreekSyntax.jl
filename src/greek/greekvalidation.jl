@@ -33,6 +33,7 @@ syntaxrelations = [
     "supplementary participle",
     "modal particle",
     "adverbial",
+    "absolute",
 
     "object of preposition",
 
