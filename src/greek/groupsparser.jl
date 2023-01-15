@@ -11,9 +11,9 @@ function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshh
 	 	if  isnothing(tidiedup)
 		
 			if strict
-				throw(DomainError(parts[2], "Invalid value for syntactic type of verbal expression: $(parts[2])"))
+				throw(DomainError(parts[2], "Invalid value for syntactic type of verbal expression  $(parts[1]): $(parts[2])"))
 			else
-				@error("Invalid value for syntactic type of verbal expression: $(parts[2])")
+				@error("Invalid value for syntactic type of verbal expression  $(parts[1]): $(parts[2])")
 				tidiedup
 			end
 
@@ -28,9 +28,9 @@ function verbalunit(s, ortho::LiteraryGreekOrthography; delimiter = "|", threshh
 	 	if  isnothing(tidiedup)
 			
 			if strict
-				throw(DomainError(parts[3], "Invalid value for semantic type of verbal expression: $(parts[3])"))
+				throw(DomainError(parts[3], "Invalid value for semantic type of verbal expression $(parts[1]): $(parts[3])"))
 			else
-				@error("Invalid value for semantic type of verbal expression: $(parts[3])")
+				@error("Invalid value for semantic type of verbal expression  $(parts[1]): $(parts[3])")
 				tidiedup
 			end
 		else

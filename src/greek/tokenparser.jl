@@ -7,8 +7,9 @@ function token(s::T, ortho::LiteraryGreekOrthography; delimiter = "|", threshhol
 	urn = parts[1] == "nothing" ? nothing : CtsUrn(parts[1])
 
 	# 5-8 are optional pairs of an integer index + a controlled vocabulary term
-	node1 = parts[5] == "nothing" ? nothing : parse(Int, parts[5])
-	node2 = parts[7] == "nothing" ? nothing : parse(Int, parts[7])
+	#@warn("Ints for $(s): $(parts[5]), $(parts[7])")
+	node1 = parts[5] == "nothing" || isempty(parts[5]) ? nothing : parse(Int, parts[5])
+	node2 = parts[7] == "nothing" || isempty(parts[7]) ? nothing : parse(Int, parts[7])
 
 	node1rel =  if parts[6] == "nothing"
 		nothing

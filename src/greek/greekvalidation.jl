@@ -24,6 +24,7 @@ syntaxrelations = [
     "relative pronoun",
 
     "unit verb",
+    "compound verb",
 
     "object",
     "predicate",
@@ -34,6 +35,8 @@ syntaxrelations = [
     "modal particle",
     "adverbial",
     "absolute",
+    "agent",
+
 
     "object of preposition",
 
