@@ -1,6 +1,4 @@
-
-function readdelimited(v::Vector{T}) where T <: AbstractString
-    #; ortho::{O <: OrthographicSystem} ) #where T <: AbstractString, O <: OrthographicSystem
+function readdelimited(v::Vector{S}, ortho::O) where {O <: OrthographicSystem, S <: AbstractString}
     nocomments = filter(ln -> ! startswith(ln, "//"), v)
 
     sentences = SentenceAnnotation[]
@@ -21,9 +19,9 @@ function readdelimited(v::Vector{T}) where T <: AbstractString
             if currentblock == "#!sentences"
                 push!(sentences, sentence(ln))
             elseif currentblock == "#!verbal_units"
-                push!(vus, verbalunit(ln))
+                push!(vus, verbalunit(ln, ortho))
             elseif currentblock == "#!tokens"
-                push!(tokens, token(ln))
+                push!(tokens, token(ln, ortho))
             else
                 @error("Syntax error in delimited-text file: unrecognized context for line $(ln)")
             end
@@ -32,6 +30,10 @@ function readdelimited(v::Vector{T}) where T <: AbstractString
     (sentences, vus, tokens)
 end
 
+
+function readdelimited(v::Vector{S}) where S <: AbstractString
+    readdelimited(v, literaryGreek())
+end
 
 """Compose delimited-text representation of a DataFrame with annotations
 about verbal units. 
