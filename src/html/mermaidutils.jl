@@ -26,7 +26,8 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 
         else
            
-            if t.node1 > length(lextokens) && ! in(t.node1, impliedids)
+            @debug("link and length: $(t.node1), $(length(lextokens)) with implied $(impliedids)")
+            if t.node1 == 0 || t.node1 > length(lextokens) && ! in(t.node1, impliedids)
                 push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", t.node1 + zero, "[implied];"))
             else
                 push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", t.node1 + zero, "[", lextokens[t.node1].text,  "];"))
