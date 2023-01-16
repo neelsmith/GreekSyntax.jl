@@ -10,7 +10,6 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 		"graph BT;",
 		"classDef implicit fill:#f96,stroke:#333;"
 	]
-
     
     lextokens = lexicalforsentence(sa, tknannotations)
     zero = originindex(sa, tknannotations) - 1
@@ -26,7 +25,7 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
             push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "|0[asyndeton];"))
 
         else
-           # n1int = parse(Int, t.node1) 
+           
             if t.node1 > length(lextokens) && ! in(t.node1, impliedids)
                 push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node1relation, "| ", t.node1 + zero, "[implied];"))
             else
@@ -37,8 +36,6 @@ function mermaiddiagram(sa::SentenceAnnotation, tknannotations::Vector{TokenAnno
 			if  isnothing(t.node2) || isempty(t.node2)
                  # skip
 			else
-                
-                #n2int = parse(Int, )
                 if t.node2 > length(lextokens) && ! in(t.node2, impliedids)
                     # PUSH AN IMPLIED LINE
                     push!(graphlines, string(tknidx, "[", t.text, "]", " --> |", t.node2relation, "| ", t.node2 + zero, "[implied];"))

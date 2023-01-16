@@ -157,7 +157,7 @@ function tipsfortoken(t::TokenAnnotation, tkns::Vector{TokenAnnotation}, isconne
 		""
 	else
 		@debug("Add tips using vector of $(length(tkns)) tokens")
-		tokenidx = parse(Int, t.node1)
+		tokenidx = t.node1
 		if tokenidx > length(tkns)
 			@debug("Indexed to implied token")
 			"tool-tips=\"Related to implied token: $(t.node1relation).\""
