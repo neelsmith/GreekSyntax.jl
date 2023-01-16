@@ -11,7 +11,7 @@ function distance(tkn::TokenAnnotation, sentence::SentenceAnnotation, tknlist::V
 		tokenindex = findfirst(t -> t == tkn, lex)
 	
 	
-		relatedindex =  parse(Int, tkn.node1)
+		relatedindex = tkn.node1
 		if isnothing(tokenindex) || relatedindex == 0
 			nothing
 		else
