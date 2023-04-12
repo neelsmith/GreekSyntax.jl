@@ -2,7 +2,7 @@
 
 # `GreekSyntax.jl`
 
-The `GreekSyntax` package implements the simple model of ancient Greek syntax  presented at [https://neelsmith.github.io/GreekSyntax/](https://neelsmith.github.io/GreekSyntax/).
+The `GreekSyntax` package implements the simple model of ancient Greek syntax  presented at [https://neelsmith.github.io/GreekAndLatinSyntax/](https://neelsmith.github.io/GreekAndLatinSyntax/).
 
 It defines types for:
 
