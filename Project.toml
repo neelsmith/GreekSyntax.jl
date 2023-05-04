@@ -1,7 +1,7 @@
 name = "GreekSyntax"
 uuid = "5497687e-e4d1-4cb6-b14f-a6a808518ccd"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.13.8"
+version = "0.13.9"
 
 [deps]
 CitableBase = "d6f014bd-995c-41bd-9893-703339864534"

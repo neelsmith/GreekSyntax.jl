@@ -1,6 +1,6 @@
 # GreekSyntax.jl
 
-> Implementing a simple model of ancient Greek syntax presented at <https://neelsmith.github.io/GreekSyntax/>.
+> Implementing a simple model of ancient Greek syntax presented at <https://neelsmith.github.io/GreekAndLatinSyntax/>.
 
 - read syntax annotations from simple delimited-text files
 - analyze syntax annotations

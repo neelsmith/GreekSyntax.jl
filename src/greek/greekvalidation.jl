@@ -22,6 +22,8 @@ syntaxrelations = [
     "conjunction",
     "subordinate conjunction",
     "relative pronoun",
+    "interrogative pronoun",
+
 
     "unit verb",
     "compound verb",
@@ -43,6 +45,7 @@ syntaxrelations = [
     "attributive",
     "article",
     "pronoun",
+    "apposition",
 
     "dative",
     "genitive"
@@ -84,27 +87,3 @@ function validatedrelation(s::T; threshhold = 1.0) where T <: AbstractString
 end
 
 
-
-
-"""Map strings in list `vocab` to strings with markdown hilighting
-of short cut (ie, minimum unique initial string)
-$(SIGNATURES)
-"""
-function mdshortcuts(vocab)
-    results = []
-    for s in vocab
-        min = length(s)
-        for i in length(s):-1:1
-            substr = s[1:i]
-            matches = filter(code -> startswith(code, substr), vocab)
-            #@info("Matches for $(substr):  $(matches) ($(length(matches)))")
-            if length(matches) == 1 && i < min
-                min = i
-            end
-        end
-        hilited = min < length(s) ? string("**", s[1:min], "**", s[min+1:end]) : string("**", s, "**")
-
-        push!(results, (hilited))
-    end
-    results
-end
