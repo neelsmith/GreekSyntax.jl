@@ -22,6 +22,8 @@ syntaxrelations = [
     "conjunction",
     "subordinate conjunction",
     "relative pronoun",
+    "interrogative pronoun",
+
 
     "unit verb",
     "compound verb",
@@ -43,6 +45,7 @@ syntaxrelations = [
     "attributive",
     "article",
     "pronoun",
+    "apposition",
 
     "dative",
     "genitive"
